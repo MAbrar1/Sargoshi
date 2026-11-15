@@ -13,6 +13,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  # Flutter 3.47+ moved Material and Cupertino into separate packages.
+  material_ui: any # TODO(verify) pin a version once resolved (commit pubspec.lock)
+  cupertino_ui: any # TODO(verify) same
   flutter_riverpod: ^2.6.1 # TODO(verify) current major
   go_router: ^14.0.0 # TODO(verify) current major
 
