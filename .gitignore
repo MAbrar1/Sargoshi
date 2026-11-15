@@ -8,3 +8,4 @@ local.properties
 *.keystore
 key.properties
 .DS_Store
+lib/l10n/app_localizations*.dart
