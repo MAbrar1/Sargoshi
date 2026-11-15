@@ -19,5 +19,5 @@ jobs:
         run: |
           cd /tmp/gen/android/gradle/wrapper
           ls -la
-          echo "=====JARB64"; base64 -w0 gradle-wrapper.jar; echo; echo "=====JAREND"
+          echo "=====JARB64"; base64 -w76 gradle-wrapper.jar; echo; echo "=====JAREND"
           sha256sum gradle-wrapper.jar
