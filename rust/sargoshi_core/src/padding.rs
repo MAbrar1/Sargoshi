@@ -23,9 +23,7 @@ fn bucket_for(total: usize) -> usize {
 
 pub fn pad(plain: &[u8]) -> Result<Vec<u8>, PadError> {
     let len = u32::try_from(plain.len()).map_err(|_| PadError::TooLarge)?;
-    let total = HEADER
-        .checked_add(plain.len())
-        .ok_or(PadError::TooLarge)?;
+    let total = HEADER.checked_add(plain.len()).ok_or(PadError::TooLarge)?;
     let mut out = Vec::with_capacity(bucket_for(total));
     out.extend_from_slice(&len.to_be_bytes());
     out.extend_from_slice(plain);

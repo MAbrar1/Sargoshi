@@ -35,7 +35,11 @@ pub struct KdfParams {
 
 impl KdfParams {
     /// Conservative default. The app calibrates per device and stores the result.
-    pub const DEFAULT: KdfParams = KdfParams { m_kib: MIN_M_KIB, t: 3, p: 1 };
+    pub const DEFAULT: KdfParams = KdfParams {
+        m_kib: MIN_M_KIB,
+        t: 3,
+        p: 1,
+    };
 
     fn valid(&self) -> bool {
         (MIN_M_KIB..=MAX_M_KIB).contains(&self.m_kib)
@@ -65,7 +69,11 @@ fn derive_key(pass: &str, salt: &[u8], p: KdfParams) -> Result<Zeroizing<[u8; 32
     Ok(key)
 }
 
-pub fn create(identity_keys: &[u8], passphrase: &str, params: KdfParams) -> Result<Vec<u8>, RecoveryError> {
+pub fn create(
+    identity_keys: &[u8],
+    passphrase: &str,
+    params: KdfParams,
+) -> Result<Vec<u8>, RecoveryError> {
     if passphrase.chars().count() < MIN_PASSPHRASE_CHARS {
         return Err(RecoveryError::WeakPassphrase);
     }
@@ -89,7 +97,13 @@ pub fn create(identity_keys: &[u8], passphrase: &str, params: KdfParams) -> Resu
     let key = derive_key(passphrase, &salt, params)?;
     let cipher = XChaCha20Poly1305::new((&*key).into());
     let ct = cipher
-        .encrypt(&nonce.into(), Payload { msg: identity_keys, aad: &header })
+        .encrypt(
+            &nonce.into(),
+            Payload {
+                msg: identity_keys,
+                aad: &header,
+            },
+        )
         .map_err(|_| RecoveryError::Decrypt)?;
     salt.zeroize();
 
@@ -102,7 +116,11 @@ pub fn restore(file: &[u8], passphrase: &str) -> Result<Zeroizing<Vec<u8>>, Reco
         return Err(RecoveryError::BadFormat);
     }
     let u32_at = |i: usize| u32::from_be_bytes([file[i], file[i + 1], file[i + 2], file[i + 3]]);
-    let params = KdfParams { m_kib: u32_at(5), t: u32_at(9), p: u32_at(13) };
+    let params = KdfParams {
+        m_kib: u32_at(5),
+        t: u32_at(9),
+        p: u32_at(13),
+    };
     if !params.valid() {
         return Err(RecoveryError::BadParams);
     }
@@ -115,7 +133,13 @@ pub fn restore(file: &[u8], passphrase: &str) -> Result<Zeroizing<Vec<u8>>, Reco
     let key = derive_key(passphrase, salt, params)?;
     let cipher = XChaCha20Poly1305::new((&*key).into());
     let plain = cipher
-        .decrypt(&nonce.into(), Payload { msg: ct, aad: header })
+        .decrypt(
+            &nonce.into(),
+            Payload {
+                msg: ct,
+                aad: header,
+            },
+        )
         .map_err(|_| RecoveryError::Decrypt)?;
     Ok(Zeroizing::new(plain))
 }
@@ -135,7 +159,10 @@ mod tests {
     #[test]
     fn wrong_passphrase_fails() {
         let f = create(KEYS, "correct horse battery", KdfParams::DEFAULT).unwrap();
-        assert_eq!(restore(&f, "wrong horse battery").unwrap_err(), RecoveryError::Decrypt);
+        assert_eq!(
+            restore(&f, "wrong horse battery").unwrap_err(),
+            RecoveryError::Decrypt
+        );
     }
 
     #[test]
@@ -151,16 +178,28 @@ mod tests {
 
     #[test]
     fn rejects_weak_inputs() {
-        assert_eq!(create(KEYS, "short", KdfParams::DEFAULT).unwrap_err(), RecoveryError::WeakPassphrase);
-        let weak = KdfParams { m_kib: 1024, ..KdfParams::DEFAULT };
-        assert_eq!(create(KEYS, "correct horse battery", weak).unwrap_err(), RecoveryError::BadParams);
+        assert_eq!(
+            create(KEYS, "short", KdfParams::DEFAULT).unwrap_err(),
+            RecoveryError::WeakPassphrase
+        );
+        let weak = KdfParams {
+            m_kib: 1024,
+            ..KdfParams::DEFAULT
+        };
+        assert_eq!(
+            create(KEYS, "correct horse battery", weak).unwrap_err(),
+            RecoveryError::BadParams
+        );
     }
 
     #[test]
     fn hostile_params_rejected_on_restore() {
         let mut f = create(KEYS, "correct horse battery", KdfParams::DEFAULT).unwrap();
         f[5..9].copy_from_slice(&u32::MAX.to_be_bytes());
-        assert_eq!(restore(&f, "correct horse battery").unwrap_err(), RecoveryError::BadParams);
+        assert_eq!(
+            restore(&f, "correct horse battery").unwrap_err(),
+            RecoveryError::BadParams
+        );
     }
 
     #[test]

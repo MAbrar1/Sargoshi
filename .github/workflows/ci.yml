@@ -21,14 +21,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # TODO(verify): pin the exact Flutter version from ADR-001.
       - uses: subosito/flutter-action@v2
-        with: {channel: stable}
+        with: {channel: stable, flutter-version: "3.50.0"}
       - run: flutter pub get
       - run: dart format --output=none --set-exit-if-changed lib test
       - run: flutter gen-l10n
       - run: flutter analyze
       - run: flutter test
+
+  rust:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rust/sargoshi_core
+    steps:
+      - uses: actions/checkout@v4
+      - run: cargo fmt --check
+      - run: cargo clippy --all-targets --locked -- -D warnings
+      - run: cargo test --release --locked
 # Not yet implemented (later stages): detekt/ktlint, merged-manifest allow-list,
 # ELF 16 KB alignment, FakeCryptoCore-in-release check, AI-module-no-network
 # check, Gradle dependency verification, cargo-deny/audit, OSV, SBOM, goldens.
