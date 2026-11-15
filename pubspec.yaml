@@ -1,0 +1,29 @@
+name: sargoshi
+description: Sargoshi, a private messenger. Say it softly.
+publish_to: none
+version: 0.1.0+1
+
+environment:
+  # TODO(verify): ADR-001 provisional pin, Flutter 3.47.1 / Dart 3.13.1.
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+  flutter_riverpod: ^2.6.1 # TODO(verify) current major
+  go_router: ^14.0.0 # TODO(verify) current major
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0 # TODO(verify) current major
+
+flutter:
+  uses-material-design: true
+  generate: true
+  # Fonts (Inter, Instrument Serif, JetBrains Mono) are NOT bundled yet.
+  # They must be downloaded, subsetted and licence-checked in a networked
+  # environment. See STAGE-0B-report.md. No runtime font fetching is allowed.

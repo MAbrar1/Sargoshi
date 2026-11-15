@@ -1,0 +1,20 @@
+{
+  "@@locale": "en",
+  "appName": "Sargoshi",
+  "@appName": {"description": "Wordmark. Say it softly."},
+  "tagline": "Say it softly",
+  "statusUnknown": "Unknown",
+  "statusEncrypted": "Encrypted",
+  "statusVerified": "Verified",
+  "statusKeyChanged": "Key changed",
+  "pqProtectedBeta": "Post-quantum protected (beta)",
+  "pqStandard": "Standard encryption",
+  "demoCryptoBanner": "DEMO CRYPTO — NOT SECURE",
+  "tabChats": "Chats",
+  "tabCalls": "Calls",
+  "tabGuard": "Guard",
+  "tabYou": "You",
+  "metadataHonesty": "The server can see your IP address, when you connect, and message sizes. Sargoshi pads message sizes and can hide your IP from callers.",
+  "recoveryWarning": "If you lose this phone and have no recovery file, you start fresh and your contacts will see a safety number change.",
+  "whisperHonesty": "Hidden from screenshots and can't be forwarded in Sargoshi. It can't stop someone photographing a screen, and a modified app could keep it."
+}
