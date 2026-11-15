@@ -13,19 +13,19 @@ class SargoshiApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        onGenerateTitle: (c) => AppLocalizations.of(c).appName,
-        theme: buildLightTheme(),
-        darkTheme: buildDarkTheme(),
-        themeMode: ThemeMode.dark,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: const _Placeholder(),
-      );
+    onGenerateTitle: (c) => AppLocalizations.of(c).appName,
+    theme: buildLightTheme(),
+    darkTheme: buildDarkTheme(),
+    themeMode: ThemeMode.dark,
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: AppLocalizations.supportedLocales,
+    home: const _Placeholder(),
+  );
 }
 
 /// Stage 0B placeholder. Real screens start in Stage 1.
