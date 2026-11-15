@@ -15,3 +15,9 @@ jobs:
           cd /tmp/gen
           for f in $(find android -type f -not -name "*.png" -not -name "*.jar" -not -path "*/build/*" | sort); do
             echo "=====FILE $f"; cat "$f"; done
+      - name: Dump wrapper jar
+        run: |
+          cd /tmp/gen/android/gradle/wrapper
+          ls -la
+          echo "=====JARB64"; base64 -w0 gradle-wrapper.jar; echo; echo "=====JAREND"
+          sha256sum gradle-wrapper.jar
