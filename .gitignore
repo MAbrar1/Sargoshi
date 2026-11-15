@@ -1,0 +1,10 @@
+rust/sargoshi_core/target/
+.dart_tool/
+build/
+*.iml
+.idea/
+local.properties
+*.jks
+*.keystore
+key.properties
+.DS_Store
