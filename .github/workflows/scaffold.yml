@@ -1,0 +1,15 @@
+name: scaffold
+on: workflow_dispatch
+jobs:
+  scaffold:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: subosito/flutter-action@v2
+        with: {channel: stable, flutter-version: "3.50.0"}
+      - run: flutter --version
+      - run: flutter create --platforms=android --org app.sargoshi --project-name sargoshi /tmp/gen
+      - name: Dump template
+        run: |
+          cd /tmp/gen
+          for f in $(find android -type f -not -name "*.png" -not -name "*.jar" -not -path "*/build/*" | sort); do
+            echo "=====FILE $f"; cat "$f"; done
