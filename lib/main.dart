@@ -1,12 +1,13 @@
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'
     show GlobalWidgetsLocalizations;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'core/design/theme.dart';
 import 'l10n/app_localizations.dart';
 
-void main() => runApp(const SargoshiApp());
+void main() => runApp(const ProviderScope(child: SargoshiApp()));
 
 class SargoshiApp extends StatelessWidget {
   const SargoshiApp({super.key});

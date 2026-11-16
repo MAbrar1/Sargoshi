@@ -5,12 +5,9 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-BANNED = [
-    "unhackable", "unbreakable", "uncrackable", "military-grade",
-    "military grade", "quantum-proof", "quantum proof", "100% secure",
-    "bulletproof", "nsa-proof", "completely anonymous",
-]
-SCAN_DIRS = ["lib", "test", "android", "docs", "tool", "store"]
+BANNED_FILE = ROOT / "tool/ci/banned_words.txt"
+BANNED = [w.strip() for w in BANNED_FILE.read_text().splitlines() if w.strip()]
+SCAN_DIRS = ["lib", "test", "android", "docs", "tool", "store", "pigeons", "rust"]
 SCAN_EXT = {".dart", ".arb", ".kt", ".kts", ".xml", ".md", ".yaml", ".yml",
             ".py", ".txt", ".json", ".gradle", ".rs", ".toml"}
 # This file must name the words to ban them.
@@ -23,7 +20,7 @@ def main() -> int:
     files = [p for d in SCAN_DIRS for p in (ROOT / d).rglob("*") if p.is_file()]
     files += [p for p in ROOT.glob("*") if p.is_file()]
     for path in files:
-        if path.resolve() == SELF or path.suffix not in SCAN_EXT:
+        if path.resolve() in (SELF, BANNED_FILE.resolve()) or path.suffix not in SCAN_EXT:
             continue
         for n, line in enumerate(path.read_text(errors="ignore").splitlines(), 1):
             if pattern.search(line):
