@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/vault/vault_state.dart';
 import '../../l10n/app_localizations.dart';
 
-/// Stage 2 vault sensor stub: the real keystore and SQLCipher handoff are not yet
-/// wired. This class documents the boundary and keeps the UI honest.
+/// Stage 2 vault sensor stub: the real Keystore and SQLCipher handoff are not
+/// yet wired. This class documents the boundary and keeps the UI honest.
 final class KeystoreFacade {
   const KeystoreFacade();
 
@@ -17,7 +17,8 @@ final class KeystoreFacade {
   Future<void> writeVaultKey(String key) async {}
 }
 
-final keystoreFacadeProvider = Provider<KeystoreFacade>((ref) => const KeystoreFacade());
+final keystoreFacadeProvider =
+    Provider<KeystoreFacade>((ref) => const KeystoreFacade());
 
 final vaultPinValidationProvider = Provider.family<bool, String>((ref, pin) {
   final trimmed = pin.trim();
@@ -84,7 +85,8 @@ final class VaultScreen extends ConsumerWidget {
               children: [
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () => ref.read(vaultSessionProvider.notifier).decoy(),
+                    onPressed: () =>
+                        ref.read(vaultSessionProvider.notifier).decoy(),
                     child: Text(l10n.vaultDecoyAction),
                   ),
                 ),
