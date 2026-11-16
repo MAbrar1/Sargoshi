@@ -5,11 +5,11 @@ import '../../domain/trust/trust_state.dart';
 
 const String kDemoTrustSource = 'demo/manual-review';
 
-final trustProvider = StateNotifierProvider<TrustController, TrustState>((ref) {
+final trustProvider = StateNotifierProvider.family<TrustController, TrustState, String>((ref, contactId) {
   final now = DateTime.now().toUtc();
   return TrustController(
     initialMeasurement: Measured.unknown(
-      source: kDemoTrustSource,
+      source: '$kDemoTrustSource/$contactId',
       measuredAt: now,
     ),
   );

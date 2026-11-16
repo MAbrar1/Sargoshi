@@ -16,3 +16,9 @@ final demoMessagesProvider = StateProvider.family<List<DemoMessage>, String>(
     _ => const [],
   },
 );
+
+/// Unsent demo drafts held by the local key-change gate. Memory only; no
+/// persistence or transport is implemented.
+final pendingDemoMessagesProvider = StateProvider.family<List<String>, String>(
+  (ref, chatId) => const [],
+);

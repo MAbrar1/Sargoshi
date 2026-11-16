@@ -70,5 +70,13 @@
   "trustBlocked": "Blocked. Outgoing messages remain held by this demo gate.",
   "trustSimulateKeyChange": "Simulate key change (demo)",
   "trustAcceptKeyChange": "Accept key change in demo",
-  "trustBlockKeyChange": "Block contact in demo"
+  "trustBlockKeyChange": "Block contact in demo",
+  "demoTrustUnknown": "Demo only · trust status unknown",
+  "demoTrustAwaitingReview": "Demo key change · {count} outgoing message(s) held",
+  "@demoTrustAwaitingReview": {"placeholders": {"count": {"type": "int"}}},
+  "demoTrustAccepted": "Change accepted in demo · identity remains unverified",
+  "demoTrustBlocked": "Contact blocked in demo · {count} queued message(s) remain unsent",
+  "@demoTrustBlocked": {"placeholders": {"count": {"type": "int"}}},
+  "demoSimulateKeyChange": "Simulate change",
+  "demoSendHeld": "Sending paused for demo review"
 }

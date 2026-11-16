@@ -3,7 +3,9 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../application/chat/demo_chat.dart';
 import '../../application/chat/demo_messages.dart';
+import '../../application/trust/trust_controller.dart';
 import '../../core/design/tokens.dart';
+import '../../domain/trust/trust_state.dart';
 import '../../l10n/app_localizations.dart';
 import '../shared/demo_crypto_banner.dart';
 
@@ -231,6 +233,9 @@ class _DemoThreadState extends ConsumerState<_DemoThread> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final messages = ref.watch(demoMessagesProvider(widget.chat.id));
+    final trust = ref.watch(trustProvider(widget.chat.id));
+    final pending = ref.watch(pendingDemoMessagesProvider(widget.chat.id));
+    final isHeld = !trust.canSend;
     return Column(
       children: [
         AppBar(
@@ -252,6 +257,11 @@ class _DemoThreadState extends ConsumerState<_DemoThread> {
               Expanded(child: Text(l10n.demoThreadDisclosure)),
             ],
           ),
+        ),
+        _DemoKeyChangeGate(
+          chatId: widget.chat.id,
+          state: trust.gateState,
+          pendingCount: pending.length,
         ),
         Expanded(
           child: ListView.builder(
@@ -292,8 +302,9 @@ class _DemoThreadState extends ConsumerState<_DemoThread> {
                 Expanded(
                   child: TextField(
                     controller: _composer,
+                    enabled: !isHeld,
                     decoration: InputDecoration(
-                      hintText: l10n.messageInputHint,
+                      hintText: isHeld ? l10n.demoSendHeld : l10n.messageInputHint,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(Radii.input),
                       ),
@@ -304,7 +315,7 @@ class _DemoThreadState extends ConsumerState<_DemoThread> {
                 ),
                 IconButton.filled(
                   tooltip: l10n.sendDemoMessage,
-                  onPressed: () => _send(l10n),
+                  onPressed: isHeld ? null : () => _send(l10n),
                   icon: const Icon(Icons.send),
                 ),
               ],
@@ -318,12 +329,93 @@ class _DemoThreadState extends ConsumerState<_DemoThread> {
   void _send(AppLocalizations l10n) {
     final text = _composer.text.trim();
     if (text.isEmpty) return;
-    final notifier = ref.read(demoMessagesProvider(widget.chat.id).notifier);
-    notifier.state = [
-      ...notifier.state,
-      DemoMessage(text: text, isOutgoing: true),
-    ];
+    final trust = ref.read(trustProvider(widget.chat.id));
+    if (trust.canSend) {
+      _appendDemoMessage(text);
+    } else {
+      final queue = ref.read(pendingDemoMessagesProvider(widget.chat.id).notifier);
+      queue.state = [...queue.state, text];
+    }
     _composer.clear();
+  }
+
+  void _appendDemoMessage(String text) {
+    final notifier = ref.read(demoMessagesProvider(widget.chat.id).notifier);
+    notifier.state = [...notifier.state, DemoMessage(text: text, isOutgoing: true)];
+  }
+}
+
+final class _DemoKeyChangeGate extends ConsumerWidget {
+  const _DemoKeyChangeGate({
+    required this.chatId,
+    required this.state,
+    required this.pendingCount,
+  });
+
+  final String chatId;
+  final KeyChangeGateState state;
+  final int pendingCount;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final controller = ref.read(trustProvider(chatId).notifier);
+    final text = switch (state) {
+      KeyChangeGateState.idle => l10n.demoTrustUnknown,
+      KeyChangeGateState.awaitingReview => l10n.demoTrustAwaitingReview(pendingCount),
+      KeyChangeGateState.accepted => l10n.demoTrustAccepted,
+      KeyChangeGateState.blocked => l10n.demoTrustBlocked(pendingCount),
+    };
+    return Card(
+      margin: const EdgeInsetsDirectional.fromSTEB(12, 0, 12, 8),
+      child: Padding(
+        padding: const EdgeInsetsDirectional.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.info_outline),
+                const SizedBox(width: 8),
+                Expanded(child: Text(text)),
+                if (state == KeyChangeGateState.idle ||
+                    state == KeyChangeGateState.accepted)
+                  TextButton(
+                    onPressed: controller.simulateKeyChange,
+                    child: Text(l10n.demoSimulateKeyChange),
+                  ),
+              ],
+            ),
+            if (state == KeyChangeGateState.awaitingReview) ...[
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  FilledButton.tonal(
+                    onPressed: () {
+                      controller.acceptKeyChange();
+                      final queue = ref.read(pendingDemoMessagesProvider(chatId).notifier);
+                      final messages = ref.read(demoMessagesProvider(chatId).notifier);
+                      messages.state = [
+                        ...messages.state,
+                        ...queue.state.map((text) => DemoMessage(text: text, isOutgoing: true)),
+                      ];
+                      queue.state = const [];
+                    },
+                    child: Text(l10n.trustAcceptKeyChange),
+                  ),
+                  OutlinedButton(
+                    onPressed: controller.blockKeyChange,
+                    child: Text(l10n.trustBlockKeyChange),
+                  ),
+                ],
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
   }
 }
 

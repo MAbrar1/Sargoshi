@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sargoshi/main.dart';
 
 void main() {
-  testWidgets('demo app shows the chat list and permanent warning', (tester) async {
+  testWidgets('app starts and shows the localized wordmark and demo warning', (tester) async {
     await tester.binding.setSurfaceSize(const Size(412, 915));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await tester.pumpWidget(const ProviderScope(child: SargoshiApp()));
@@ -13,17 +13,23 @@ void main() {
     expect(find.text('Maya'), findsOneWidget);
   });
 
-  testWidgets('demo thread adds local-only messages', (tester) async {
+  testWidgets('demo thread holds a draft during key review and releases it on accept', (tester) async {
     await tester.binding.setSurfaceSize(const Size(412, 915));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await tester.pumpWidget(const ProviderScope(child: SargoshiApp()));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Maya'));
     await tester.pumpAndSettle();
-    expect(find.text('Would you like to meet for tea this afternoon?'), findsOneWidget);
-    await tester.enterText(find.byType(TextField).last, 'A local demo reply');
-    await tester.tap(find.byTooltip('Add demo message'));
+    await tester.tap(find.text('Simulate change'));
     await tester.pumpAndSettle();
-    expect(find.text('A local demo reply'), findsOneWidget);
+    await tester.enterText(find.byType(TextField).last, 'Held local draft');
+    await tester.testTextInput.receiveAction(TextInputAction.send);
+    await tester.pumpAndSettle();
+    expect(find.text('Held local draft'), findsNothing);
+    expect(find.textContaining('1 outgoing message'), findsOneWidget);
+    await tester.tap(find.text('Accept key change in demo'));
+    await tester.pumpAndSettle();
+    expect(find.text('Held local draft'), findsOneWidget);
+    expect(find.textContaining('identity remains unverified'), findsOneWidget);
   });
 }
