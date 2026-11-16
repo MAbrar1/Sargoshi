@@ -6,7 +6,7 @@ Status: PARTIALLY COMPLETE. The skeleton builds and passes CI. Four spec items f
 | Job | What it proves |
 |---|---|
 | checks | Banned words, contrast (29/29 pairs, both themes), no left/right layout APIs, ARB valid |
-| flutter | Flutter 3.50.0 (Dart 3.14.0): pub get, gen-l10n, format, analyze (no issues), test |
+| flutter | Flutter 3.50.0 (Dart 3.14.0): pub get with the lockfile enforced, gen-l10n, format, analyze (no issues), 22 tests |
 | rust | sargoshi_core: fmt, clippy -D warnings, 9 tests (recovery file, padding) |
 | android | Release APKs build per ABI; merged manifest passes the allow-list; native libraries pass the 16 KB alignment check |
 
@@ -17,14 +17,19 @@ ELF check: 6 native libraries across 3 ABIs, all 16 KB aligned. This covers only
 ## Built
 ADR-001 (measured) and ADR-006; Flutter app skeleton with Measured<T>, tokens, dark and light themes, English ARB; Android project (minSdk 26, target and compile 36, R8 and resource shrinking on, Log stripping, backup exclusion rules, TLS-only config, predictive back flag); Rust core slice; CI.
 
+## Added since the first version of this report
+- Performance tier detection: Kotlin measures raw facts, Pigeon (v30.0.2) carries them, a pure Dart classifier decides, result is a Measured value (unknown stays unknown). Kotlin and generated code compile in the Android job. Thresholds are provisional: see ADR-007.
+- pubspec.lock committed and enforced in CI.
+- Hardcoded-strings lint (CI script, proven to catch violations) and the banned-words check as a Dart test sharing one list with the Python check.
+
 ## Not built (still open in Stage 0B)
-1. Bundled fonts (Inter, Instrument Serif, JetBrains Mono): need download, subsetting and licence checks; the ci sandbox here cannot fetch them.
+1. Bundled fonts (Inter, Instrument Serif, JetBrains Mono): need download, subsetting and licence checks; this sandbox and CI cannot be assumed to reach the font hosts.
 2. Icon font (Phosphor package plus custom glyph font).
-3. Kotlin performance-tier detector and its Pigeon channel.
-4. Dart lint for hardcoded strings; detekt/ktlint; the banned-words check as a Dart test.
+3. detekt/ktlint for Kotlin.
+4. On-device calibration of the tier thresholds, and the diagnostics row that shows them.
 
 ## Known deviations and risks
-- material_ui and cupertino_ui are pinned as `any` and pubspec.lock is not committed yet. TODO(verify): commit pubspec.lock so versions are fixed.
+- material_ui, cupertino_ui and pigeon are declared as `any` in pubspec.yaml but exact versions are fixed by the committed pubspec.lock. TODO(verify): replace `any` with explicit constraints.
 - Release builds are signed with the debug key for now. Real signing (Play App Signing) is a Stage 10 item.
 - The launcher icon is a placeholder circle.
 - Gradle wrapper jar was recovered from Flutter's template and its checksum matched the CI-generated file.
