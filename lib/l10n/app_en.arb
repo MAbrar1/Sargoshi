@@ -1,7 +1,9 @@
 {
   "@@locale": "en",
   "appName": "Sargoshi",
-  "@appName": {"description": "Wordmark. Say it softly."},
+  "@appName": {
+    "description": "Wordmark. Say it softly."
+  },
   "tagline": "Say it softly",
   "statusUnknown": "Unknown",
   "statusEncrypted": "Encrypted",
@@ -28,7 +30,13 @@
   "messageInputHint": "Write a demo message",
   "sendDemoMessage": "Add demo message",
   "unreadCount": "{count} unread messages",
-  "@unreadCount": {"placeholders": {"count": {"type": "int"}}},
+  "@unreadCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "demoMayaName": "Maya",
   "demoOmarName": "Omar",
   "demoMayaInitial": "M",
@@ -47,13 +55,9 @@
   "demoOmarMessage2": "Thank you. I will review them this evening.",
   "vaultTitle": "Vault",
   "vaultLocked": "Vault locked",
-  "vaultUnlocked": "Vault unlocked",
-  "vaultDecoy": "Decoy vault",
-  "vaultError": "Incorrect entry",
   "vaultPinHint": "Enter your vault pin",
   "vaultUnlock": "Unlock",
-  "vaultPinTooShort": "PIN is too short. Use at least 4 digits.",
-  "vaultDecoyAction": "Open decoy vault",
+  "vaultPinTooShort": "Use at least 4 digits.",
   "trustTitle": "Trust",
   "trustStatusUnknown": "Unknown",
   "trustStatusUnverified": "Not yet verified",
@@ -73,10 +77,35 @@
   "trustBlockKeyChange": "Block contact in demo",
   "demoTrustUnknown": "Demo only · trust status unknown",
   "demoTrustAwaitingReview": "Demo key change · {count} outgoing message(s) held",
-  "@demoTrustAwaitingReview": {"placeholders": {"count": {"type": "int"}}},
+  "@demoTrustAwaitingReview": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "demoTrustAccepted": "Change accepted in demo · identity remains unverified",
   "demoTrustBlocked": "Contact blocked in demo · {count} queued message(s) remain unsent",
-  "@demoTrustBlocked": {"placeholders": {"count": {"type": "int"}}},
+  "@demoTrustBlocked": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "demoSimulateKeyChange": "Simulate change",
-  "demoSendHeld": "Sending paused for demo review"
+  "demoSendHeld": "Sending paused for demo review",
+  "vaultOpenDemo": "Demo vault open",
+  "vaultDecoyDemo": "Demo decoy vault open",
+  "vaultLockAction": "Lock vault",
+  "vaultPinIncorrect": "Incorrect PIN. Failed attempts: {count}",
+  "@vaultPinIncorrect": {
+    "description": "Shown after a wrong PIN.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "vaultDemoDisclosure": "Demo vault. The PIN is not stored or checked securely and nothing here is protected. Demo PIN: 1234."
 }

@@ -7,7 +7,7 @@ import '../../application/trust/trust_controller.dart';
 import '../../core/design/tokens.dart';
 import '../../domain/trust/trust_state.dart';
 import '../../l10n/app_localizations.dart';
-import '../shared/demo_crypto_banner.dart';
+import '../vault/vault_screen.dart';
 
 final class ChatHomeScreen extends ConsumerStatefulWidget {
   const ChatHomeScreen({super.key});
@@ -37,7 +37,6 @@ class _ChatHomeScreenState extends ConsumerState<ChatHomeScreen> {
     return Scaffold(
       body: Column(
         children: [
-          const DemoCryptoBanner(),
           Expanded(
             child: wide
                 ? Row(
@@ -96,7 +95,16 @@ class _ChatHomeScreenState extends ConsumerState<ChatHomeScreen> {
       SliverPadding(
         padding: const EdgeInsetsDirectional.fromSTEB(20, 20, 20, 8),
         sliver: SliverToBoxAdapter(
-          child: Text(l10n.appName, style: Theme.of(context).textTheme.displayMedium),
+          // Hidden entry (spec 6.1): long-press the wordmark to open the vault.
+          child: GestureDetector(
+            onLongPress: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const VaultScreen()),
+            ),
+            child: Text(
+              l10n.appName,
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
+          ),
         ),
       ),
       SliverPadding(

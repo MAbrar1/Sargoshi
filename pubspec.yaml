@@ -43,3 +43,7 @@ flutter:
     - family: JetBrainsMono
       fonts:
         - asset: assets/fonts/JetBrainsMono-Regular.ttf
+    # Custom glyphs, built by tool/icons/build_icons.py (do not edit the .ttf).
+    - family: SargoshiIcons
+      fonts:
+        - asset: assets/fonts/SargoshiIcons.ttf

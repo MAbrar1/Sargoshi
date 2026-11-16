@@ -1,98 +1,95 @@
+import 'package:flutter/services.dart' show FilteringTextInputFormatter;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
-import '../../domain/vault/vault_state.dart';
+import '../../application/vault/vault_controller.dart';
+import '../../domain/vault/vault_lock.dart';
 import '../../l10n/app_localizations.dart';
 
-/// Stage 2 vault sensor stub: the real keystore and SQLCipher handoff are not yet
-/// wired. This class documents the boundary and keeps the UI honest.
-final class KeystoreFacade {
-  const KeystoreFacade();
-
-  Future<bool> get isHardwareBacked async => false;
-
-  Future<void> wipe() async {}
-
-  Future<String?> readVaultKey() async => null;
-
-  Future<void> writeVaultKey(String key) async {}
-}
-
-final keystoreFacadeProvider = Provider<KeystoreFacade>(
-  (ref) => const KeystoreFacade(),
-);
-
-final vaultPinValidationProvider = Provider.family<bool, String>((ref, pin) {
-  final trimmed = pin.trim();
-  return trimmed.length >= 4;
-});
-
-final class VaultScreen extends ConsumerWidget {
+/// Demo vault screen. The PIN check is a fixed stand-in and nothing is
+/// stored or protected; the screen says so. Back locks the vault, then exits.
+final class VaultScreen extends ConsumerStatefulWidget {
   const VaultScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    final vaultState = ref.watch(vaultSessionProvider);
-    final pinController = TextEditingController();
+  ConsumerState<VaultScreen> createState() => _VaultScreenState();
+}
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.vaultTitle)),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+class _VaultScreenState extends ConsumerState<VaultScreen> {
+  final _pin = TextEditingController();
+  VaultAttemptOutcome? _last;
+
+  @override
+  void dispose() {
+    _pin.dispose();
+    super.dispose();
+  }
+
+  void _submit() {
+    final outcome = ref.read(vaultControllerProvider.notifier).submit(_pin.text);
+    _pin.clear();
+    setState(() => _last = outcome);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final lock = ref.watch(vaultControllerProvider);
+    final title = switch (lock) {
+      VaultLocked() => l10n.vaultLocked,
+      VaultOpen() => l10n.vaultOpenDemo,
+      VaultDecoyOpen() => l10n.vaultDecoyDemo,
+    };
+    final message = switch ((_last, lock)) {
+      (VaultAttemptOutcome.tooShort, _) => l10n.vaultPinTooShort,
+      (VaultAttemptOutcome.rejected, VaultLocked(:final failedAttempts)) =>
+        l10n.vaultPinIncorrect(failedAttempts),
+      _ => null,
+    };
+
+    return PopScope(
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) ref.read(vaultControllerProvider.notifier).lock();
+      },
+      child: Scaffold(
+        appBar: AppBar(title: Text(l10n.vaultTitle)),
+        body: ListView(
+          padding: const EdgeInsetsDirectional.all(20),
           children: [
             Text(
-              switch (vaultState.state) {
-                VaultLockState.locked => l10n.vaultLocked,
-                VaultLockState.unlocked => l10n.vaultUnlocked,
-                VaultLockState.decoy => l10n.vaultDecoy,
-                VaultLockState.error => l10n.vaultError,
-              },
-              style: Theme.of(context).textTheme.titleLarge,
+              l10n.vaultDemoDisclosure,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 20),
-            TextField(
-              controller: pinController,
-              keyboardType: TextInputType.number,
-              obscureText: true,
-              decoration: InputDecoration(
-                hintText: l10n.vaultPinHint,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
+            Text(title, style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: 16),
+            if (lock is VaultLocked) ...[
+              TextField(
+                controller: _pin,
+                obscureText: true,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                autocorrect: false,
+                enableSuggestions: false,
+                enableIMEPersonalizedLearning: false,
+                onSubmitted: (_) => _submit(),
+                decoration: InputDecoration(hintText: l10n.vaultPinHint),
               ),
-              maxLength: vaultState.pinLength,
-            ),
-            if (vaultState.lastError != null) ...[
-              const SizedBox(height: 12),
-              Text(vaultState.lastError!),
-            ],
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => ref
-                        .read(vaultSessionProvider.notifier)
-                        .unlock(pinController.text, l10n),
-                    child: Text(l10n.vaultUnlock),
-                  ),
+              if (message != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  message,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
               ],
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () =>
-                        ref.read(vaultSessionProvider.notifier).decoy(),
-                    child: Text(l10n.vaultDecoyAction),
-                  ),
-                ),
-              ],
-            ),
+              const SizedBox(height: 16),
+              FilledButton(onPressed: _submit, child: Text(l10n.vaultUnlock)),
+            ] else
+              FilledButton.tonal(
+                onPressed: () =>
+                    ref.read(vaultControllerProvider.notifier).lock(),
+                child: Text(l10n.vaultLockAction),
+              ),
           ],
         ),
       ),
