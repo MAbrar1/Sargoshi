@@ -1,5 +1,3 @@
-import 'dart:ui' show FontFeature, FontVariation;
-
 import 'package:flutter/painting.dart';
 
 import 'tokens.dart';
@@ -48,7 +46,7 @@ abstract final class AppText {
   static final labelM = _ui(TypeScale.labelM, 500, tracking: 0.02);
 
   /// Safety numbers and fingerprints: mono 15/22.
-  static final safetyNumber = TextStyle(
+  static const safetyNumber = TextStyle(
     fontFamily: FontFamilies.mono,
     fontSize: 15,
     height: 22 / 15,
