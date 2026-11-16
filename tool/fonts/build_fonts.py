@@ -21,7 +21,8 @@ SRC = pathlib.Path(sys.argv[1])
 OUT = pathlib.Path(sys.argv[2])
 BUDGET = 250 * 1024
 
-REQUIRED = list(range(0x20, 0x7F)) + list(range(0xA0, 0x100))
+# U+00AD (soft hyphen) is invisible and ignored by text engines; many fonts omit it.
+REQUIRED = list(range(0x20, 0x7F)) + [c for c in range(0xA0, 0x100) if c != 0xAD]
 EXTRA = (
     list(range(0x2002, 0x200B))   # spaces incl. thin space (safety-number groups)
     + [0x202F]                     # narrow no-break space
