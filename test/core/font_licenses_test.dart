@@ -11,6 +11,9 @@ void main() {
     await for (final entry in LicenseRegistry.licenses) {
       packages.addAll(entry.packages);
     }
-    expect(packages, containsAll(['Inter', 'Instrument Serif', 'JetBrains Mono']));
+    expect(
+      packages,
+      containsAll(['Inter', 'Instrument Serif', 'JetBrains Mono']),
+    );
   });
 }

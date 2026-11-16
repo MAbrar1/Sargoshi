@@ -3,7 +3,6 @@ import 'package:material_ui/material_ui.dart';
 import 'tokens.dart';
 import 'typography.dart';
 
-
 TextTheme _textTheme(Color primary, Color secondary) => TextTheme(
   displayLarge: AppText.displayXl.copyWith(color: primary),
   displayMedium: AppText.displayL.copyWith(color: primary),

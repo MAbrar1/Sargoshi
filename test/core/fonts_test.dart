@@ -53,6 +53,9 @@ void main() {
   });
 
   test('no runtime font fetching dependency', () {
-    expect(File('pubspec.yaml').readAsStringSync(), isNot(contains('google_fonts')));
+    expect(
+      File('pubspec.yaml').readAsStringSync(),
+      isNot(contains('google_fonts')),
+    );
   });
 }

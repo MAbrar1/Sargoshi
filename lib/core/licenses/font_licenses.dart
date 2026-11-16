@@ -12,7 +12,9 @@ const _fontLicenses = <(String, String)>[
 void registerFontLicenses() {
   LicenseRegistry.addLicense(() async* {
     for (final (name, path) in _fontLicenses) {
-      yield LicenseEntryWithLineBreaks([name], await rootBundle.loadString(path));
+      yield LicenseEntryWithLineBreaks([
+        name,
+      ], await rootBundle.loadString(path));
     }
   });
 }

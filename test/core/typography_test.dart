@@ -37,14 +37,25 @@ void main() {
     expect(lh('safetyNumber'), closeTo(22, 0.01));
   });
 
-  test('families: serif for display, mono for safety numbers, Inter otherwise', () {
-    expect(AppText.displayXl.fontFamily, FontFamilies.display);
-    expect(AppText.displayL.fontFamily, FontFamilies.display);
-    expect(AppText.safetyNumber.fontFamily, FontFamilies.mono);
-    for (final k in ['titleL', 'titleM', 'titleS', 'bodyL', 'bodyM', 'labelL', 'labelM']) {
-      expect(all[k]!.fontFamily, FontFamilies.ui, reason: k);
-    }
-  });
+  test(
+    'families: serif for display, mono for safety numbers, Inter otherwise',
+    () {
+      expect(AppText.displayXl.fontFamily, FontFamilies.display);
+      expect(AppText.displayL.fontFamily, FontFamilies.display);
+      expect(AppText.safetyNumber.fontFamily, FontFamilies.mono);
+      for (final k in [
+        'titleL',
+        'titleM',
+        'titleS',
+        'bodyL',
+        'bodyM',
+        'labelL',
+        'labelM',
+      ]) {
+        expect(all[k]!.fontFamily, FontFamilies.ui, reason: k);
+      }
+    },
+  );
 
   test('label M has 2 percent tracking', () {
     expect(AppText.labelM.letterSpacing, closeTo(0.24, 0.001));
