@@ -23,6 +23,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0 # TODO(verify) current major
+  pigeon: any # typed platform channels; TODO(verify) pin via pubspec.lock
 
 flutter:
   uses-material-design: true

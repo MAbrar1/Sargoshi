@@ -1,0 +1,17 @@
+name: gen
+on: workflow_dispatch
+jobs:
+  gen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: {channel: stable, flutter-version: "3.50.0"}
+      - run: flutter pub get
+      - run: dart run pigeon --input pigeons/platform_api.dart
+      - run: dart format lib/platform/generated
+      - name: Dump
+        run: |
+          for f in lib/platform/generated/platform_api.g.dart android/app/src/main/kotlin/app/sargoshi/PlatformApi.g.kt pubspec.lock; do
+            echo "=====FILE $f"; cat "$f"; echo "=====END"; done
+          echo "=====VERSIONS"; flutter --version
