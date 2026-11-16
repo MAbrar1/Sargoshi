@@ -23,6 +23,10 @@ BUDGET = 250 * 1024
 
 # U+00AD (soft hyphen) is invisible and ignored by text engines; many fonts omit it.
 REQUIRED = list(range(0x20, 0x7F)) + [c for c in range(0xA0, 0x100) if c != 0xAD]
+# Display font (Instrument Serif) only has to cover Basic Latin and accented
+# letters; it is used for headlines, not running text.
+LETTERS = [c for c in range(0xC0, 0x100) if c not in (0xD7, 0xF7)]
+CORE = list(range(0x20, 0x7F)) + LETTERS
 EXTRA = (
     list(range(0x2002, 0x200B))   # spaces incl. thin space (safety-number groups)
     + [0x202F]                     # narrow no-break space
@@ -69,14 +73,14 @@ def subset_font(font: TTFont, name: str) -> pathlib.Path:
     return dest
 
 
-def check(path: pathlib.Path, must_have_extra: bool) -> None:
+def check(path: pathlib.Path, strict: bool) -> None:
     cmap = TTFont(path).getBestCmap()
-    missing = [hex(c) for c in REQUIRED if c not in cmap]
+    need = REQUIRED if strict else CORE
+    missing = [hex(c) for c in need if c not in cmap]
     if missing:
         sys.exit(f"{path.name}: missing required glyphs {missing[:8]}")
-    if must_have_extra:
-        gaps = [hex(c) for c in EXTRA if c not in cmap]
-        print(f"  note {path.name}: {len(gaps)} optional codepoints absent {gaps[:6]}")
+    absent = [hex(c) for c in REQUIRED + EXTRA if c not in cmap]
+    print(f"  note {path.name}: {len(absent)} of the wider set absent {absent[:12]}")
 
 
 def main() -> int:
@@ -102,7 +106,7 @@ def main() -> int:
     total = 0
     for name, font, src, folder in jobs:
         out = subset_font(font, name)
-        check(out, True)
+        check(out, strict=not name.startswith('InstrumentSerif'))
         size = out.stat().st_size
         total += size
         print(f"{name}: {size} bytes  (source {src.name} sha256 {sha(src)})")
