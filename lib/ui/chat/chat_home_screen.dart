@@ -164,7 +164,7 @@ class _ChatHomeScreenState extends ConsumerState<ChatHomeScreen> {
                           color: DarkTokens.emberStart,
                           borderRadius: BorderRadius.all(Radius.circular(Radii.chip)),
                         ),
-                        child: Text('${chat.unread}'),
+                        child: Text(l10n.unreadCount(chat.unread)),
                       ),
                     ),
                 ],
