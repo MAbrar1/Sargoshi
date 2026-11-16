@@ -53,5 +53,20 @@
   "vaultPinHint": "Enter your vault pin",
   "vaultUnlock": "Unlock",
   "vaultPinTooShort": "PIN is too short. Use at least 4 digits.",
-  "vaultDecoyAction": "Open decoy vault"
+  "vaultDecoyAction": "Open decoy vault",
+  "trustTitle": "Trust",
+  "trustStatusUnknown": "Unknown",
+  "trustStatusVerified": "Verified",
+  "trustStatusKeyChanged": "Key changed",
+  "trustSource": "Source",
+  "trustMeasuredAt": "Measured at",
+  "trustKeyChangeGate": "Key-change gate",
+  "trustIdle": "Idle",
+  "trustAwaitingReview": "Awaiting review",
+  "trustAccepted": "Accepted",
+  "trustBlocked": "Blocked",
+  "trustMarkVerified": "Mark verified",
+  "trustReportKeyChange": "Report key change",
+  "trustAcceptKeyChange": "Accept key change",
+  "trustBlockKeyChange": "Block key change"
 }
