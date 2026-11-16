@@ -6,12 +6,15 @@ import '../../domain/trust/trust_state.dart';
 import '../../l10n/app_localizations.dart';
 
 final class TrustScreen extends ConsumerWidget {
-  const TrustScreen({super.key});
+  const TrustScreen({required this.contactId, super.key});
+
+  final String contactId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final trust = ref.watch(trustProvider);
+    final trust = ref.watch(trustProvider(contactId));
+    final controller = ref.read(trustProvider(contactId).notifier);
     final trustValue = trust.measurement.value;
     final statusText = switch (trustValue) {
       null => l10n.trustStatusUnknown,
@@ -70,20 +73,18 @@ final class TrustScreen extends ConsumerWidget {
             OutlinedButton(
               onPressed: trust.isAwaitingReview
                   ? null
-                  : () => ref.read(trustProvider.notifier).simulateKeyChange(),
+                  : controller.simulateKeyChange,
               child: Text(l10n.trustSimulateKeyChange),
             ),
             if (trust.isAwaitingReview) ...[
               const SizedBox(height: 8),
               FilledButton.tonal(
-                onPressed: () =>
-                    ref.read(trustProvider.notifier).acceptKeyChange(),
+                onPressed: controller.acceptKeyChange,
                 child: Text(l10n.trustAcceptKeyChange),
               ),
               const SizedBox(height: 8),
               FilledButton(
-                onPressed: () =>
-                    ref.read(trustProvider.notifier).blockKeyChange(),
+                onPressed: controller.blockKeyChange,
                 child: Text(l10n.trustBlockKeyChange),
               ),
             ],

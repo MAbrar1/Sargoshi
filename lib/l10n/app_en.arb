@@ -107,5 +107,6 @@
       }
     }
   },
-  "vaultDemoDisclosure": "Demo vault. The PIN is not stored or checked securely and nothing here is protected. Demo PIN: 1234."
+  "vaultDemoDisclosure": "Demo vault. The PIN is not stored or checked securely and nothing here is protected. Demo PIN: 1234.",
+  "openTrustDetails": "Trust details"
 }

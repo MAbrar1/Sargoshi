@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sargoshi/main.dart';
 
 const _banner = 'DEMO CRYPTO — NOT SECURE';
@@ -61,7 +62,7 @@ void main() {
     await tester.tap(find.text('Unlock'));
     await tester.pumpAndSettle();
     expect(find.text('Demo vault open'), findsOneWidget);
-    final NavigatorState nav = tester.state(find.byType(Navigator).first);
+    final nav = tester.state<NavigatorState>(find.byType(Navigator).first);
     nav.pop();
     await tester.pumpAndSettle();
     await tester.longPress(find.text('Sargoshi'));

@@ -7,6 +7,7 @@ import '../../application/trust/trust_controller.dart';
 import '../../core/design/tokens.dart';
 import '../../domain/trust/trust_state.dart';
 import '../../l10n/app_localizations.dart';
+import '../trust/trust_screen.dart';
 import '../vault/vault_screen.dart';
 
 final class ChatHomeScreen extends ConsumerStatefulWidget {
@@ -411,6 +412,17 @@ final class _DemoKeyChangeGate extends ConsumerWidget {
                     child: Text(l10n.demoSimulateKeyChange),
                   ),
               ],
+            ),
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: TextButton(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => TrustScreen(contactId: chatId),
+                  ),
+                ),
+                child: Text(l10n.openTrustDetails),
+              ),
             ),
             if (state == KeyChangeGateState.awaitingReview) ...[
               const SizedBox(height: 8),
