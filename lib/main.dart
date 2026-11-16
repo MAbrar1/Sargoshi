@@ -7,6 +7,7 @@ import 'package:material_ui/material_ui.dart';
 import 'core/design/theme.dart';
 import 'core/licenses/font_licenses.dart';
 import 'l10n/app_localizations.dart';
+import 'ui/chat/chat_home_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,17 +31,6 @@ class SargoshiApp extends StatelessWidget {
       GlobalCupertinoLocalizations.delegate,
     ],
     supportedLocales: AppLocalizations.supportedLocales,
-    home: const _Placeholder(),
+    home: const ChatHomeScreen(),
   );
-}
-
-/// Stage 0B placeholder. Real screens start in Stage 1.
-class _Placeholder extends StatelessWidget {
-  const _Placeholder();
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return Scaffold(body: Center(child: Text(l10n.appName)));
-  }
 }
