@@ -12,14 +12,13 @@ final class TrustScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final trust = ref.watch(trustProvider);
-
-    final statusText = switch (trust.measurement.value) {
+    final trustValue = trust.measurement.value;
+    final statusText = switch (trustValue) {
       null => l10n.trustStatusUnknown,
+      TrustValue.unverified => l10n.trustStatusUnverified,
       TrustValue.verified => l10n.trustStatusVerified,
       TrustValue.keyChanged => l10n.trustStatusKeyChanged,
-      TrustValue.unknown => l10n.trustStatusUnknown,
     };
-
     final gateText = switch (trust.gateState) {
       KeyChangeGateState.idle => l10n.trustIdle,
       KeyChangeGateState.awaitingReview => l10n.trustAwaitingReview,
@@ -33,20 +32,23 @@ final class TrustScreen extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsetsDirectional.all(20),
           children: [
-            Text(
-              statusText,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
+            Text(statusText, style: Theme.of(context).textTheme.headlineSmall),
             const SizedBox(height: 12),
-            Text(
-              '${l10n.trustSource}: ${trust.measurement.source}',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+            Text(l10n.trustDemoDisclosure),
             const SizedBox(height: 8),
             Text(
-              '${l10n.trustMeasuredAt}: ${trust.measurement.measuredAt.toUtc().toIso8601String()}',
+              trustValue == null
+                  ? l10n.trustMeasurementUnavailable
+                  : '${l10n.trustSource}: ${trust.measurement.source}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
+            if (trustValue != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                '${l10n.trustMeasuredAt}: ${trust.measurement.measuredAt.toUtc().toIso8601String()}',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ],
             const SizedBox(height: 16),
             Card(
               child: Padding(
@@ -54,26 +56,22 @@ final class TrustScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(l10n.trustKeyChangeGate, style: Theme.of(context).textTheme.titleMedium),
+                    Text(
+                      l10n.trustKeyChangeGate,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                     const SizedBox(height: 8),
                     Text(gateText),
-                    if (trust.reviewReason != null) ...[
-                      const SizedBox(height: 8),
-                      Text(trust.reviewReason!),
-                    ],
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 16),
-            FilledButton(
-              onPressed: () => ref.read(trustProvider.notifier).markVerified(),
-              child: Text(l10n.trustMarkVerified),
-            ),
-            const SizedBox(height: 8),
             OutlinedButton(
-              onPressed: () => ref.read(trustProvider.notifier).reportKeyChanged(),
-              child: Text(l10n.trustReportKeyChange),
+              onPressed: trust.isAwaitingReview
+                  ? null
+                  : () => ref.read(trustProvider.notifier).simulateKeyChange(),
+              child: Text(l10n.trustSimulateKeyChange),
             ),
             if (trust.isAwaitingReview) ...[
               const SizedBox(height: 8),
@@ -84,7 +82,6 @@ final class TrustScreen extends ConsumerWidget {
               const SizedBox(height: 8),
               FilledButton(
                 onPressed: () => ref.read(trustProvider.notifier).blockKeyChange(),
-                style: FilledButton.styleFrom(backgroundColor: Colors.orange),
                 child: Text(l10n.trustBlockKeyChange),
               ),
             ],
