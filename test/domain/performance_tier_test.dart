@@ -74,7 +74,10 @@ void main() {
 
     test('always light forces tier C', () {
       for (final t in PerformanceTier.values) {
-        expect(effectiveTier(t, PerformanceMode.alwaysLight), PerformanceTier.c);
+        expect(
+          effectiveTier(t, PerformanceMode.alwaysLight),
+          PerformanceTier.c,
+        );
       }
     });
   });
