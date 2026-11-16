@@ -3,12 +3,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:sargoshi/main.dart';
 
+import '../helpers/screen.dart';
+
 const _banner = 'DEMO CRYPTO — NOT SECURE';
 
 void main() {
   Future<void> openVault(WidgetTester tester) async {
-    await tester.binding.setSurfaceSize(const Size(412, 915));
-    addTearDown(() => tester.binding.setSurfaceSize(null));
+    useScreen(tester);
     await tester.pumpWidget(const ProviderScope(child: SargoshiApp()));
     await tester.pumpAndSettle();
     await tester.longPress(find.text('Sargoshi'));
