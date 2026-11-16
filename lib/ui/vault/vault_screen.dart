@@ -26,7 +26,9 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
   }
 
   void _submit() {
-    final outcome = ref.read(vaultControllerProvider.notifier).submit(_pin.text);
+    final outcome = ref
+        .read(vaultControllerProvider.notifier)
+        .submit(_pin.text);
     _pin.clear();
     setState(() => _last = outcome);
   }

@@ -24,10 +24,12 @@ class _ChatHomeScreenState extends ConsumerState<ChatHomeScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final chats = ref.watch(demoChatsProvider);
-    final matches = chats.where((chat) {
-      final name = _chatName(l10n, chat);
-      return name.toLowerCase().contains(_query.toLowerCase());
-    }).toList(growable: false);
+    final matches = chats
+        .where((chat) {
+          final name = _chatName(l10n, chat);
+          return name.toLowerCase().contains(_query.toLowerCase());
+        })
+        .toList(growable: false);
     final width = MediaQuery.sizeOf(context).width;
     final wide = width >= 600;
     final selected = _selectedChatId == null
@@ -158,7 +160,10 @@ class _ChatHomeScreenState extends ConsumerState<ChatHomeScreen> {
               trailing: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(_chatTime(l10n, chat), style: Theme.of(context).textTheme.labelSmall),
+                  Text(
+                    _chatTime(l10n, chat),
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
                   if (chat.unread > 0)
                     Semantics(
                       label: l10n.unreadCount(chat.unread),
@@ -170,7 +175,9 @@ class _ChatHomeScreenState extends ConsumerState<ChatHomeScreen> {
                         ),
                         decoration: const BoxDecoration(
                           color: DarkTokens.emberStart,
-                          borderRadius: BorderRadius.all(Radius.circular(Radii.chip)),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(Radii.chip),
+                          ),
                         ),
                         child: Text(l10n.unreadCount(chat.unread)),
                       ),
@@ -185,23 +192,26 @@ class _ChatHomeScreenState extends ConsumerState<ChatHomeScreen> {
   );
 }
 
-String _chatName(AppLocalizations l10n, DemoChat chat) => switch (chat.nameKey) {
-  'demoMayaName' => l10n.demoMayaName,
-  'demoOmarName' => l10n.demoOmarName,
-  _ => l10n.savedMessages,
-};
+String _chatName(AppLocalizations l10n, DemoChat chat) =>
+    switch (chat.nameKey) {
+      'demoMayaName' => l10n.demoMayaName,
+      'demoOmarName' => l10n.demoOmarName,
+      _ => l10n.savedMessages,
+    };
 
-String _chatPreview(AppLocalizations l10n, DemoChat chat) => switch (chat.previewKey) {
-  'demoMayaPreview' => l10n.demoMayaPreview,
-  'demoOmarPreview' => l10n.demoOmarPreview,
-  _ => l10n.demoSavedPreview,
-};
+String _chatPreview(AppLocalizations l10n, DemoChat chat) =>
+    switch (chat.previewKey) {
+      'demoMayaPreview' => l10n.demoMayaPreview,
+      'demoOmarPreview' => l10n.demoOmarPreview,
+      _ => l10n.demoSavedPreview,
+    };
 
-String _chatTime(AppLocalizations l10n, DemoChat chat) => switch (chat.timeKey) {
-  'demoTimeNow' => l10n.demoTimeNow,
-  'demoTimeEarlier' => l10n.demoTimeEarlier,
-  _ => l10n.demoTimeYesterday,
-};
+String _chatTime(AppLocalizations l10n, DemoChat chat) =>
+    switch (chat.timeKey) {
+      'demoTimeNow' => l10n.demoTimeNow,
+      'demoTimeEarlier' => l10n.demoTimeEarlier,
+      _ => l10n.demoTimeYesterday,
+    };
 
 String _chatInitial(AppLocalizations l10n, DemoChat chat) => switch (chat.id) {
   'maya' => l10n.demoMayaInitial,
@@ -214,9 +224,8 @@ final class _EmptySelection extends StatelessWidget {
   final AppLocalizations l10n;
 
   @override
-  Widget build(BuildContext context) => Center(
-    child: Text(l10n.selectChat, textAlign: TextAlign.center),
-  );
+  Widget build(BuildContext context) =>
+      Center(child: Text(l10n.selectChat, textAlign: TextAlign.center));
 }
 
 final class _DemoThread extends ConsumerStatefulWidget {
@@ -312,7 +321,9 @@ class _DemoThreadState extends ConsumerState<_DemoThread> {
                     controller: _composer,
                     enabled: !isHeld,
                     decoration: InputDecoration(
-                      hintText: isHeld ? l10n.demoSendHeld : l10n.messageInputHint,
+                      hintText: isHeld
+                          ? l10n.demoSendHeld
+                          : l10n.messageInputHint,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(Radii.input),
                       ),
@@ -341,7 +352,9 @@ class _DemoThreadState extends ConsumerState<_DemoThread> {
     if (trust.canSend) {
       _appendDemoMessage(text);
     } else {
-      final queue = ref.read(pendingDemoMessagesProvider(widget.chat.id).notifier);
+      final queue = ref.read(
+        pendingDemoMessagesProvider(widget.chat.id).notifier,
+      );
       queue.state = [...queue.state, text];
     }
     _composer.clear();
@@ -349,7 +362,10 @@ class _DemoThreadState extends ConsumerState<_DemoThread> {
 
   void _appendDemoMessage(String text) {
     final notifier = ref.read(demoMessagesProvider(widget.chat.id).notifier);
-    notifier.state = [...notifier.state, DemoMessage(text: text, isOutgoing: true)];
+    notifier.state = [
+      ...notifier.state,
+      DemoMessage(text: text, isOutgoing: true),
+    ];
   }
 }
 
@@ -370,7 +386,9 @@ final class _DemoKeyChangeGate extends ConsumerWidget {
     final controller = ref.read(trustProvider(chatId).notifier);
     final text = switch (state) {
       KeyChangeGateState.idle => l10n.demoTrustUnknown,
-      KeyChangeGateState.awaitingReview => l10n.demoTrustAwaitingReview(pendingCount),
+      KeyChangeGateState.awaitingReview => l10n.demoTrustAwaitingReview(
+        pendingCount,
+      ),
       KeyChangeGateState.accepted => l10n.demoTrustAccepted,
       KeyChangeGateState.blocked => l10n.demoTrustBlocked(pendingCount),
     };
@@ -403,11 +421,17 @@ final class _DemoKeyChangeGate extends ConsumerWidget {
                   FilledButton.tonal(
                     onPressed: () {
                       controller.acceptKeyChange();
-                      final queue = ref.read(pendingDemoMessagesProvider(chatId).notifier);
-                      final messages = ref.read(demoMessagesProvider(chatId).notifier);
+                      final queue = ref.read(
+                        pendingDemoMessagesProvider(chatId).notifier,
+                      );
+                      final messages = ref.read(
+                        demoMessagesProvider(chatId).notifier,
+                      );
                       messages.state = [
                         ...messages.state,
-                        ...queue.state.map((text) => DemoMessage(text: text, isOutgoing: true)),
+                        ...queue.state.map(
+                          (text) => DemoMessage(text: text, isOutgoing: true),
+                        ),
                       ];
                       queue.state = const [];
                     },

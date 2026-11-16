@@ -76,12 +76,14 @@ final class TrustScreen extends ConsumerWidget {
             if (trust.isAwaitingReview) ...[
               const SizedBox(height: 8),
               FilledButton.tonal(
-                onPressed: () => ref.read(trustProvider.notifier).acceptKeyChange(),
+                onPressed: () =>
+                    ref.read(trustProvider.notifier).acceptKeyChange(),
                 child: Text(l10n.trustAcceptKeyChange),
               ),
               const SizedBox(height: 8),
               FilledButton(
-                onPressed: () => ref.read(trustProvider.notifier).blockKeyChange(),
+                onPressed: () =>
+                    ref.read(trustProvider.notifier).blockKeyChange(),
                 child: Text(l10n.trustBlockKeyChange),
               ),
             ],

@@ -32,17 +32,20 @@ void main() {
     expect(controller.state.measurement.value, isNull);
   });
 
-  test('accepting a change releases gate but does not mark identity verified', () {
-    final controller = createController();
-    addTearDown(controller.dispose);
-    controller.simulateKeyChange();
+  test(
+    'accepting a change releases gate but does not mark identity verified',
+    () {
+      final controller = createController();
+      addTearDown(controller.dispose);
+      controller.simulateKeyChange();
 
-    controller.acceptKeyChange();
+      controller.acceptKeyChange();
 
-    expect(controller.state.gateState, KeyChangeGateState.accepted);
-    expect(controller.state.canSend, isTrue);
-    expect(controller.state.measurement.value, isNull);
-  });
+      expect(controller.state.gateState, KeyChangeGateState.accepted);
+      expect(controller.state.canSend, isTrue);
+      expect(controller.state.measurement.value, isNull);
+    },
+  );
 
   test('blocking a change keeps sending disabled', () {
     final controller = createController();

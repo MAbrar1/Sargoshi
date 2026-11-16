@@ -1,10 +1,30 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final demoChatsProvider = Provider<List<DemoChat>>((ref) => const [
-  DemoChat(id: 'maya', nameKey: 'demoMayaName', previewKey: 'demoMayaPreview', timeKey: 'demoTimeNow', unread: 2),
-  DemoChat(id: 'omar', nameKey: 'demoOmarName', previewKey: 'demoOmarPreview', timeKey: 'demoTimeEarlier', unread: 0),
-  DemoChat(id: 'saved', nameKey: 'savedMessages', previewKey: 'demoSavedPreview', timeKey: 'demoTimeYesterday', unread: 0),
-]);
+final demoChatsProvider = Provider<List<DemoChat>>(
+  (ref) => const [
+    DemoChat(
+      id: 'maya',
+      nameKey: 'demoMayaName',
+      previewKey: 'demoMayaPreview',
+      timeKey: 'demoTimeNow',
+      unread: 2,
+    ),
+    DemoChat(
+      id: 'omar',
+      nameKey: 'demoOmarName',
+      previewKey: 'demoOmarPreview',
+      timeKey: 'demoTimeEarlier',
+      unread: 0,
+    ),
+    DemoChat(
+      id: 'saved',
+      nameKey: 'savedMessages',
+      previewKey: 'demoSavedPreview',
+      timeKey: 'demoTimeYesterday',
+      unread: 0,
+    ),
+  ],
+);
 
 final class DemoChat {
   const DemoChat({

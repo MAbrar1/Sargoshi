@@ -14,13 +14,14 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('long-pressing the wordmark opens a vault that says it is a demo', (
-    tester,
-  ) async {
-    await openVault(tester);
-    expect(find.text('Vault locked'), findsOneWidget);
-    expect(find.textContaining('nothing here is protected'), findsOneWidget);
-  });
+  testWidgets(
+    'long-pressing the wordmark opens a vault that says it is a demo',
+    (tester) async {
+      await openVault(tester);
+      expect(find.text('Vault locked'), findsOneWidget);
+      expect(find.textContaining('nothing here is protected'), findsOneWidget);
+    },
+  );
 
   testWidgets('the demo banner is still visible on the vault screen', (
     tester,

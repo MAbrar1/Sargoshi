@@ -5,15 +5,19 @@ import '../../domain/trust/trust_state.dart';
 
 const String kDemoTrustSource = 'demo/manual-review';
 
-final trustProvider = StateNotifierProvider.family<TrustController, TrustState, String>((ref, contactId) {
-  final now = DateTime.now().toUtc();
-  return TrustController(
-    initialMeasurement: Measured.unknown(
-      source: '$kDemoTrustSource/$contactId',
-      measuredAt: now,
-    ),
-  );
-});
+final trustProvider =
+    StateNotifierProvider.family<TrustController, TrustState, String>((
+      ref,
+      contactId,
+    ) {
+      final now = DateTime.now().toUtc();
+      return TrustController(
+        initialMeasurement: Measured.unknown(
+          source: '$kDemoTrustSource/$contactId',
+          measuredAt: now,
+        ),
+      );
+    });
 
 /// Demo-only gate controller. It does not read protocol key events or verify
 /// safety numbers. Production must replace its event source before use.
