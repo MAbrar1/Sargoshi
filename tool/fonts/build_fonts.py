@@ -8,6 +8,7 @@ lacks required glyphs, if a licence file is not the SIL OFL, or if the total
 payload exceeds 250 KB.
 """
 import hashlib
+import io
 import pathlib
 import shutil
 import sys
@@ -35,6 +36,14 @@ def sha(p: pathlib.Path) -> str:
     return hashlib.sha256(p.read_bytes()).hexdigest()
 
 
+def reload(font: TTFont) -> TTFont:
+    """Round-trip through bytes; the subsetter needs a freshly loaded font."""
+    buf = io.BytesIO()
+    font.save(buf)
+    buf.seek(0)
+    return TTFont(buf)
+
+
 def pick(folder: str, pattern: str, exclude: str = "") -> pathlib.Path:
     hits = [p for p in (SRC / "ofl" / folder).glob(pattern) if not (exclude and exclude in p.name)]
     if len(hits) != 1:
@@ -50,7 +59,7 @@ def subset_font(font: TTFont, name: str) -> pathlib.Path:
     opts.name_IDs = [0, 1, 2, 3, 4, 5, 6, 13, 14]
     opts.name_languages = [0x409]
     opts.glyph_names = False
-    opts.drop_tables += ["DSIG", "MVAR"] if False else ["DSIG"]
+    opts.drop_tables += ["DSIG"]
     s = subset.Subsetter(opts)
     s.populate(unicodes=REQUIRED + EXTRA)
     s.subset(font)
@@ -78,7 +87,7 @@ def main() -> int:
     # Inter: variable. Pin optical size at 14, keep weights 400-700.
     inter = pick("inter", "Inter*.ttf", exclude="Italic")
     f = TTFont(inter)
-    f = instancer.instantiateVariableFont(f, {"opsz": 14, "wght": (400, 700)})
+    f = reload(instancer.instantiateVariableFont(f, {"opsz": 14, "wght": (400, 700)}))
     jobs.append(("Inter-Variable.ttf", f, inter, "inter"))
 
     for style in ("Regular", "Italic"):
@@ -86,7 +95,7 @@ def main() -> int:
         jobs.append((f"InstrumentSerif-{style}.ttf", TTFont(p), p, "instrumentserif"))
 
     mono = pick("jetbrainsmono", "JetBrainsMono*.ttf", exclude="Italic")
-    f = instancer.instantiateVariableFont(TTFont(mono), {"wght": 400})
+    f = reload(instancer.instantiateVariableFont(TTFont(mono), {"wght": 400}))
     jobs.append(("JetBrainsMono-Regular.ttf", f, mono, "jetbrainsmono"))
 
     total = 0
