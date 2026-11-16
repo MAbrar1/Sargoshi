@@ -3,17 +3,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sargoshi/main.dart';
 
 void main() {
-  testWidgets('app starts and shows the localized wordmark and demo warning', (
-    tester,
-  ) async {
-    await tester.binding.setSurfaceSize(const Size(412, 915));
-    addTearDown(() => tester.binding.setSurfaceSize(null));
-    await tester.pumpWidget(const ProviderScope(child: SargoshiApp()));
-    await tester.pumpAndSettle();
-    expect(find.text('Sargoshi'), findsOneWidget);
-    expect(find.text('DEMO CRYPTO — NOT SECURE'), findsOneWidget);
-    expect(find.text('Maya'), findsOneWidget);
-  });
+  testWidgets(
+    'app starts and shows the localized wordmark and demo warning',
+    (tester) async {
+      await tester.binding.setSurfaceSize(const Size(412, 915));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      await tester.pumpWidget(const ProviderScope(child: SargoshiApp()));
+      await tester.pumpAndSettle();
+      expect(find.text('Sargoshi'), findsOneWidget);
+      expect(find.text('DEMO CRYPTO — NOT SECURE'), findsOneWidget);
+      expect(find.text('Maya'), findsOneWidget);
+    },
+  );
 
   testWidgets(
     'demo thread holds a draft during key review and releases it on accept',
