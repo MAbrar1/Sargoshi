@@ -44,5 +44,14 @@
   "demoMayaMessage2": "That sounds lovely. What time works for you?",
   "demoMayaMessage3": "Around four would be perfect.",
   "demoOmarMessage1": "I have added the notes from our meeting.",
-  "demoOmarMessage2": "Thank you. I will review them this evening."
+  "demoOmarMessage2": "Thank you. I will review them this evening.",
+  "vaultTitle": "Vault",
+  "vaultLocked": "Vault locked",
+  "vaultUnlocked": "Vault unlocked",
+  "vaultDecoy": "Decoy vault",
+  "vaultError": "Incorrect entry",
+  "vaultPinHint": "Enter your vault pin",
+  "vaultUnlock": "Unlock",
+  "vaultPinTooShort": "PIN is too short. Use at least 4 digits.",
+  "vaultDecoyAction": "Open decoy vault"
 }
