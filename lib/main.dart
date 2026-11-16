@@ -5,9 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'core/design/theme.dart';
+import 'core/licenses/font_licenses.dart';
 import 'l10n/app_localizations.dart';
 
-void main() => runApp(const ProviderScope(child: SargoshiApp()));
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  registerFontLicenses();
+  runApp(const ProviderScope(child: SargoshiApp()));
+}
 
 class SargoshiApp extends StatelessWidget {
   const SargoshiApp({super.key});

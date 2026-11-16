@@ -28,6 +28,18 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
-  # Fonts (Inter, Instrument Serif, JetBrains Mono) are NOT bundled yet.
-  # They must be downloaded, subsetted and licence-checked in a networked
-  # environment. See STAGE-0B-report.md. No runtime font fetching is allowed.
+  assets:
+    - assets/fonts/licenses/
+  # Subsetted OFL fonts, built by tool/fonts/build_fonts.py. No runtime fetching.
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Variable.ttf
+    - family: InstrumentSerif
+      fonts:
+        - asset: assets/fonts/InstrumentSerif-Regular.ttf
+        - asset: assets/fonts/InstrumentSerif-Italic.ttf
+          style: italic
+    - family: JetBrainsMono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono-Regular.ttf
