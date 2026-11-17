@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:io' show Platform;
 import 'dart:typed_data';
 
 /// ABI version this Dart code was written against. Must equal
@@ -74,6 +75,14 @@ final class SargoshiNative {
       throw StateError('Native ABI $version, expected $kExpectedAbiVersion');
     }
     return SargoshiNative._(lib);
+  }
+
+  /// Opens the library packaged with the app (Android loads it by soname).
+  factory SargoshiNative.openDefault() {
+    if (!Platform.isAndroid) {
+      throw UnsupportedError('Native core is packaged for Android only');
+    }
+    return SargoshiNative.open('libsargoshi_ffi.so');
   }
 
   final _Alloc _alloc;

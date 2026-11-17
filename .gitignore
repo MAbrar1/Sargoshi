@@ -10,3 +10,4 @@ local.properties
 key.properties
 .DS_Store
 lib/l10n/app_localizations*.dart
+android/app/src/main/jniLibs/
