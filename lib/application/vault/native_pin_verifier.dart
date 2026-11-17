@@ -19,15 +19,14 @@ abstract interface class PepperSource {
 /// must move the work to a background isolate first.
 final class NativePinVerifier {
   NativePinVerifier({
-    required SargoshiNative native,
-    required PepperSource pepperSource,
+    required this.native,
+    required this.pepperSource,
     required this.realRecord,
     this.decoyRecord,
-  }) : _native = native,
-       _pepperSource = pepperSource;
+  });
 
-  final SargoshiNative _native;
-  final PepperSource _pepperSource;
+  final SargoshiNative native;
+  final PepperSource pepperSource;
   final Uint8List realRecord;
   final Uint8List? decoyRecord;
 
@@ -48,11 +47,11 @@ final class NativePinVerifier {
 
   Future<PinCheck> check(String pin) async {
     if (pin.length < kMinPinLength) return PinCheck.tooShort;
-    final pepper = await _pepperOf(_pepperSource);
-    final real = _native.verifyVault(realRecord, pin, pepper);
+    final pepper = await _pepperOf(pepperSource);
+    final real = native.verifyVault(realRecord, pin, pepper);
     final decoy = decoyRecord == null
         ? false
-        : _native.verifyVault(decoyRecord!, pin, pepper);
+        : native.verifyVault(decoyRecord!, pin, pepper);
     if (real) return PinCheck.accepted;
     if (decoy) return PinCheck.decoy;
     return PinCheck.rejected;
