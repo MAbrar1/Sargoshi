@@ -440,13 +440,13 @@ final class _DemoKeyChangeGate extends ConsumerWidget {
                     child: Text(l10n.demoSimulateKeyChange),
                   ),
                 TextButton(
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) => TrustScreen(contactId: chatId),
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => TrustScreen(contactId: chatId),
+                    ),
                   ),
+                  child: Text(l10n.openTrustDetails),
                 ),
-                child: Text(l10n.openTrustDetails),
-              ),
               ],
             ),
             if (state == KeyChangeGateState.awaitingReview) ...[
