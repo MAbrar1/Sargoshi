@@ -9,10 +9,11 @@ Status on `main` (CI: checks, flutter, rust, android all green; 80 Flutter tests
 - Rust core: Argon2id + XChaCha20-Poly1305 recovery file and message padding (9 tests, clippy clean).
 - CI guards: banned words, contrast, directional layout, ARB, hardcoded strings, manifest, ELF, icons.
 - `sargoshi_ffi` C ABI crate (pad/unpad, recovery create/restore, zeroing buffers, ABI version check) and `dart:ffi` bindings. Dart tests run against the host-built library in CI (88 tests total). Packaged into each per-ABI APK via cargo-ndk with 16 KB alignment (CI-checked). Measured release APKs: arm64 16.62 MiB (budget 45), armeabi-v7a 14.28, x86_64 17.91. Not yet loaded at runtime on a device or emulator.
+- Vault PIN verifier in the Rust core: Argon2id (min 19 MiB) keyed with a 32-byte platform pepper, constant-time compare, hostile parameters rejected (6 Rust tests). FFI ABI v2. Dart `NativePinVerifier` evaluates real and decoy records every time (5 tests against the real library). NOT yet used by the vault screen: the UI still uses the demo verifier. The key derivation runs on the calling isolate and must move to a background isolate before wiring; the pepper source (Android Keystore) is an interface only.
 - Layout tests at 320x568 and text x1.0/1.3/2.0 for chat list, thread and vault.
 
 ## Demo only (no real security)
-- Vault: demo PIN verifier (PIN 1234, decoy 0000). No Keystore, no SQLCipher, no key derivation. Entry is a hidden long-press on the wordmark. A visible banner says this is a demo.
+- Vault screen: demo PIN verifier (PIN 1234, decoy 0000). No Keystore, no SQLCipher, no key derivation. Entry is a hidden long-press on the wordmark. A visible banner says this is a demo.
 - Trust and key-change review: in-memory state machine. While a key change is under review, sent drafts are queued and released on accept.
 - No CryptoCore or FakeCryptoCore, no Signal or MLS, no networking, no storage.
 
