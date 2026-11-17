@@ -14,3 +14,6 @@ Status: ACCEPTED PROVISIONALLY. The owner asked for "the best option" on each op
 - Release CI must fail if the domain placeholder is present.
 - Licence file and a source-offer page are Stage 10 deliverables.
 - None of these choices has been legally reviewed. TODO(verify): licence compatibility of every dependency with AGPL-3.0.
+
+## Update 2026-11-17
+The owner told us to continue with a fake domain and replace it later. `AppConfig.domain` defaults to `sargoshi.example` and is overridden with `--dart-define=SARGOSHI_DOMAIN=...`. `tool/ci/check_release_ready.py --release` fails while the placeholder domain is the default or while no production `CryptoCore` exists; without `--release` it only lists blockers. The fake core lives in `lib/testing/` and only `crypto_provider.dart` may import it.
