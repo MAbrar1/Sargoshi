@@ -8,6 +8,7 @@ Status on `main` (CI: checks, flutter, rust, android all green; 80 Flutter tests
 - Performance tier classifier (thresholds provisional, ADR-007) and the Pigeon channel to Kotlin.
 - Rust core: Argon2id + XChaCha20-Poly1305 recovery file and message padding (9 tests, clippy clean).
 - CI guards: banned words, contrast, directional layout, ARB, hardcoded strings, manifest, ELF, icons.
+- `sargoshi_ffi` C ABI crate (pad/unpad, recovery create/restore, zeroing buffers, ABI version check) and `dart:ffi` bindings. Dart tests run against the host-built library in CI (88 tests total). Not yet packaged for Android.
 - Layout tests at 320x568 and text x1.0/1.3/2.0 for chat list, thread and vault.
 
 ## Demo only (no real security)
@@ -16,7 +17,7 @@ Status on `main` (CI: checks, flutter, rust, android all green; 80 Flutter tests
 - No CryptoCore or FakeCryptoCore, no Signal or MLS, no networking, no storage.
 
 ## Not built yet
-Kotlin lint, Phosphor icon package, tier calibration on devices and diagnostics row, "Always light" persistence, CryptoCore with a "not in release" CI check, real Drift/SQLCipher storage, FFI bridge to Rust, go_router wiring, explicit dependency versions (several use `any`, pinned only by `pubspec.lock`), Riverpod 3 migration.
+Kotlin lint, Phosphor icon package, tier calibration on devices and diagnostics row, "Always light" persistence, CryptoCore with a "not in release" CI check, real Drift/SQLCipher storage, Android packaging of the native library (cargo-ndk, 16 KB alignment, jniLibs, size budget), go_router wiring, explicit dependency versions (several use `any`, pinned only by `pubspec.lock`), Riverpod 3 migration.
 
 ## TODO(verify)
 1. Tier thresholds on real devices.
