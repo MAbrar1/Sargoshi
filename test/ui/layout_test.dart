@@ -26,6 +26,11 @@ void main() {
     ) async {
       useScreen(tester, size: const Size(320, 568), textScale: scale);
       await start(tester);
+      await tester.scrollUntilVisible(
+        find.text('Maya'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.tap(find.text('Maya'));
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
