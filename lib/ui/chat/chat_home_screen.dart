@@ -195,7 +195,9 @@ class _ChatHomeScreenState extends ConsumerState<ChatHomeScreen> {
                                   Radius.circular(Radii.chip),
                                 ),
                               ),
-                              child: Text(l10n.unreadCount(chat.unread)),
+                              child: ExcludeSemantics(
+                                child: Text(chat.unread.toString()),
+                              ),
                             ),
                           ),
                       ],
@@ -426,17 +428,18 @@ final class _DemoKeyChangeGate extends ConsumerWidget {
                 const Icon(Icons.info_outline),
                 const SizedBox(width: 8),
                 Expanded(child: Text(text)),
+              ],
+            ),
+            Wrap(
+              spacing: 8,
+              children: [
                 if (state == KeyChangeGateState.idle ||
                     state == KeyChangeGateState.accepted)
                   TextButton(
                     onPressed: controller.simulateKeyChange,
                     child: Text(l10n.demoSimulateKeyChange),
                   ),
-              ],
-            ),
-            Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: TextButton(
+                TextButton(
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute<void>(
                     builder: (_) => TrustScreen(contactId: chatId),
@@ -444,6 +447,7 @@ final class _DemoKeyChangeGate extends ConsumerWidget {
                 ),
                 child: Text(l10n.openTrustDetails),
               ),
+              ],
             ),
             if (state == KeyChangeGateState.awaitingReview) ...[
               const SizedBox(height: 8),
