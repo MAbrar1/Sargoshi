@@ -143,49 +143,66 @@ class _ChatHomeScreenState extends ConsumerState<ChatHomeScreen> {
           itemCount: chats.length,
           itemBuilder: (context, index) {
             final chat = chats[index];
-            return ListTile(
-              contentPadding: const EdgeInsetsDirectional.symmetric(
-                horizontal: 20,
-                vertical: 4,
-              ),
-              leading: CircleAvatar(
-                backgroundColor: DarkTokens.dusk2,
-                child: Text(_chatInitial(l10n, chat)),
-              ),
-              title: Text(_chatName(l10n, chat)),
-              subtitle: Text(
-                _chatPreview(l10n, chat),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    _chatTime(l10n, chat),
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
-                  if (chat.unread > 0)
-                    Semantics(
-                      label: l10n.unreadCount(chat.unread),
-                      child: Container(
-                        margin: const EdgeInsetsDirectional.only(top: 4),
-                        padding: const EdgeInsetsDirectional.symmetric(
-                          horizontal: 7,
-                          vertical: 2,
-                        ),
-                        decoration: const BoxDecoration(
-                          color: DarkTokens.emberStart,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(Radii.chip),
+            return InkWell(
+              onTap: () => setState(() => _selectedChatId = chat.id),
+              child: Padding(
+                padding: const EdgeInsetsDirectional.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: DarkTokens.dusk2,
+                      child: Text(_chatInitial(l10n, chat)),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(_chatName(l10n, chat)),
+                          Text(
+                            _chatPreview(l10n, chat),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
-                        ),
-                        child: Text(l10n.unreadCount(chat.unread)),
+                        ],
                       ),
                     ),
-                ],
+                    const SizedBox(width: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          _chatTime(l10n, chat),
+                          style: Theme.of(context).textTheme.labelSmall,
+                        ),
+                        if (chat.unread > 0)
+                          Semantics(
+                            label: l10n.unreadCount(chat.unread),
+                            child: Container(
+                              margin: const EdgeInsetsDirectional.only(top: 4),
+                              padding: const EdgeInsetsDirectional.symmetric(
+                                horizontal: 7,
+                                vertical: 2,
+                              ),
+                              decoration: const BoxDecoration(
+                                color: DarkTokens.emberStart,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(Radii.chip),
+                                ),
+                              ),
+                              child: Text(l10n.unreadCount(chat.unread)),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              onTap: () => setState(() => _selectedChatId = chat.id),
             );
           },
         ),
@@ -266,27 +283,32 @@ class _DemoThreadState extends ConsumerState<_DemoThread> {
                 ),
           title: Text(_chatName(l10n, widget.chat)),
         ),
-        Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 12),
-          child: Row(
-            children: [
-              const Icon(Icons.info_outline, size: 18),
-              const SizedBox(width: 8),
-              Expanded(child: Text(l10n.demoThreadDisclosure)),
-            ],
-          ),
-        ),
-        _DemoKeyChangeGate(
-          chatId: widget.chat.id,
-          state: trust.gateState,
-          pendingCount: pending.length,
-        ),
         Expanded(
           child: ListView.builder(
             padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
-            itemCount: messages.length,
+            itemCount: messages.length + 2,
             itemBuilder: (context, index) {
-              final message = messages[index];
+              if (index == 0) {
+                return Padding(
+                  padding: const EdgeInsetsDirectional.only(top: 4, bottom: 12),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.info_outline, size: 18),
+                      const SizedBox(width: 8),
+                      Expanded(child: Text(l10n.demoThreadDisclosure)),
+                    ],
+                  ),
+                );
+              }
+              if (index == 1) {
+                return _DemoKeyChangeGate(
+                  chatId: widget.chat.id,
+                  state: trust.gateState,
+                  pendingCount: pending.length,
+                );
+              }
+              final message = messages[index - 2];
               final text = _messageText(l10n, message.text);
               return Align(
                 alignment: message.isOutgoing
@@ -320,7 +342,6 @@ class _DemoThreadState extends ConsumerState<_DemoThread> {
                 Expanded(
                   child: TextField(
                     controller: _composer,
-                    enabled: !isHeld,
                     decoration: InputDecoration(
                       hintText: isHeld
                           ? l10n.demoSendHeld
@@ -335,7 +356,7 @@ class _DemoThreadState extends ConsumerState<_DemoThread> {
                 ),
                 IconButton.filled(
                   tooltip: l10n.sendDemoMessage,
-                  onPressed: isHeld ? null : () => _send(l10n),
+                  onPressed: () => _send(l10n),
                   icon: const Icon(Icons.send),
                 ),
               ],
