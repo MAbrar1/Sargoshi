@@ -8,7 +8,7 @@ use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::ptr;
 use zeroize::Zeroize;
 
-use sargoshi_core::{padding, recovery};
+use sargoshi_core::{padding, recovery, vault};
 
 pub const SG_OK: i32 = 0;
 pub const SG_ERR_ARG: i32 = 1;
@@ -18,6 +18,10 @@ pub const SG_ERR_WEAK: i32 = 4;
 pub const SG_ERR_PARAMS: i32 = 5;
 pub const SG_ERR_INTERNAL: i32 = 6;
 pub const SG_ERR_TOO_LARGE: i32 = 7;
+pub const SG_ERR_PIN_SHORT: i32 = 8;
+pub const SG_ERR_PEPPER: i32 = 9;
+/// Returned by `sg_vault_verify` for a well-formed record and a wrong PIN.
+pub const SG_NO_MATCH: i32 = 10;
 
 #[repr(C)]
 pub struct SgBuf {
@@ -159,6 +163,72 @@ pub unsafe extern "C" fn sg_buf_free(buf: SgBuf) {
     b.zeroize();
 }
 
+fn vault_code(e: vault::VaultError) -> i32 {
+    use vault::VaultError::*;
+    match e {
+        PinTooShort => SG_ERR_PIN_SHORT,
+        BadPepper => SG_ERR_PEPPER,
+        BadParams => SG_ERR_PARAMS,
+        BadFormat => SG_ERR_FORMAT,
+        Random | Kdf => SG_ERR_INTERNAL,
+    }
+}
+
+/// Creates a vault verifier record for a PIN (UTF-8) keyed with a 32-byte pepper.
+///
+/// # Safety
+/// Pointers must be valid for their lengths; `out` must be writable.
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn sg_vault_enroll(
+    pin: *const u8,
+    pin_len: usize,
+    pepper: *const u8,
+    pepper_len: usize,
+    out: *mut SgBuf,
+) -> i32 {
+    guard(out, || {
+        let p = unsafe { input(pin, pin_len) }.ok_or(SG_ERR_ARG)?;
+        let p = std::str::from_utf8(p).map_err(|_| SG_ERR_ARG)?;
+        let k = unsafe { input(pepper, pepper_len) }.ok_or(SG_ERR_ARG)?;
+        vault::enroll(p, k, vault::VaultParams::DEFAULT).map_err(vault_code)
+    })
+}
+
+/// Returns `SG_OK` on a match, `SG_NO_MATCH` for a wrong PIN, another code on error.
+///
+/// # Safety
+/// Pointers must be valid for their lengths.
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn sg_vault_verify(
+    record: *const u8,
+    record_len: usize,
+    pin: *const u8,
+    pin_len: usize,
+    pepper: *const u8,
+    pepper_len: usize,
+) -> i32 {
+    let run = || -> i32 {
+        let Some(r) = (unsafe { input(record, record_len) }) else {
+            return SG_ERR_ARG;
+        };
+        let Some(p) = (unsafe { input(pin, pin_len) }) else {
+            return SG_ERR_ARG;
+        };
+        let Ok(p) = std::str::from_utf8(p) else {
+            return SG_ERR_ARG;
+        };
+        let Some(k) = (unsafe { input(pepper, pepper_len) }) else {
+            return SG_ERR_ARG;
+        };
+        match vault::verify(r, p, k) {
+            Ok(true) => SG_OK,
+            Ok(false) => SG_NO_MATCH,
+            Err(e) => vault_code(e),
+        }
+    };
+    catch_unwind(AssertUnwindSafe(run)).unwrap_or(SG_ERR_INTERNAL)
+}
+
 /// Frees the buffer behind `buf` (zeroing it) and resets `buf` to empty.
 ///
 /// # Safety
@@ -215,7 +285,7 @@ pub unsafe extern "C" fn sg_dealloc(p: *mut u8) {
 /// ABI version so Dart can refuse a mismatched library.
 #[unsafe(no_mangle)]
 pub extern "C" fn sg_abi_version() -> u32 {
-    1
+    2
 }
 
 #[cfg(test)]
@@ -316,7 +386,38 @@ mod tests {
     }
 
     #[test]
-    fn abi_version_is_one() {
-        assert_eq!(sg_abi_version(), 1);
+    fn vault_enroll_and_verify() {
+        unsafe {
+            let pepper = [3u8; 32];
+            let mut o = SgBuf::EMPTY;
+            assert_eq!(
+                sg_vault_enroll(b"2468".as_ptr(), 4, pepper.as_ptr(), 32, &mut o),
+                SG_OK
+            );
+            let rec = take(o);
+            let v = |pin: &[u8], pep: &[u8]| {
+                sg_vault_verify(
+                    rec.as_ptr(),
+                    rec.len(),
+                    pin.as_ptr(),
+                    pin.len(),
+                    pep.as_ptr(),
+                    pep.len(),
+                )
+            };
+            assert_eq!(v(b"2468", &pepper), SG_OK);
+            assert_eq!(v(b"2469", &pepper), SG_NO_MATCH);
+            assert_eq!(v(b"2468", &[3u8; 5]), SG_ERR_PEPPER);
+            let mut w = SgBuf::EMPTY;
+            assert_eq!(
+                sg_vault_enroll(b"12".as_ptr(), 2, pepper.as_ptr(), 32, &mut w),
+                SG_ERR_PIN_SHORT
+            );
+        }
+    }
+
+    #[test]
+    fn abi_version_is_two() {
+        assert_eq!(sg_abi_version(), 2);
     }
 }

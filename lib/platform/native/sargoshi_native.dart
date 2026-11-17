@@ -5,7 +5,7 @@ import 'dart:typed_data';
 
 /// ABI version this Dart code was written against. Must equal
 /// `sg_abi_version()` in `rust/sargoshi_ffi`.
-const int kExpectedAbiVersion = 1;
+const int kExpectedAbiVersion = 2;
 
 /// Failure reported by the native core. Carries only a code, never a message
 /// that could describe secrets.
@@ -21,6 +21,8 @@ final class NativeCoreException implements Exception {
   static const params = 5;
   static const internal = 6;
   static const tooLarge = 7;
+  static const pinTooShort = 8;
+  static const pepper = 9;
 
   @override
   String toString() => 'NativeCoreException($code)';
@@ -49,6 +51,17 @@ typedef _TwoInC =
     );
 typedef _TwoIn =
     int Function(Pointer<Uint8>, int, Pointer<Uint8>, int, Pointer<_SgBuf>);
+typedef _VerifyC =
+    Int32 Function(
+      Pointer<Uint8>,
+      IntPtr,
+      Pointer<Uint8>,
+      IntPtr,
+      Pointer<Uint8>,
+      IntPtr,
+    );
+typedef _Verify =
+    int Function(Pointer<Uint8>, int, Pointer<Uint8>, int, Pointer<Uint8>, int);
 typedef _ReleaseC = Void Function(Pointer<_SgBuf>);
 typedef _Release = void Function(Pointer<_SgBuf>);
 typedef _AbiC = Uint32 Function();
@@ -65,6 +78,8 @@ final class SargoshiNative {
       _unpad = lib.lookupFunction<_OneInC, _OneIn>('sg_unpad'),
       _create = lib.lookupFunction<_TwoInC, _TwoIn>('sg_recovery_create'),
       _restore = lib.lookupFunction<_TwoInC, _TwoIn>('sg_recovery_restore'),
+      _enroll = lib.lookupFunction<_TwoInC, _TwoIn>('sg_vault_enroll'),
+      _verify = lib.lookupFunction<_VerifyC, _Verify>('sg_vault_verify'),
       _release = lib.lookupFunction<_ReleaseC, _Release>('sg_buf_release');
 
   /// Opens the library at [path] and refuses a mismatched ABI.
@@ -91,6 +106,8 @@ final class SargoshiNative {
   final _OneIn _unpad;
   final _TwoIn _create;
   final _TwoIn _restore;
+  final _TwoIn _enroll;
+  final _Verify _verify;
   final _Release _release;
 
   Pointer<Uint8> _in(List<int> bytes) {
@@ -146,4 +163,44 @@ final class SargoshiNative {
       (a, b, o) => _restore(a, file.length, b!, pass.length, o),
     );
   }
+
+  /// Creates a vault verifier record for [pin], keyed with a 32-byte [pepper].
+  /// Slow by design (Argon2id): call off the UI isolate.
+  Uint8List enrollVault(String pin, List<int> pepper) {
+    final p = utf8.encode(pin);
+    return _call(
+      p,
+      pepper,
+      (a, b, o) => _enroll(a, p.length, b!, pepper.length, o),
+    );
+  }
+
+  /// True when [pin] matches [record]; false for a wrong PIN. Throws
+  /// [NativeCoreException] when the record or pepper is unusable, which is not
+  /// the same as a wrong PIN.
+  bool verifyVault(List<int> record, String pin, List<int> pepper) {
+    final p = utf8.encode(pin);
+    final pr = _in(record);
+    final pp = _in(p);
+    final pk = _in(pepper);
+    try {
+      final code = _verify(
+        pr,
+        record.length,
+        pp,
+        p.length,
+        pk,
+        pepper.length,
+      );
+      if (code == 0) return true;
+      if (code == _noMatch) return false;
+      throw NativeCoreException(code);
+    } finally {
+      _dealloc(pr);
+      _dealloc(pp);
+      _dealloc(pk);
+    }
+  }
 }
+
+const int _noMatch = 10;
