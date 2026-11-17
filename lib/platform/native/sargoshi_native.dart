@@ -184,14 +184,7 @@ final class SargoshiNative {
     final pp = _in(p);
     final pk = _in(pepper);
     try {
-      final code = _verify(
-        pr,
-        record.length,
-        pp,
-        p.length,
-        pk,
-        pepper.length,
-      );
+      final code = _verify(pr, record.length, pp, p.length, pk, pepper.length);
       if (code == 0) return true;
       if (code == _noMatch) return false;
       throw NativeCoreException(code);
