@@ -224,6 +224,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "sargoshi_ffi"
+version = "0.1.0"
+dependencies = [
+ "sargoshi_core",
+ "zeroize",
+]
+
+[[package]]
 name = "typenum"
 version = "1.20.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"

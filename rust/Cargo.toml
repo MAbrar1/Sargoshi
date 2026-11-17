@@ -1,0 +1,10 @@
+[workspace]
+members = ["sargoshi_core", "sargoshi_ffi"]
+resolver = "3"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "unwind"
+strip = true

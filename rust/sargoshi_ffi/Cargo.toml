@@ -1,0 +1,11 @@
+[package]
+name = "sargoshi_ffi"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+sargoshi_core = { path = "../sargoshi_core" }
+zeroize = "1.9.1"

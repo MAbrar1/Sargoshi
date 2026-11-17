@@ -34,18 +34,23 @@ jobs:
       - run: dart format --output=none --set-exit-if-changed lib test
       - run: flutter gen-l10n
       - run: flutter analyze
-      - run: flutter test
+      - name: Build host native core for FFI tests
+        run: cargo build --release --locked -p sargoshi_ffi --manifest-path rust/Cargo.toml
+      - name: Flutter tests (including dart:ffi against the real library)
+        run: flutter test
+        env:
+          SARGOSHI_FFI_LIB: ${{ github.workspace }}/rust/target/release/libsargoshi_ffi.so
 
   rust:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: rust/sargoshi_core
+        working-directory: rust
     steps:
       - uses: actions/checkout@v4
       - run: cargo fmt --check
-      - run: cargo clippy --all-targets --locked -- -D warnings
-      - run: cargo test --release --locked
+      - run: cargo clippy --all-targets --locked --workspace -- -D warnings
+      - run: cargo test --release --locked --workspace
   android:
     runs-on: ubuntu-latest
     needs: [flutter]
