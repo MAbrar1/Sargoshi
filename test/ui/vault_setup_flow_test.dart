@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:sargoshi/application/vault/vault_backend.dart';
-import 'package:sargoshi/application/vault/vault_controller.dart';
 import 'package:sargoshi/application/vault/vault_setup.dart';
 import 'package:sargoshi/domain/vault/vault_lock.dart';
 import 'package:sargoshi/main.dart';
