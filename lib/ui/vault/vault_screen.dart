@@ -18,6 +18,7 @@ final class VaultScreen extends ConsumerStatefulWidget {
 class _VaultScreenState extends ConsumerState<VaultScreen> {
   final _pin = TextEditingController();
   VaultAttemptOutcome? _last;
+  bool _busy = false;
 
   @override
   void dispose() {
@@ -25,12 +26,19 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
     super.dispose();
   }
 
-  void _submit() {
-    final outcome = ref
+  Future<void> _submit() async {
+    if (_busy) return;
+    final pin = _pin.text;
+    setState(() => _busy = true);
+    final outcome = await ref
         .read(vaultControllerProvider.notifier)
-        .submit(_pin.text);
+        .submit(pin);
+    if (!mounted) return;
     _pin.clear();
-    setState(() => _last = outcome);
+    setState(() {
+      _last = outcome;
+      _busy = false;
+    });
   }
 
   @override
@@ -44,6 +52,7 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
     };
     final message = switch ((_last, lock)) {
       (VaultAttemptOutcome.tooShort, _) => l10n.vaultPinTooShort,
+      (VaultAttemptOutcome.unavailable, _) => l10n.vaultCheckUnavailable,
       (VaultAttemptOutcome.rejected, VaultLocked(:final failedAttempts)) =>
         l10n.vaultPinIncorrect(failedAttempts),
       _ => null,
@@ -75,6 +84,7 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
                 enableSuggestions: false,
                 enableIMEPersonalizedLearning: false,
                 onSubmitted: (_) => _submit(),
+                enabled: !_busy,
                 decoration: InputDecoration(hintText: l10n.vaultPinHint),
               ),
               if (message != null) ...[
@@ -85,7 +95,10 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
                 ),
               ],
               const SizedBox(height: 16),
-              FilledButton(onPressed: _submit, child: Text(l10n.vaultUnlock)),
+              FilledButton(
+                onPressed: _busy ? null : _submit,
+                child: Text(_busy ? l10n.vaultChecking : l10n.vaultUnlock),
+              ),
             ] else
               FilledButton.tonal(
                 onPressed: () =>

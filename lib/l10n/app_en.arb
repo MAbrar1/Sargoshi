@@ -57,6 +57,8 @@
   "vaultLocked": "Vault locked",
   "vaultPinHint": "Enter your vault pin",
   "vaultUnlock": "Unlock",
+  "vaultChecking": "Checking…",
+  "vaultCheckUnavailable": "The PIN check could not run. Nothing was opened and this was not counted.",
   "vaultPinTooShort": "Use at least 4 digits.",
   "trustTitle": "Trust",
   "trustStatusUnknown": "Unknown",

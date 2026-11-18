@@ -12,7 +12,7 @@ final class DemoPinVerifier implements PinVerifier {
   static const demoDecoyPin = '0000';
 
   @override
-  PinCheck check(String pin) {
+  Future<PinCheck> check(String pin) async {
     if (pin.length < kMinPinLength) return PinCheck.tooShort;
     if (pin == demoPin) return PinCheck.accepted;
     if (pin == demoDecoyPin) return PinCheck.decoy;
@@ -25,16 +25,35 @@ final pinVerifierProvider = Provider<PinVerifier>(
 );
 
 final class VaultController extends Notifier<VaultLock> {
+  bool _busy = false;
+  int _generation = 0;
+
   @override
   VaultLock build() => const VaultLocked();
 
-  VaultAttemptOutcome submit(String pin) {
-    final result = submitPin(state, ref.read(pinVerifierProvider).check(pin));
-    state = result.state;
-    return result.outcome;
+  /// Runs one attempt. Overlapping attempts are ignored, and a result that
+  /// arrives after the vault was locked again is discarded.
+  Future<VaultAttemptOutcome> submit(String pin) async {
+    if (_busy) return VaultAttemptOutcome.ignored;
+    _busy = true;
+    final generation = _generation;
+    try {
+      final check = await ref.read(pinVerifierProvider).check(pin);
+      if (generation != _generation) return VaultAttemptOutcome.ignored;
+      final result = submitPin(state, check);
+      state = result.state;
+      return result.outcome;
+    } on Object {
+      return VaultAttemptOutcome.unavailable;
+    } finally {
+      _busy = false;
+    }
   }
 
-  void lock() => state = lockVault(state);
+  void lock() {
+    _generation++;
+    state = lockVault(state);
+  }
 }
 
 final vaultControllerProvider = NotifierProvider<VaultController, VaultLock>(

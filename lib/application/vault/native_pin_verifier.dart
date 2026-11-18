@@ -1,3 +1,4 @@
+import 'dart:isolate';
 import 'dart:typed_data';
 
 import '../../domain/vault/vault_lock.dart';
@@ -17,7 +18,7 @@ abstract interface class PepperSource {
 ///
 /// This runs the key derivation on the calling isolate. Wiring it to the UI
 /// must move the work to a background isolate first.
-final class NativePinVerifier {
+final class NativePinVerifier implements PinVerifier {
   NativePinVerifier({
     required this.native,
     required this.pepperSource,
@@ -45,6 +46,7 @@ final class NativePinVerifier {
     return pepper;
   }
 
+  @override
   Future<PinCheck> check(String pin) async {
     if (pin.length < kMinPinLength) return PinCheck.tooShort;
     final pepper = await _pepperOf(pepperSource);
@@ -55,5 +57,47 @@ final class NativePinVerifier {
     if (real) return PinCheck.accepted;
     if (decoy) return PinCheck.decoy;
     return PinCheck.rejected;
+  }
+}
+
+final class _FixedPepper implements PepperSource {
+  const _FixedPepper(this.bytes);
+  final Uint8List bytes;
+
+  @override
+  Future<Uint8List> pepper() async => bytes;
+}
+
+/// Same checks as [NativePinVerifier], but the key derivation runs on a
+/// short-lived background isolate so the UI never freezes. Only plain bytes
+/// and a path cross the isolate boundary.
+final class IsolatePinVerifier implements PinVerifier {
+  const IsolatePinVerifier({
+    required this.libraryPath,
+    required this.pepperSource,
+    required this.realRecord,
+    this.decoyRecord,
+  });
+
+  final String libraryPath;
+  final PepperSource pepperSource;
+  final Uint8List realRecord;
+  final Uint8List? decoyRecord;
+
+  @override
+  Future<PinCheck> check(String pin) async {
+    if (pin.length < kMinPinLength) return PinCheck.tooShort;
+    final pepper = await NativePinVerifier._pepperOf(pepperSource);
+    final path = libraryPath;
+    final real = realRecord;
+    final decoy = decoyRecord;
+    return Isolate.run(
+      () => NativePinVerifier(
+        native: SargoshiNative.open(path),
+        pepperSource: _FixedPepper(pepper),
+        realRecord: real,
+        decoyRecord: decoy,
+      ).check(pin),
+    );
   }
 }

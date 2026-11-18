@@ -34,8 +34,13 @@ enum VaultAttemptOutcome {
   tooShort,
   rejected,
 
-  /// The vault was already open, so nothing changed.
+  /// The vault was already open, or another attempt was in progress, or the
+  /// vault was locked while the check ran. Nothing changed.
   ignored,
+
+  /// The check itself failed (unusable record, missing secret). This is not a
+  /// wrong PIN: it is not counted and nothing opens.
+  unavailable,
 }
 
 const int kMinPinLength = 4;
@@ -83,5 +88,6 @@ bool wipeDue(VaultLock current, int threshold) =>
     current is VaultLocked && current.failedAttempts >= threshold;
 
 abstract interface class PinVerifier {
-  PinCheck check(String pin);
+  /// Throws if the check cannot be performed; never reports that as a wrong PIN.
+  Future<PinCheck> check(String pin);
 }
