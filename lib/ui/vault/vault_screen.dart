@@ -141,33 +141,35 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
                 child: Text(_busy ? l10n.vaultChecking : l10n.vaultSetupAction),
               ),
             ] else ...[
-            Text(title, style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 16),
-            if (lock is VaultLocked) ...[
-              _PinField(
-                controller: _pin,
-                hint: l10n.vaultPinHint,
-                enabled: !_busy,
-                onSubmitted: (_) => _submit(),
-              ),
-              if (message != null) ...[
-                const SizedBox(height: 8),
-                Text(
-                  message,
-                  style: TextStyle(color: Theme.of(context).colorScheme.error),
-                ),
-              ],
+              Text(title, style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 16),
-              FilledButton(
-                onPressed: _busy ? null : _submit,
-                child: Text(_busy ? l10n.vaultChecking : l10n.vaultUnlock),
-              ),
-            ] else
-              FilledButton.tonal(
-                onPressed: () =>
-                    ref.read(vaultControllerProvider.notifier).lock(),
-                child: Text(l10n.vaultLockAction),
-              ),
+              if (lock is VaultLocked) ...[
+                _PinField(
+                  controller: _pin,
+                  hint: l10n.vaultPinHint,
+                  enabled: !_busy,
+                  onSubmitted: (_) => _submit(),
+                ),
+                if (message != null) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    message,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 16),
+                FilledButton(
+                  onPressed: _busy ? null : _submit,
+                  child: Text(_busy ? l10n.vaultChecking : l10n.vaultUnlock),
+                ),
+              ] else
+                FilledButton.tonal(
+                  onPressed: () =>
+                      ref.read(vaultControllerProvider.notifier).lock(),
+                  child: Text(l10n.vaultLockAction),
+                ),
             ],
           ],
         ),
