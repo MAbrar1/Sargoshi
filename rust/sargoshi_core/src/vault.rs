@@ -116,6 +116,31 @@ pub fn verify(record: &[u8], pin: &str, pepper: &[u8]) -> Result<bool, VaultErro
 
 #[cfg(test)]
 mod tests {
+    /// RFC 9106 section 5.3: Argon2id v1.3 with a secret value (the mechanism
+    /// the pepper uses), 32 KiB, 3 passes, 4 lanes, 32-byte tag.
+    #[test]
+    fn matches_rfc9106_argon2id_vector() {
+        use argon2::{AssociatedData, ParamsBuilder};
+        let ad = AssociatedData::new(&[4u8; 12]).unwrap();
+        let params = ParamsBuilder::new()
+            .m_cost(32)
+            .t_cost(3)
+            .p_cost(4)
+            .output_len(32)
+            .data(ad)
+            .build()
+            .unwrap();
+        let argon = Argon2::new_with_secret(&[3u8; 8], Algorithm::Argon2id, Version::V0x13, params)
+            .unwrap();
+        let mut out = [0u8; 32];
+        argon
+            .hash_password_into(&[1u8; 32], &[2u8; 16], &mut out)
+            .unwrap();
+        let expected = "0d640df58d78766c08c037a34a8b53c9d01ef0452d75b65eb52520e96b01e659";
+        let got: String = out.iter().map(|b| format!("{b:02x}")).collect();
+        assert_eq!(got, expected);
+    }
+
     use super::*;
 
     const PEPPER: [u8; 32] = [7u8; 32];
