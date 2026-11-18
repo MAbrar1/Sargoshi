@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/vault/vault_lock.dart';
+import 'vault_backend.dart';
 
 /// Stand-in verifier with fixed PINs and nothing stored. It protects nothing.
 /// Stage 2 replaces it with a Keystore-bound check (Argon2id plus a
@@ -21,7 +22,7 @@ final class DemoPinVerifier implements PinVerifier {
 }
 
 final pinVerifierProvider = Provider<PinVerifier>(
-  (ref) => const DemoPinVerifier(),
+  (ref) => ref.watch(vaultBackendProvider)?.verifier ?? const DemoPinVerifier(),
 );
 
 final class VaultController extends Notifier<VaultLock> {
