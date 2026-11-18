@@ -117,5 +117,12 @@
     }
   },
   "vaultDemoDisclosure": "Demo vault. The PIN is not stored or checked securely and nothing here is protected. Demo PIN: 1234.",
+  "vaultContentDisclosure": "Your PIN and the notes in this vault are encrypted on this phone. This has not had an independent review, and chats are not stored here yet.",
+  "vaultNotesTitle": "Notes",
+  "vaultNotesEmpty": "No notes yet.",
+  "vaultNoteHint": "Write a note",
+  "vaultNoteAdd": "Save note",
+  "vaultNoteDelete": "Delete note",
+  "vaultNotesFailed": "The notes could not be read or saved. Nothing was changed.",
   "openTrustDetails": "Trust details"
 }

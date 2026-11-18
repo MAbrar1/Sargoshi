@@ -4,9 +4,11 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../application/vault/vault_backend.dart';
 import '../../application/vault/vault_controller.dart';
+import '../../application/vault/vault_session.dart';
 import '../../application/vault/vault_setup.dart';
 import '../../domain/vault/vault_lock.dart';
 import '../../l10n/app_localizations.dart';
+import 'vault_notes_view.dart';
 
 /// Demo vault screen. The PIN check is a fixed stand-in and nothing is
 /// stored or protected; the screen says so. Back locks the vault, then exits.
@@ -80,6 +82,8 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
     final l10n = AppLocalizations.of(context);
     final lock = ref.watch(vaultControllerProvider);
     final isReal = ref.watch(vaultBackendProvider) != null;
+    final hasContent = ref.watch(vaultContentOpenerProvider) != null;
+    final store = ref.watch(vaultContentSessionProvider);
     final needsSetup = ref.watch(vaultNeedsSetupProvider).value ?? false;
     final title = switch (lock) {
       VaultLocked() => l10n.vaultLocked,
@@ -104,7 +108,11 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
           padding: const EdgeInsetsDirectional.all(20),
           children: [
             Text(
-              isReal ? l10n.vaultRealDisclosure : l10n.vaultDemoDisclosure,
+              hasContent
+                  ? l10n.vaultContentDisclosure
+                  : isReal
+                  ? l10n.vaultRealDisclosure
+                  : l10n.vaultDemoDisclosure,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 20),
@@ -164,12 +172,17 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
                   onPressed: _busy ? null : _submit,
                   child: Text(_busy ? l10n.vaultChecking : l10n.vaultUnlock),
                 ),
-              ] else
+              ] else ...[
+                if (store != null) ...[
+                  VaultNotesView(key: ObjectKey(store), store: store),
+                  const SizedBox(height: 16),
+                ],
                 FilledButton.tonal(
                   onPressed: () =>
                       ref.read(vaultControllerProvider.notifier).lock(),
                   child: Text(l10n.vaultLockAction),
                 ),
+              ],
             ],
           ],
         ),

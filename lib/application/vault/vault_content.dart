@@ -45,6 +45,30 @@ final class VaultNameException implements Exception {
   String toString() => 'VaultNameException';
 }
 
+/// What the rest of the app may do with an unlocked vault. Implemented by
+/// [VaultContent]; tests use in-memory fakes.
+abstract interface class VaultItemStore {
+  Future<void> put({
+    required String kind,
+    required String id,
+    required Uint8List plain,
+  });
+  Future<Uint8List> get({required String kind, required String id});
+  Future<void> delete({required String kind, required String id});
+  Future<List<String>> list(String kind);
+
+  /// Overwrites the in-memory key. Safe to call repeatedly.
+  void lock();
+}
+
+/// Wraps a master key under a PIN and pepper. Slow (Argon2id).
+typedef KeyWrapper =
+    Future<Uint8List> Function(Uint8List master, String pin, Uint8List pepper);
+
+/// Unwraps a master key. Throws [NativeCoreException] for a wrong PIN.
+typedef KeyUnwrapper =
+    Future<Uint8List> Function(Uint8List blob, String pin, Uint8List pepper);
+
 /// Encrypted content store for one vault namespace (real or decoy).
 ///
 /// A random 32-byte master key is wrapped under the PIN and the platform
@@ -59,13 +83,16 @@ final class VaultNameException implements Exception {
 ///
 /// [create] and [unlock] run Argon2id on the calling isolate: call them from a
 /// background isolate or show a busy state.
-final class VaultContent {
+final class VaultContent implements VaultItemStore {
   VaultContent({
     required this.native,
     required this.pepperSource,
     required this.blobs,
     this.namespace = 'real',
-  }) {
+    KeyWrapper? wrapKey,
+    KeyUnwrapper? unwrapKey,
+  }) : _wrapKey = wrapKey ?? _directWrap(native),
+       _unwrapKey = unwrapKey ?? _directUnwrap(native) {
     _checkName(namespace, _namespacePattern);
   }
 
@@ -73,6 +100,14 @@ final class VaultContent {
   final PepperSource pepperSource;
   final VaultBlobStore blobs;
   final String namespace;
+  final KeyWrapper _wrapKey;
+  final KeyUnwrapper _unwrapKey;
+
+  static KeyWrapper _directWrap(SargoshiNative native) =>
+      (master, pin, pepper) async => native.wrapKey(master, pin, pepper);
+
+  static KeyUnwrapper _directUnwrap(SargoshiNative native) =>
+      (blob, pin, pepper) async => native.unwrapKey(blob, pin, pepper);
 
   static final RegExp _namespacePattern = RegExp(r'^[a-z0-9]{1,16}$');
   static final RegExp _kindPattern = RegExp(r'^[a-z0-9_]{1,32}$');
@@ -118,7 +153,7 @@ final class VaultContent {
     final pepper = await _pepper();
     final master = native.generateKey();
     try {
-      await blobs.write(_masterName, native.wrapKey(master, pin, pepper));
+      await blobs.write(_masterName, await _wrapKey(master, pin, pepper));
     } catch (_) {
       master.fillRange(0, master.length, 0);
       rethrow;
@@ -132,12 +167,22 @@ final class VaultContent {
   Future<void> unlock(String pin) async {
     final blob = await blobs.read(_masterName);
     if (blob == null) throw const VaultMissingException();
-    final master = native.unwrapKey(blob, pin, await _pepper());
+    final master = await _unwrapKey(blob, pin, await _pepper());
     if (master.length != _masterLength) {
       master.fillRange(0, master.length, 0);
       throw const NativeCoreException(NativeCoreException.format);
     }
     _replaceMaster(master);
+  }
+
+  /// Unlocks when a master key exists, otherwise creates one under [pin].
+  /// Used after the PIN verifier has already accepted [pin].
+  Future<void> unlockOrCreate(String pin) async {
+    if (await exists()) {
+      await unlock(pin);
+    } else {
+      await create(pin);
+    }
   }
 
   void _replaceMaster(Uint8List master) {
@@ -146,6 +191,7 @@ final class VaultContent {
   }
 
   /// Overwrites the in-memory master key. Safe to call repeatedly.
+  @override
   void lock() {
     final key = _master;
     if (key != null) key.fillRange(0, key.length, 0);
@@ -153,6 +199,7 @@ final class VaultContent {
   }
 
   /// Stores [plain] under [kind] and [id], replacing any previous value.
+  @override
   Future<void> put({
     required String kind,
     required String id,
@@ -167,6 +214,7 @@ final class VaultContent {
   /// Reads an item. Throws [VaultItemNotFoundException] when absent and
   /// [NativeCoreException] with [NativeCoreException.open] when the blob was
   /// tampered with or moved to another slot.
+  @override
   Future<Uint8List> get({required String kind, required String id}) async {
     _checkName(kind, _kindPattern);
     _checkName(id, _idPattern);
@@ -176,6 +224,7 @@ final class VaultContent {
     return native.open(key, _aad(kind, id), sealed);
   }
 
+  @override
   Future<void> delete({required String kind, required String id}) async {
     _checkName(kind, _kindPattern);
     _checkName(id, _idPattern);
@@ -185,6 +234,7 @@ final class VaultContent {
 
   /// Ids of stored items of [kind], sorted. Needs the vault unlocked so a
   /// locked vault does not reveal what it holds.
+  @override
   Future<List<String>> list(String kind) async {
     _checkName(kind, _kindPattern);
     _key();

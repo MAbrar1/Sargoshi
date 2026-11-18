@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/vault/vault_lock.dart';
 import 'vault_backend.dart';
+import 'vault_session.dart';
 
 /// Stand-in verifier with fixed PINs and nothing stored. It protects nothing.
 /// Stage 2 replaces it with a Keystore-bound check (Argon2id plus a
@@ -41,6 +42,20 @@ final class VaultController extends Notifier<VaultLock> {
     try {
       final check = await ref.read(pinVerifierProvider).check(pin);
       if (generation != _generation) return VaultAttemptOutcome.ignored;
+      final opener = ref.read(vaultContentOpenerProvider);
+      if (opener != null &&
+          (check == PinCheck.accepted || check == PinCheck.decoy)) {
+        // If the content cannot be opened, the vault stays locked.
+        final store = await opener.open(
+          pin: pin,
+          decoy: check == PinCheck.decoy,
+        );
+        if (generation != _generation) {
+          store.lock();
+          return VaultAttemptOutcome.ignored;
+        }
+        ref.read(vaultContentSessionProvider.notifier).open(store);
+      }
       final result = submitPin(state, check);
       state = result.state;
       return result.outcome;
@@ -53,6 +68,7 @@ final class VaultController extends Notifier<VaultLock> {
 
   void lock() {
     _generation++;
+    ref.read(vaultContentSessionProvider.notifier).close();
     state = lockVault(state);
   }
 }
