@@ -81,19 +81,22 @@ void main() {
       );
     });
 
-    test('isolate verifier gives the same answers off the main isolate', () async {
-      final v = await build();
-      final iso = IsolatePinVerifier(
-        libraryPath: path!,
-        pepperSource: pepper,
-        realRecord: v.realRecord,
-        decoyRecord: v.decoyRecord,
-      );
-      expect(await iso.check('2468'), PinCheck.accepted);
-      expect(await iso.check('1357'), PinCheck.decoy);
-      expect(await iso.check('9999'), PinCheck.rejected);
-      expect(await iso.check('12'), PinCheck.tooShort);
-    });
+    test(
+      'isolate verifier gives the same answers off the main isolate',
+      () async {
+        final v = await build();
+        final iso = IsolatePinVerifier(
+          libraryPath: path!,
+          pepperSource: pepper,
+          realRecord: v.realRecord,
+          decoyRecord: v.decoyRecord,
+        );
+        expect(await iso.check('2468'), PinCheck.accepted);
+        expect(await iso.check('1357'), PinCheck.decoy);
+        expect(await iso.check('9999'), PinCheck.rejected);
+        expect(await iso.check('12'), PinCheck.tooShort);
+      },
+    );
 
     test('a pepper of the wrong length is an error', () async {
       final bad = NativePinVerifier(

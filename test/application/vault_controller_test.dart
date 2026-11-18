@@ -59,10 +59,12 @@ void main() {
       c.dispose();
       c = ProviderContainer(
         overrides: [
-          pinVerifierProvider.overrideWithValue(_Gated(() {
-            if (failure != null) throw failure!;
-            return gate.future;
-          })),
+          pinVerifierProvider.overrideWithValue(
+            _Gated(() {
+              if (failure != null) throw failure!;
+              return gate.future;
+            }),
+          ),
         ],
       );
     });
