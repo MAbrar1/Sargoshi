@@ -8,7 +8,7 @@ use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::ptr;
 use zeroize::Zeroize;
 
-use sargoshi_core::{padding, recovery, vault};
+use sargoshi_core::{aead, keywrap, padding, recovery, vault};
 
 pub const SG_OK: i32 = 0;
 pub const SG_ERR_ARG: i32 = 1;
@@ -22,6 +22,8 @@ pub const SG_ERR_PIN_SHORT: i32 = 8;
 pub const SG_ERR_PEPPER: i32 = 9;
 /// Returned by `sg_vault_verify` for a well-formed record and a wrong PIN.
 pub const SG_NO_MATCH: i32 = 10;
+pub const SG_ERR_KEY: i32 = 11;
+pub const SG_ERR_OPEN: i32 = 12;
 
 #[repr(C)]
 pub struct SgBuf {
@@ -229,6 +231,128 @@ pub unsafe extern "C" fn sg_vault_verify(
     catch_unwind(AssertUnwindSafe(run)).unwrap_or(SG_ERR_INTERNAL)
 }
 
+/// Generates a random 32-byte key.
+///
+/// # Safety
+/// `out` must point to writable storage.
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn sg_key_generate(out: *mut SgBuf) -> i32 {
+    guard(out, || {
+        aead::generate_key()
+            .map(|k| k.to_vec())
+            .map_err(|_| SG_ERR_INTERNAL)
+    })
+}
+
+fn aead_code(e: aead::AeadError) -> i32 {
+    match e {
+        aead::AeadError::BadKey => SG_ERR_KEY,
+        aead::AeadError::Random => SG_ERR_INTERNAL,
+        aead::AeadError::Open => SG_ERR_OPEN,
+    }
+}
+
+/// Seals `plain` under a 32-byte `key`, binding `aad`. Output is nonce||ciphertext.
+///
+/// # Safety
+/// Pointers must be valid for their lengths; `out` must be writable.
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn sg_seal(
+    key: *const u8,
+    key_len: usize,
+    aad: *const u8,
+    aad_len: usize,
+    plain: *const u8,
+    plain_len: usize,
+    out: *mut SgBuf,
+) -> i32 {
+    guard(out, || {
+        let k = unsafe { input(key, key_len) }.ok_or(SG_ERR_ARG)?;
+        let a = unsafe { input(aad, aad_len) }.ok_or(SG_ERR_ARG)?;
+        let p = unsafe { input(plain, plain_len) }.ok_or(SG_ERR_ARG)?;
+        aead::seal(k, a, p).map_err(aead_code)
+    })
+}
+
+/// # Safety
+/// Same contract as [`sg_seal`].
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn sg_open(
+    key: *const u8,
+    key_len: usize,
+    aad: *const u8,
+    aad_len: usize,
+    sealed: *const u8,
+    sealed_len: usize,
+    out: *mut SgBuf,
+) -> i32 {
+    guard(out, || {
+        let k = unsafe { input(key, key_len) }.ok_or(SG_ERR_ARG)?;
+        let a = unsafe { input(aad, aad_len) }.ok_or(SG_ERR_ARG)?;
+        let c = unsafe { input(sealed, sealed_len) }.ok_or(SG_ERR_ARG)?;
+        aead::open(k, a, c).map(|z| z.to_vec()).map_err(aead_code)
+    })
+}
+
+fn wrap_code(e: keywrap::WrapError) -> i32 {
+    use keywrap::WrapError::*;
+    match e {
+        PinTooShort => SG_ERR_PIN_SHORT,
+        BadPepper => SG_ERR_PEPPER,
+        BadMaster => SG_ERR_KEY,
+        BadParams => SG_ERR_PARAMS,
+        BadFormat => SG_ERR_FORMAT,
+        Unwrap => SG_ERR_DECRYPT,
+        Random | Kdf => SG_ERR_INTERNAL,
+    }
+}
+
+/// Wraps a 32-byte master key under the PIN and pepper.
+///
+/// # Safety
+/// Pointers must be valid for their lengths; `out` must be writable.
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn sg_key_wrap(
+    master: *const u8,
+    master_len: usize,
+    pin: *const u8,
+    pin_len: usize,
+    pepper: *const u8,
+    pepper_len: usize,
+    out: *mut SgBuf,
+) -> i32 {
+    guard(out, || {
+        let m = unsafe { input(master, master_len) }.ok_or(SG_ERR_ARG)?;
+        let p = unsafe { input(pin, pin_len) }.ok_or(SG_ERR_ARG)?;
+        let p = std::str::from_utf8(p).map_err(|_| SG_ERR_ARG)?;
+        let k = unsafe { input(pepper, pepper_len) }.ok_or(SG_ERR_ARG)?;
+        keywrap::wrap(m, p, k, keywrap::WrapParams::DEFAULT).map_err(wrap_code)
+    })
+}
+
+/// # Safety
+/// Same contract as [`sg_key_wrap`].
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn sg_key_unwrap(
+    blob: *const u8,
+    blob_len: usize,
+    pin: *const u8,
+    pin_len: usize,
+    pepper: *const u8,
+    pepper_len: usize,
+    out: *mut SgBuf,
+) -> i32 {
+    guard(out, || {
+        let b = unsafe { input(blob, blob_len) }.ok_or(SG_ERR_ARG)?;
+        let p = unsafe { input(pin, pin_len) }.ok_or(SG_ERR_ARG)?;
+        let p = std::str::from_utf8(p).map_err(|_| SG_ERR_ARG)?;
+        let k = unsafe { input(pepper, pepper_len) }.ok_or(SG_ERR_ARG)?;
+        keywrap::unwrap(b, p, k)
+            .map(|z| z.to_vec())
+            .map_err(wrap_code)
+    })
+}
+
 /// Frees the buffer behind `buf` (zeroing it) and resets `buf` to empty.
 ///
 /// # Safety
@@ -285,7 +409,7 @@ pub unsafe extern "C" fn sg_dealloc(p: *mut u8) {
 /// ABI version so Dart can refuse a mismatched library.
 #[unsafe(no_mangle)]
 pub extern "C" fn sg_abi_version() -> u32 {
-    2
+    3
 }
 
 #[cfg(test)]
@@ -417,7 +541,101 @@ mod tests {
     }
 
     #[test]
-    fn abi_version_is_two() {
-        assert_eq!(sg_abi_version(), 2);
+    fn seal_open_and_wrap_roundtrip() {
+        unsafe {
+            let mut k = SgBuf::EMPTY;
+            assert_eq!(sg_key_generate(&mut k), SG_OK);
+            let key = take(k);
+            assert_eq!(key.len(), 32);
+            let mut s = SgBuf::EMPTY;
+            assert_eq!(
+                sg_seal(
+                    key.as_ptr(),
+                    32,
+                    b"id:1".as_ptr(),
+                    4,
+                    b"hi".as_ptr(),
+                    2,
+                    &mut s
+                ),
+                SG_OK
+            );
+            let sealed = take(s);
+            let mut o = SgBuf::EMPTY;
+            assert_eq!(
+                sg_open(
+                    key.as_ptr(),
+                    32,
+                    b"id:1".as_ptr(),
+                    4,
+                    sealed.as_ptr(),
+                    sealed.len(),
+                    &mut o
+                ),
+                SG_OK
+            );
+            assert_eq!(take(o), b"hi");
+            let mut bad = SgBuf::EMPTY;
+            assert_eq!(
+                sg_open(
+                    key.as_ptr(),
+                    32,
+                    b"id:2".as_ptr(),
+                    4,
+                    sealed.as_ptr(),
+                    sealed.len(),
+                    &mut bad
+                ),
+                SG_ERR_OPEN
+            );
+
+            let pepper = [6u8; 32];
+            let mut w = SgBuf::EMPTY;
+            assert_eq!(
+                sg_key_wrap(
+                    key.as_ptr(),
+                    32,
+                    b"2468".as_ptr(),
+                    4,
+                    pepper.as_ptr(),
+                    32,
+                    &mut w
+                ),
+                SG_OK
+            );
+            let wrapped = take(w);
+            let mut u = SgBuf::EMPTY;
+            assert_eq!(
+                sg_key_unwrap(
+                    wrapped.as_ptr(),
+                    wrapped.len(),
+                    b"2468".as_ptr(),
+                    4,
+                    pepper.as_ptr(),
+                    32,
+                    &mut u
+                ),
+                SG_OK
+            );
+            assert_eq!(take(u), key);
+            let mut u2 = SgBuf::EMPTY;
+            assert_eq!(
+                sg_key_unwrap(
+                    wrapped.as_ptr(),
+                    wrapped.len(),
+                    b"1111".as_ptr(),
+                    4,
+                    pepper.as_ptr(),
+                    32,
+                    &mut u2
+                ),
+                SG_ERR_DECRYPT
+            );
+        }
+    }
+
+    #[test]
+    fn abi_version_is_three() {
+        assert_eq!(sg_abi_version(), 3);
     }
 }

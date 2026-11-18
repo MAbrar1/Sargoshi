@@ -5,7 +5,7 @@ import 'dart:typed_data';
 
 /// ABI version this Dart code was written against. Must equal
 /// `sg_abi_version()` in `rust/sargoshi_ffi`.
-const int kExpectedAbiVersion = 2;
+const int kExpectedAbiVersion = 3;
 
 /// Failure reported by the native core. Carries only a code, never a message
 /// that could describe secrets.
@@ -23,6 +23,8 @@ final class NativeCoreException implements Exception {
   static const tooLarge = 7;
   static const pinTooShort = 8;
   static const pepper = 9;
+  static const key = 11;
+  static const open = 12;
 
   @override
   String toString() => 'NativeCoreException($code)';
@@ -62,6 +64,28 @@ typedef _VerifyC =
     );
 typedef _Verify =
     int Function(Pointer<Uint8>, int, Pointer<Uint8>, int, Pointer<Uint8>, int);
+typedef _ThreeInC =
+    Int32 Function(
+      Pointer<Uint8>,
+      IntPtr,
+      Pointer<Uint8>,
+      IntPtr,
+      Pointer<Uint8>,
+      IntPtr,
+      Pointer<_SgBuf>,
+    );
+typedef _ThreeIn =
+    int Function(
+      Pointer<Uint8>,
+      int,
+      Pointer<Uint8>,
+      int,
+      Pointer<Uint8>,
+      int,
+      Pointer<_SgBuf>,
+    );
+typedef _GenC = Int32 Function(Pointer<_SgBuf>);
+typedef _Gen = int Function(Pointer<_SgBuf>);
 typedef _ReleaseC = Void Function(Pointer<_SgBuf>);
 typedef _Release = void Function(Pointer<_SgBuf>);
 typedef _AbiC = Uint32 Function();
@@ -80,6 +104,11 @@ final class SargoshiNative {
       _restore = lib.lookupFunction<_TwoInC, _TwoIn>('sg_recovery_restore'),
       _enroll = lib.lookupFunction<_TwoInC, _TwoIn>('sg_vault_enroll'),
       _verify = lib.lookupFunction<_VerifyC, _Verify>('sg_vault_verify'),
+      _keyGen = lib.lookupFunction<_GenC, _Gen>('sg_key_generate'),
+      _seal = lib.lookupFunction<_ThreeInC, _ThreeIn>('sg_seal'),
+      _open = lib.lookupFunction<_ThreeInC, _ThreeIn>('sg_open'),
+      _wrap = lib.lookupFunction<_ThreeInC, _ThreeIn>('sg_key_wrap'),
+      _unwrap = lib.lookupFunction<_ThreeInC, _ThreeIn>('sg_key_unwrap'),
       _release = lib.lookupFunction<_ReleaseC, _Release>('sg_buf_release');
 
   /// Opens the library at [path] and refuses a mismatched ABI.
@@ -108,6 +137,11 @@ final class SargoshiNative {
   final _TwoIn _restore;
   final _TwoIn _enroll;
   final _Verify _verify;
+  final _Gen _keyGen;
+  final _ThreeIn _seal;
+  final _ThreeIn _open;
+  final _ThreeIn _wrap;
+  final _ThreeIn _unwrap;
   final _Release _release;
 
   Pointer<Uint8> _in(List<int> bytes) {
@@ -194,6 +228,63 @@ final class SargoshiNative {
       _dealloc(pk);
     }
   }
+
+  Uint8List _call3(
+    List<int> a,
+    List<int> b,
+    List<int> c,
+    _ThreeIn fn,
+  ) {
+    final pa = _in(a);
+    final pb = _in(b);
+    final pc = _in(c);
+    final out = _alloc(sizeOf<_SgBuf>()).cast<_SgBuf>();
+    try {
+      final code = fn(pa, a.length, pb, b.length, pc, c.length, out);
+      if (code != 0) throw NativeCoreException(code);
+      final buf = out.ref;
+      return Uint8List.fromList(buf.ptr.asTypedList(buf.len));
+    } finally {
+      _release(out);
+      _dealloc(out.cast());
+      _dealloc(pa);
+      _dealloc(pb);
+      _dealloc(pc);
+    }
+  }
+
+  /// A fresh random 32-byte key.
+  Uint8List generateKey() {
+    final out = _alloc(sizeOf<_SgBuf>()).cast<_SgBuf>();
+    try {
+      final code = _keyGen(out);
+      if (code != 0) throw NativeCoreException(code);
+      final buf = out.ref;
+      return Uint8List.fromList(buf.ptr.asTypedList(buf.len));
+    } finally {
+      _release(out);
+      _dealloc(out.cast());
+    }
+  }
+
+  /// Seals [plain] under [key] (32 bytes), binding [aad]. Output is
+  /// nonce followed by ciphertext.
+  Uint8List seal(List<int> key, List<int> aad, List<int> plain) =>
+      _call3(key, aad, plain, _seal);
+
+  /// Throws [NativeCoreException] with [NativeCoreException.open] when the key,
+  /// the context or the data is wrong; the cause is not distinguished.
+  Uint8List open(List<int> key, List<int> aad, List<int> sealed) =>
+      _call3(key, aad, sealed, _open);
+
+  /// Wraps a 32-byte master key under [pin] and [pepper]. Slow (Argon2id).
+  Uint8List wrapKey(List<int> master, String pin, List<int> pepper) =>
+      _call3(master, utf8.encode(pin), pepper, _wrap);
+
+  /// Throws [NativeCoreException.decrypt] for a wrong PIN, wrong pepper or a
+  /// tampered blob. Slow (Argon2id).
+  Uint8List unwrapKey(List<int> blob, String pin, List<int> pepper) =>
+      _call3(blob, utf8.encode(pin), pepper, _unwrap);
 }
 
 const int _noMatch = 10;
