@@ -4,9 +4,8 @@ import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sargoshi/platform/native/sargoshi_native.dart';
 
-Matcher _code(int code) => throwsA(
-  isA<NativeCoreException>().having((e) => e.code, 'code', code),
-);
+Matcher _code(int code) =>
+    throwsA(isA<NativeCoreException>().having((e) => e.code, 'code', code));
 
 /// Runs against the host build of `sargoshi_ffi`. CI sets SARGOSHI_FFI_LIB.
 void main() {
@@ -46,10 +45,19 @@ void main() {
         () => native.open(native.generateKey(), [1], sealed),
         _code(NativeCoreException.open),
       );
-      expect(() => native.open(key, [2], sealed), _code(NativeCoreException.open));
+      expect(
+        () => native.open(key, [2], sealed),
+        _code(NativeCoreException.open),
+      );
       final tampered = Uint8List.fromList(sealed)..[sealed.length - 1] ^= 1;
-      expect(() => native.open(key, [1], tampered), _code(NativeCoreException.open));
-      expect(() => native.seal([1, 2], [], [1]), _code(NativeCoreException.key));
+      expect(
+        () => native.open(key, [1], tampered),
+        _code(NativeCoreException.open),
+      );
+      expect(
+        () => native.seal([1, 2], [], [1]),
+        _code(NativeCoreException.key),
+      );
     });
 
     test('wrapped master key unwraps only with the right PIN and pepper', () {

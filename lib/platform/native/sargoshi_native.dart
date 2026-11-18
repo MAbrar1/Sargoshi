@@ -229,12 +229,7 @@ final class SargoshiNative {
     }
   }
 
-  Uint8List _call3(
-    List<int> a,
-    List<int> b,
-    List<int> c,
-    _ThreeIn fn,
-  ) {
+  Uint8List _call3(List<int> a, List<int> b, List<int> c, _ThreeIn fn) {
     final pa = _in(a);
     final pb = _in(b);
     final pc = _in(c);
