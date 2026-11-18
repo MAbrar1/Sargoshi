@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart' show MethodChannel, PlatformException;
 
 import '../application/vault/native_pin_verifier.dart';
+import '../application/vault/vault_setup.dart';
 
 /// Raised when the platform cannot produce the vault secret. Callers treat it
 /// as "vault unavailable", never as a wrong PIN.
@@ -14,7 +15,7 @@ final class PepperUnavailableException implements Exception {
 }
 
 /// Vault secret held by the Android Keystore (see `VaultPepperStore.kt`).
-final class KeystorePepperSource implements PepperSource {
+final class KeystorePepperSource implements PepperSource, PepperProvisioner {
   KeystorePepperSource({MethodChannel? channel})
     : _channel = channel ?? const MethodChannel(channelName);
 
@@ -28,6 +29,7 @@ final class KeystorePepperSource implements PepperSource {
   Future<Uint8List> pepper() => _bytes('read');
 
   /// Creates the secret on first enrollment and returns it.
+  @override
   Future<Uint8List> createIfMissing() => _bytes('createIfMissing');
 
   Future<bool> exists() async {

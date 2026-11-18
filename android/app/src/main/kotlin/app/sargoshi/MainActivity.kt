@@ -26,9 +26,32 @@ class MainActivity : FlutterActivity() {
                     result.error("pepper_unavailable", null, null)
                 }
             }
+        val records = VaultRecordFiles(applicationContext)
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, RECORDS_CHANNEL)
+            .setMethodCallHandler { call, result ->
+                try {
+                    val name = call.argument<String>("name") ?: throw IllegalArgumentException()
+                    when (call.method) {
+                        "read" -> result.success(records.read(name))
+                        "write" -> {
+                            val bytes = call.argument<ByteArray>("bytes") ?: throw IllegalArgumentException()
+                            records.write(name, bytes)
+                            result.success(null)
+                        }
+                        "delete" -> {
+                            records.delete(name)
+                            result.success(null)
+                        }
+                        else -> result.notImplemented()
+                    }
+                } catch (e: Exception) {
+                    result.error("records_unavailable", null, null)
+                }
+            }
     }
 
     private companion object {
         const val PEPPER_CHANNEL = "app.sargoshi/vault_pepper"
+        const val RECORDS_CHANNEL = "app.sargoshi/vault_records"
     }
 }
