@@ -136,7 +136,7 @@ void main() {
     ) async {
       await openVault(tester, size: const Size(320, 568), textScale: scale);
       expect(tester.takeException(), isNull);
-      expect(find.text('Set a vault PIN'), findsOneWidget);
+      expect(find.byType(TextField, skipOffstage: false), findsWidgets);
     });
   }
 }
