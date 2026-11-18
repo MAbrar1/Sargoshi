@@ -12,21 +12,24 @@ void main() {
 
   tearDown(() => messenger.setMockMethodCallHandler(channel, null));
 
-  test('read, createIfMissing and exists use the right channel methods', () async {
-    final calls = <String>[];
-    messenger.setMockMethodCallHandler(channel, (call) async {
-      calls.add(call.method);
-      return switch (call.method) {
-        'exists' => true,
-        _ => Uint8List.fromList(List.filled(32, 9)),
-      };
-    });
-    final source = KeystorePepperSource();
-    expect((await source.pepper()).length, 32);
-    expect((await source.createIfMissing()).length, 32);
-    expect(await source.exists(), isTrue);
-    expect(calls, ['read', 'createIfMissing', 'exists']);
-  });
+  test(
+    'read, createIfMissing and exists use the right channel methods',
+    () async {
+      final calls = <String>[];
+      messenger.setMockMethodCallHandler(channel, (call) async {
+        calls.add(call.method);
+        return switch (call.method) {
+          'exists' => true,
+          _ => Uint8List.fromList(List.filled(32, 9)),
+        };
+      });
+      final source = KeystorePepperSource();
+      expect((await source.pepper()).length, 32);
+      expect((await source.createIfMissing()).length, 32);
+      expect(await source.exists(), isTrue);
+      expect(calls, ['read', 'createIfMissing', 'exists']);
+    },
+  );
 
   test('platform errors become PepperUnavailableException', () async {
     messenger.setMockMethodCallHandler(channel, (call) async {
