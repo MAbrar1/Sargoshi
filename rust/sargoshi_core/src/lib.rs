@@ -6,6 +6,8 @@
 
 #![forbid(unsafe_code)]
 
+pub mod aead;
+pub mod keywrap;
 pub mod padding;
 pub mod recovery;
 pub mod vault;
