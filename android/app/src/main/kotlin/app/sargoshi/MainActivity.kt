@@ -48,10 +48,41 @@ class MainActivity : FlutterActivity() {
                     result.error("records_unavailable", null, null)
                 }
             }
+        val blobs = VaultBlobFiles(applicationContext)
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, BLOBS_CHANNEL)
+            .setMethodCallHandler { call, result ->
+                try {
+                    when (call.method) {
+                        "list" -> {
+                            val prefix = call.argument<String>("prefix") ?: throw IllegalArgumentException()
+                            result.success(blobs.list(prefix))
+                        }
+                        else -> {
+                            val name = call.argument<String>("name") ?: throw IllegalArgumentException()
+                            when (call.method) {
+                                "read" -> result.success(blobs.read(name))
+                                "write" -> {
+                                    val bytes = call.argument<ByteArray>("bytes") ?: throw IllegalArgumentException()
+                                    blobs.write(name, bytes)
+                                    result.success(null)
+                                }
+                                "delete" -> {
+                                    blobs.delete(name)
+                                    result.success(null)
+                                }
+                                else -> result.notImplemented()
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    result.error("blobs_unavailable", null, null)
+                }
+            }
     }
 
     private companion object {
         const val PEPPER_CHANNEL = "app.sargoshi/vault_pepper"
         const val RECORDS_CHANNEL = "app.sargoshi/vault_records"
+        const val BLOBS_CHANNEL = "app.sargoshi/vault_blobs"
     }
 }
