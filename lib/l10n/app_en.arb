@@ -65,6 +65,14 @@
   "vaultSetupAction": "Set PIN",
   "vaultSetupFailed": "The PIN could not be saved. Nothing was changed.",
   "vaultChecking": "Checking…",
+  "vaultThrottled": "Too many wrong PINs. Try again in {time}.",
+  "@vaultThrottled": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "vaultCheckUnavailable": "The PIN check could not run. Nothing was opened and this was not counted.",
   "vaultPinTooShort": "Use at least 4 digits.",
   "trustTitle": "Trust",
@@ -133,6 +141,7 @@
   "vaultPinSame": "The new PIN is the same as the current one.",
   "vaultPinClash": "That PIN is already used for another vault. Choose a different one.",
   "vaultPinChangeIncomplete": "The change may not have finished. Lock the vault, then try your new PIN first, and your old PIN if that fails.",
+  "vaultPinThrottled": "Too many wrong PINs. Wait and try again later. Nothing was changed.",
   "vaultPinChangeFailed": "The PIN could not be changed. Nothing was changed.",
   "openTrustDetails": "Trust details"
 }

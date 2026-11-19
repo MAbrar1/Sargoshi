@@ -62,6 +62,7 @@ class _VaultChangePinViewState extends ConsumerState<VaultChangePinView> {
         PinChangeResult.sameAsCurrent => l10n.vaultPinSame,
         PinChangeResult.clashesWithDecoy => l10n.vaultPinClash,
         PinChangeResult.incomplete => l10n.vaultPinChangeIncomplete,
+        PinChangeResult.throttled => l10n.vaultPinThrottled,
         PinChangeResult.failed => l10n.vaultPinChangeFailed,
       };
     });

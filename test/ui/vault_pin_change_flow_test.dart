@@ -181,6 +181,22 @@ void main() {
     );
   });
 
+  testWidgets('repeated wrong current PINs are throttled like unlocking', (
+    tester,
+  ) async {
+    await unlock(tester);
+    for (var i = 0; i < 5; i++) {
+      await change(tester, current: '1111');
+    }
+    await change(tester, current: '2468');
+    expect(
+      find.text('Too many wrong PINs. Wait and try again later. Nothing was changed.'),
+      findsOneWidget,
+    );
+    expect(backend.pin, '2468');
+    expect(opener.changes, isEmpty);
+  });
+
   testWidgets('the decoy vault has no PIN-change form', (tester) async {
     await unlock(tester, pin: _Backend.decoy);
     expect(find.text('Notes'), findsOneWidget);

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/vault/vault_lock.dart';
 import '../../platform/native/sargoshi_native.dart';
+import 'attempt_limiter.dart';
 import 'vault_backend.dart';
 import 'vault_content.dart';
 import 'vault_controller.dart';
@@ -14,6 +15,9 @@ enum PinChangeResult {
   tooShort,
   sameAsCurrent,
   clashesWithDecoy,
+
+  /// Too many wrong PINs recently; nothing was checked or changed.
+  throttled,
 
   /// The new PIN took effect but finishing the change failed. The vault can
   /// still be opened; the person must be told.
@@ -45,7 +49,11 @@ final class VaultPinChange {
       return PinChangeResult.failed;
     }
     try {
-      if (await backend.verifier.check(currentPin) != PinCheck.accepted) {
+      final guarded = await _ref
+          .read(attemptGuardProvider)
+          .check(backend.verifier, currentPin);
+      if (guarded is GuardedThrottled) return PinChangeResult.throttled;
+      if ((guarded as GuardedResult).check != PinCheck.accepted) {
         return PinChangeResult.wrongCurrent;
       }
       final store = await opener.changePin(

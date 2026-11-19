@@ -1,6 +1,10 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/vault/vault_lock.dart';
+import '../../platform/attempt_channels.dart';
+import 'attempt_limiter.dart';
 import 'vault_backend.dart';
 import 'vault_session.dart';
 
@@ -26,6 +30,30 @@ final pinVerifierProvider = Provider<PinVerifier>(
   (ref) => ref.watch(vaultBackendProvider)?.verifier ?? const DemoPinVerifier(),
 );
 
+/// Counts wrong PINs across restarts. Android keeps the count in the vault
+/// record files and uses the monotonic clock; elsewhere it lives in memory.
+final attemptLimiterProvider = Provider<AttemptLimiter>(
+  (ref) => Platform.isAndroid
+      ? AttemptLimiter(
+          store: ChannelAttemptStore(),
+          clock: ChannelAttemptClock(),
+        )
+      : AttemptLimiter(
+          store: InMemoryAttemptStore(),
+          clock: StopwatchAttemptClock(),
+        ),
+);
+
+/// All PIN checks go through this guard, on every screen.
+final attemptGuardProvider = Provider<VaultAttemptGuard>(
+  (ref) => VaultAttemptGuard(ref.watch(attemptLimiterProvider)),
+);
+
+/// Failures so far and the delay left before the next attempt.
+final attemptStatusProvider = FutureProvider.autoDispose<AttemptStatus>(
+  (ref) => ref.watch(attemptLimiterProvider).status(),
+);
+
 final class VaultController extends Notifier<VaultLock> {
   bool _busy = false;
   int _generation = 0;
@@ -40,8 +68,12 @@ final class VaultController extends Notifier<VaultLock> {
     _busy = true;
     final generation = _generation;
     try {
-      final check = await ref.read(pinVerifierProvider).check(pin);
+      final guarded = await ref
+          .read(attemptGuardProvider)
+          .check(ref.read(pinVerifierProvider), pin);
       if (generation != _generation) return VaultAttemptOutcome.ignored;
+      if (guarded is GuardedThrottled) return VaultAttemptOutcome.throttled;
+      final check = (guarded as GuardedResult).check;
       final opener = ref.read(vaultContentOpenerProvider);
       if (opener != null &&
           (check == PinCheck.accepted || check == PinCheck.decoy)) {
@@ -63,6 +95,7 @@ final class VaultController extends Notifier<VaultLock> {
       return VaultAttemptOutcome.unavailable;
     } finally {
       _busy = false;
+      ref.invalidate(attemptStatusProvider);
     }
   }
 

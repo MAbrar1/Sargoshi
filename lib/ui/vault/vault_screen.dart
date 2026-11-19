@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/services.dart' show FilteringTextInputFormatter;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../application/vault/attempt_limiter.dart';
 import '../../application/vault/vault_backend.dart';
 import '../../application/vault/vault_controller.dart';
 import '../../application/vault/vault_session.dart';
@@ -25,10 +28,12 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
   VaultAttemptOutcome? _last;
   final _confirm = TextEditingController();
   bool _busy = false;
+  Timer? _tick;
   String? _setupError;
 
   @override
   void dispose() {
+    _tick?.cancel();
     _pin.dispose();
     _confirm.dispose();
     super.dispose();
@@ -86,6 +91,21 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
     final hasContent = ref.watch(vaultContentOpenerProvider) != null;
     final store = ref.watch(vaultContentSessionProvider);
     final needsSetup = ref.watch(vaultNeedsSetupProvider).value ?? false;
+    final status = ref.watch(attemptStatusProvider).value;
+    final throttled = status?.isThrottled ?? false;
+    // Tick once a second while a delay is running so the time left stays true.
+    ref.listen<AsyncValue<AttemptStatus>>(attemptStatusProvider, (_, next) {
+      final waiting = next.value?.isThrottled ?? false;
+      if (waiting && _tick == null) {
+        _tick = Timer.periodic(
+          const Duration(seconds: 1),
+          (_) => ref.invalidate(attemptStatusProvider),
+        );
+      } else if (!waiting) {
+        _tick?.cancel();
+        _tick = null;
+      }
+    });
     final title = switch (lock) {
       VaultLocked() => l10n.vaultLocked,
       VaultOpen() => l10n.vaultOpenDemo,
@@ -94,10 +114,15 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
     final message = switch ((_last, lock)) {
       (VaultAttemptOutcome.tooShort, _) => l10n.vaultPinTooShort,
       (VaultAttemptOutcome.unavailable, _) => l10n.vaultCheckUnavailable,
+      (VaultAttemptOutcome.throttled, _) => null,
       (VaultAttemptOutcome.rejected, VaultLocked(:final failedAttempts)) =>
         l10n.vaultPinIncorrect(failedAttempts),
       _ => null,
     };
+
+    final shownMessage = throttled
+        ? l10n.vaultThrottled(_formatWait(status!.remaining))
+        : message;
 
     return PopScope(
       onPopInvokedWithResult: (didPop, _) {
@@ -159,10 +184,10 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
                   enabled: !_busy,
                   onSubmitted: (_) => _submit(),
                 ),
-                if (message != null) ...[
+                if (shownMessage != null) ...[
                   const SizedBox(height: 8),
                   Text(
-                    message,
+                    shownMessage,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.error,
                     ),
@@ -170,7 +195,7 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
                 ],
                 const SizedBox(height: 16),
                 FilledButton(
-                  onPressed: _busy ? null : _submit,
+                  onPressed: _busy || throttled ? null : _submit,
                   child: Text(_busy ? l10n.vaultChecking : l10n.vaultUnlock),
                 ),
               ] else ...[
@@ -220,4 +245,16 @@ final class _PinField extends StatelessWidget {
     enabled: enabled,
     decoration: InputDecoration(hintText: hint),
   );
+}
+
+/// `m:ss`, or `h:mm:ss` from one hour up. Digits only, so it needs no
+/// translation.
+String _formatWait(Duration d) {
+  final total = d.inSeconds < 1 ? 1 : d.inSeconds;
+  final h = total ~/ 3600;
+  final m = (total % 3600) ~/ 60;
+  final sec = (total % 60).toString().padLeft(2, '0');
+  return h > 0
+      ? '$h:${m.toString().padLeft(2, '0')}:$sec'
+      : '$m:$sec';
 }

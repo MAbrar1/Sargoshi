@@ -41,6 +41,9 @@ enum VaultAttemptOutcome {
   /// The check itself failed (unusable record, missing secret). This is not a
   /// wrong PIN: it is not counted and nothing opens.
   unavailable,
+
+  /// Too many wrong PINs recently. The PIN was not checked and not counted.
+  throttled,
 }
 
 const int kMinPinLength = 4;

@@ -2,6 +2,8 @@ package app.sargoshi
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
+import android.os.SystemClock
+import android.provider.Settings
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
@@ -26,6 +28,7 @@ class MainActivity : FlutterActivity() {
                     result.error("pepper_unavailable", null, null)
                 }
             }
+        registerClock(flutterEngine)
         val records = VaultRecordFiles(applicationContext)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, RECORDS_CHANNEL)
             .setMethodCallHandler { call, result ->
@@ -80,7 +83,22 @@ class MainActivity : FlutterActivity() {
             }
     }
 
+    private fun registerClock(flutterEngine: FlutterEngine) {
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CLOCK_CHANNEL)
+            .setMethodCallHandler { call, result ->
+                if (call.method == "now") {
+                    // Monotonic time ignores edits to the date and time. The boot
+                    // count changes on every restart; -1 means it could not be read.
+                    val boot = Settings.Global.getInt(contentResolver, Settings.Global.BOOT_COUNT, -1)
+                    result.success(mapOf("elapsedMs" to SystemClock.elapsedRealtime(), "boot" to boot))
+                } else {
+                    result.notImplemented()
+                }
+            }
+    }
+
     private companion object {
+        const val CLOCK_CHANNEL = "app.sargoshi/clock"
         const val PEPPER_CHANNEL = "app.sargoshi/vault_pepper"
         const val RECORDS_CHANNEL = "app.sargoshi/vault_records"
         const val BLOBS_CHANNEL = "app.sargoshi/vault_blobs"

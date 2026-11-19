@@ -37,6 +37,6 @@ class VaultRecordFiles(context: Context) {
     }
 
     companion object {
-        val NAMES = setOf("real", "decoy")
+        val NAMES = setOf("real", "decoy", "attempts")
     }
 }
