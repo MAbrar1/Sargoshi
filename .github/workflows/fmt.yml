@@ -1,7 +1,7 @@
-name: diag
+name: fmt
 on: workflow_dispatch
 jobs:
-  diag:
+  fmt:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
