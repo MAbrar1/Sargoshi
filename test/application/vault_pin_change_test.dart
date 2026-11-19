@@ -160,15 +160,18 @@ void main() {
       expect(await blobs.read('real/masternext'), isNotNull);
     });
 
-    test('changing before any vault exists is "missing", not a crash', () async {
-      await expectLater(
-        vault().changePin(
-          oldPin: '2468',
-          newPin: '8642',
-          commitVerifier: () async {},
-        ),
-        throwsA(isA<VaultMissingException>()),
-      );
-    });
+    test(
+      'changing before any vault exists is "missing", not a crash',
+      () async {
+        await expectLater(
+          vault().changePin(
+            oldPin: '2468',
+            newPin: '8642',
+            commitVerifier: () async {},
+          ),
+          throwsA(isA<VaultMissingException>()),
+        );
+      },
+    );
   });
 }
