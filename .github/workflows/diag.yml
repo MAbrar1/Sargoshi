@@ -1,0 +1,12 @@
+name: diag
+on: workflow_dispatch
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: {channel: stable, flutter-version: "3.50.0"}
+      - run: flutter pub get
+      - run: flutter gen-l10n
+      - run: flutter test test/ui/vault_notes_flow_test.dart --plain-name "no overflow" || true

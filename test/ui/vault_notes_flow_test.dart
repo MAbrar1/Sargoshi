@@ -147,7 +147,12 @@ void main() {
         textScale: scale,
         seed: {'note/a': Uint8List.fromList(List.filled(120, 97))},
       );
-      expect(tester.takeException(), isNull);
+      final err = tester.takeException();
+      if (err is FlutterError) {
+        // ignore: avoid_print
+        print('DIAG ${err.toStringDeep()}');
+      }
+      expect(err, isNull);
       expect(find.text('Notes', skipOffstage: false), findsOneWidget);
     });
   }
