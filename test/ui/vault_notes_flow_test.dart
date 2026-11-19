@@ -31,6 +31,10 @@ final class _Verifier implements PinVerifier {
       pin == '2468' ? PinCheck.accepted : PinCheck.rejected;
 }
 
+final noteField = find.byWidgetPredicate(
+  (w) => w is TextField && w.decoration?.hintText == 'Write a note',
+);
+
 /// At large text on a small screen the lazy list has not built everything yet.
 Future<void> reveal(WidgetTester tester, Finder finder) async {
   if (finder.evaluate().isNotEmpty) return;
@@ -90,7 +94,7 @@ void main() {
     tester,
   ) async {
     final opener = await unlock(tester);
-    await tester.enterText(find.byType(TextField), 'my first note');
+    await tester.enterText(noteField, 'my first note');
     await tester.tap(find.text('Save note'));
     await tester.pumpAndSettle();
     expect(find.text('my first note'), findsOneWidget);
@@ -100,7 +104,7 @@ void main() {
 
   testWidgets('blank notes are not saved', (tester) async {
     final opener = await unlock(tester);
-    await tester.enterText(find.byType(TextField), '   ');
+    await tester.enterText(noteField, '   ');
     await tester.tap(find.text('Save note'));
     await tester.pumpAndSettle();
     expect(opener.stores.single.data, isEmpty);
@@ -108,7 +112,7 @@ void main() {
 
   testWidgets('deleting a note removes it', (tester) async {
     final opener = await unlock(tester);
-    await tester.enterText(find.byType(TextField), 'temporary');
+    await tester.enterText(noteField, 'temporary');
     await tester.tap(find.text('Save note'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Delete note'));
@@ -120,7 +124,7 @@ void main() {
 
   testWidgets('locking hides the notes and overwrites the key', (tester) async {
     final opener = await unlock(tester);
-    await tester.enterText(find.byType(TextField), 'secret');
+    await tester.enterText(noteField, 'secret');
     await tester.tap(find.text('Save note'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Lock vault'));
