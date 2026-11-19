@@ -60,6 +60,11 @@ final class FakeOpener implements VaultContentOpener {
   /// Items every opened store starts with, keyed `kind/id`.
   final Map<String, Uint8List> seed;
   final List<({String pin, bool decoy})> calls = [];
+  final List<({String oldPin, String newPin})> changes = [];
+
+  /// When set, [changePin] throws it after running the verifier commit.
+  Object? changeFailure;
+  bool commitBeforeFailure = false;
   final List<FakeVaultStore> stores = [];
 
   @override
@@ -69,6 +74,22 @@ final class FakeOpener implements VaultContentOpener {
   }) async {
     calls.add((pin: pin, decoy: decoy));
     if (fail) throw StateError('content unavailable');
+    final store = FakeVaultStore();
+    store.data.addAll(seed);
+    stores.add(store);
+    return store;
+  }
+
+  @override
+  Future<VaultItemStore> changePin({
+    required String oldPin,
+    required String newPin,
+    required Future<void> Function() commitVerifier,
+  }) async {
+    changes.add((oldPin: oldPin, newPin: newPin));
+    await commitVerifier();
+    final failure = changeFailure;
+    if (failure != null) throw failure;
     final store = FakeVaultStore();
     store.data.addAll(seed);
     stores.add(store);

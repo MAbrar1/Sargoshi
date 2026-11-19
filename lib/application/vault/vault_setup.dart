@@ -37,6 +37,30 @@ final class VaultSetup {
 
   Future<bool> isSetUp() async => await records.read(VaultSlot.real) != null;
 
+  /// Replaces only the real PIN's verifier record. Fails with
+  /// [VaultSetupError.decoySameAsReal] when [pin] already opens the decoy.
+  /// Nothing is written if validation fails.
+  Future<void> changeRealPin(String pin) async {
+    if (pin.length < kMinPinLength) {
+      throw const VaultSetupException(VaultSetupError.tooShort);
+    }
+    final pepper = await provisioner.createIfMissing();
+    final path = libraryPath;
+    final decoy = await records.read(VaultSlot.decoy);
+    if (decoy != null) {
+      final clash = await Isolate.run(
+        () => SargoshiNative.open(path).verifyVault(decoy, pin, pepper),
+      );
+      if (clash) {
+        throw const VaultSetupException(VaultSetupError.decoySameAsReal);
+      }
+    }
+    final real = await Isolate.run(
+      () => SargoshiNative.open(path).enrollVault(pin, pepper),
+    );
+    await records.write(VaultSlot.real, real);
+  }
+
   /// Stores a record for [pin], and for [decoyPin] when given. The decoy is
   /// removed when it is null. Nothing is written if validation fails.
   Future<void> setPins({required String pin, String? decoyPin}) async {

@@ -8,6 +8,7 @@ import '../../application/vault/vault_session.dart';
 import '../../application/vault/vault_setup.dart';
 import '../../domain/vault/vault_lock.dart';
 import '../../l10n/app_localizations.dart';
+import 'vault_change_pin_view.dart';
 import 'vault_notes_view.dart';
 
 /// Demo vault screen. The PIN check is a fixed stand-in and nothing is
@@ -175,6 +176,9 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
               ] else ...[
                 if (store != null) ...[
                   VaultNotesView(key: ObjectKey(store), store: store),
+                  const SizedBox(height: 24),
+                  if (lock is VaultOpen && isReal)
+                    const VaultChangePinView(),
                   const SizedBox(height: 16),
                 ],
                 FilledButton.tonal(

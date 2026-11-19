@@ -13,6 +13,14 @@ import 'vault_content.dart';
 /// A failure means the content could not be opened, never "wrong PIN".
 abstract interface class VaultContentOpener {
   Future<VaultItemStore> open({required String pin, required bool decoy});
+
+  /// Re-wraps the real vault's master key under [newPin] and returns a fresh
+  /// unlocked store. See [VaultContent.changePin] for the failure contract.
+  Future<VaultItemStore> changePin({
+    required String oldPin,
+    required String newPin,
+    required Future<void> Function() commitVerifier,
+  });
 }
 
 /// Android opener: Keystore secret, blob files and the Rust core. The slow key
@@ -34,13 +42,9 @@ final class NativeVaultContentOpener implements VaultContentOpener {
   final PepperSource pepperSource;
   final ChannelVaultBlobStore blobs;
 
-  @override
-  Future<VaultItemStore> open({
-    required String pin,
-    required bool decoy,
-  }) async {
+  VaultContent _content({required bool decoy}) {
     final path = libraryPath;
-    final content = VaultContent(
+    return VaultContent(
       native: SargoshiNative.open(path),
       pepperSource: pepperSource,
       blobs: blobs,
@@ -52,7 +56,30 @@ final class NativeVaultContentOpener implements VaultContentOpener {
         () => SargoshiNative.open(path).unwrapKey(blob, unwrapPin, pepper),
       ),
     );
+  }
+
+  @override
+  Future<VaultItemStore> open({
+    required String pin,
+    required bool decoy,
+  }) async {
+    final content = _content(decoy: decoy);
     await content.unlockOrCreate(pin);
+    return content;
+  }
+
+  @override
+  Future<VaultItemStore> changePin({
+    required String oldPin,
+    required String newPin,
+    required Future<void> Function() commitVerifier,
+  }) async {
+    final content = _content(decoy: false);
+    await content.changePin(
+      oldPin: oldPin,
+      newPin: newPin,
+      commitVerifier: commitVerifier,
+    );
     return content;
   }
 }

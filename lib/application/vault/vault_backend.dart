@@ -14,6 +14,10 @@ abstract interface class VaultBackend {
 
   /// Throws [VaultSetupException] for invalid input.
   Future<void> setPins({required String pin, String? decoyPin});
+
+  /// Replaces only the real PIN's verifier record. Throws
+  /// [VaultSetupException] for invalid input.
+  Future<void> changeRealPin(String pin);
 }
 
 /// Android backend: Keystore secret, record files and the Rust core.
@@ -45,6 +49,9 @@ final class NativeVaultBackend implements VaultBackend {
   @override
   Future<void> setPins({required String pin, String? decoyPin}) =>
       _setup.setPins(pin: pin, decoyPin: decoyPin);
+
+  @override
+  Future<void> changeRealPin(String pin) => _setup.changeRealPin(pin);
 }
 
 /// Null off Android (desktop, tests), where the demo verifier is used and the

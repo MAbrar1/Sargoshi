@@ -22,6 +22,9 @@ final class _FakeBackend implements VaultBackend {
   Future<bool> isSetUp() async => setUp;
 
   @override
+  Future<void> changeRealPin(String pin) async {}
+
+  @override
   Future<void> setPins({required String pin, String? decoyPin}) async {
     if (fail) throw StateError('platform down');
     if (pin.length < kMinPinLength) {

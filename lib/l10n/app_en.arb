@@ -124,5 +124,15 @@
   "vaultNoteAdd": "Save note",
   "vaultNoteDelete": "Delete note",
   "vaultNotesFailed": "The notes could not be read or saved. Nothing was changed.",
+  "vaultChangePinTitle": "Change PIN",
+  "vaultCurrentPinHint": "Current PIN",
+  "vaultNewPinHint": "New PIN",
+  "vaultChangePinAction": "Change PIN",
+  "vaultPinChanged": "PIN changed. Your notes were kept.",
+  "vaultPinWrongCurrent": "The current PIN is not correct. Nothing was changed.",
+  "vaultPinSame": "The new PIN is the same as the current one.",
+  "vaultPinClash": "That PIN is already used for another vault. Choose a different one.",
+  "vaultPinChangeIncomplete": "The change may not have finished. Lock the vault, then try your new PIN first, and your old PIN if that fails.",
+  "vaultPinChangeFailed": "The PIN could not be changed. Nothing was changed.",
   "openTrustDetails": "Trust details"
 }

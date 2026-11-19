@@ -19,6 +19,9 @@ final class _Backend implements VaultBackend {
   Future<bool> isSetUp() async => true;
 
   @override
+  Future<void> changeRealPin(String pin) async {}
+
+  @override
   Future<void> setPins({required String pin, String? decoyPin}) async {}
 }
 
