@@ -13,7 +13,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class VaultBlobFilesTest {
     private lateinit var files: VaultBlobFiles
-    private val names = listOf("real/master", "real/item/note/a1", "real/item/note/b-2", "real/item/photo/p1", "decoy/master")
+    private val names = listOf("real/master", "real/item/note/a1", "real/item/note/b-2", "real/item/photo/p1", "decoy/master", "real/masternext")
 
     @Before
     fun setUp() {

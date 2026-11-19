@@ -45,6 +45,16 @@ final class VaultNameException implements Exception {
   String toString() => 'VaultNameException';
 }
 
+/// A PIN change failed after the new PIN was already accepted by the verifier.
+/// The vault stays readable (the next unlock recovers it), but the person must
+/// be told the change may have taken effect.
+final class VaultPinChangeIncompleteException implements Exception {
+  const VaultPinChangeIncompleteException();
+
+  @override
+  String toString() => 'VaultPinChangeIncompleteException';
+}
+
 /// What the rest of the app may do with an unlocked vault. Implemented by
 /// [VaultContent]; tests use in-memory fakes.
 abstract interface class VaultItemStore {
@@ -119,6 +129,7 @@ final class VaultContent implements VaultItemStore {
   bool get isUnlocked => _master != null;
 
   String get _masterName => '$namespace/master';
+  String get _nextName => '$namespace/masternext';
   String _itemName(String kind, String id) => '$namespace/item/$kind/$id';
 
   static void _checkName(String value, RegExp pattern) {
@@ -167,10 +178,70 @@ final class VaultContent implements VaultItemStore {
   Future<void> unlock(String pin) async {
     final blob = await blobs.read(_masterName);
     if (blob == null) throw const VaultMissingException();
-    final master = await _unwrapKey(blob, pin, await _pepper());
+    final pepper = await _pepper();
+    Uint8List master;
+    try {
+      master = await _unwrapKey(blob, pin, pepper);
+    } on NativeCoreException catch (e) {
+      // A PIN change that stopped half-way leaves the new wrap beside the old
+      // one. Try it, and finish the change when it opens.
+      if (e.code != NativeCoreException.decrypt) rethrow;
+      final next = await blobs.read(_nextName);
+      if (next == null) rethrow;
+      master = await _unwrapKey(next, pin, pepper);
+      await _promote(next);
+    }
     if (master.length != _masterLength) {
       master.fillRange(0, master.length, 0);
       throw const NativeCoreException(NativeCoreException.format);
+    }
+    _replaceMaster(master);
+  }
+
+  Future<void> _promote(Uint8List next) async {
+    await blobs.write(_masterName, next);
+    await blobs.delete(_nextName);
+  }
+
+  /// Re-wraps the master key under [newPin]; items stay as they are.
+  ///
+  /// [oldPin] is checked by unwrapping, so a wrong one throws
+  /// [NativeCoreException] with [NativeCoreException.decrypt] and changes
+  /// nothing. The order is crash-safe: the new wrap is stored beside the old
+  /// one, then [commitVerifier] switches the PIN check to [newPin], then the
+  /// new wrap replaces the old. An interruption at any point leaves one PIN
+  /// working and [unlock] able to finish the change.
+  ///
+  /// Throws [VaultPinChangeIncompleteException] if a failure happens after
+  /// [commitVerifier] succeeded. Leaves the vault unlocked on success.
+  Future<void> changePin({
+    required String oldPin,
+    required String newPin,
+    required Future<void> Function() commitVerifier,
+  }) async {
+    final blob = await blobs.read(_masterName);
+    if (blob == null) throw const VaultMissingException();
+    final pepper = await _pepper();
+    final master = await _unwrapKey(blob, oldPin, pepper);
+    if (master.length != _masterLength) {
+      master.fillRange(0, master.length, 0);
+      throw const NativeCoreException(NativeCoreException.format);
+    }
+    var committed = false;
+    try {
+      final next = await _wrapKey(master, newPin, pepper);
+      await blobs.write(_nextName, next);
+      await commitVerifier();
+      committed = true;
+      await _promote(next);
+    } catch (_) {
+      master.fillRange(0, master.length, 0);
+      if (committed) throw const VaultPinChangeIncompleteException();
+      // The verifier did not change, so the staged wrap is dead weight.
+      try {
+        await blobs.delete(_nextName);
+      } catch (_) {}
+      rethrow;
     }
     _replaceMaster(master);
   }

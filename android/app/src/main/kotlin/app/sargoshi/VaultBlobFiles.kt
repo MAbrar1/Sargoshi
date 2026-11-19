@@ -58,7 +58,7 @@ class VaultBlobFiles(context: Context) {
         private const val SUFFIX = ".blob"
         private const val TMP_SUFFIX = ".tmp"
         private val NAME =
-            Regex("^[a-z0-9]{1,16}/(master|item/[a-z0-9_]{1,32}/[A-Za-z0-9_-]{1,64})$")
+            Regex("^[a-z0-9]{1,16}/(master|masternext|item/[a-z0-9_]{1,32}/[A-Za-z0-9_-]{1,64})$")
         private val PREFIX = Regex("^[A-Za-z0-9_/-]{0,120}$")
     }
 }
