@@ -28,6 +28,16 @@ final class _Verifier implements PinVerifier {
       pin == '2468' ? PinCheck.accepted : PinCheck.rejected;
 }
 
+/// At large text on a small screen the lazy list has not built everything yet.
+Future<void> reveal(WidgetTester tester, Finder finder) async {
+  if (finder.evaluate().isNotEmpty) return;
+  await tester.scrollUntilVisible(
+    finder,
+    100,
+    scrollable: find.byType(Scrollable).first,
+  );
+}
+
 void main() {
   Future<FakeOpener> unlock(
     WidgetTester tester, {
@@ -50,7 +60,9 @@ void main() {
     await tester.pumpAndSettle();
     await tester.longPress(find.text('Sargoshi'));
     await tester.pumpAndSettle();
+    await reveal(tester, find.byType(TextField));
     await tester.enterText(find.byType(TextField), '2468');
+    await reveal(tester, find.text('Unlock'));
     await tester.tap(find.text('Unlock'));
     await tester.pumpAndSettle();
     return opener;
