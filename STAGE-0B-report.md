@@ -31,3 +31,6 @@ Kotlin lint, Phosphor icon package, tier calibration on devices and diagnostics 
 ## Decisions needed from you
 1. Confirm or reverse the choices in ADR-006.
 2. Provide the real domain for App Links and the pinned API host.
+
+## Vault notes (branch `claude/vault-notes`, finished and merged)
+After a correct PIN the vault opens its encrypted content and shows a notes list (add, delete, failure message, session lifecycle; fake store in widget tests). Layout fixed for 320 dp at 200% text (delete action stacked under the note, because a side-by-side row overflowed). Still not done: editing notes, decoy-vault content, wipe after failed attempts, PIN change UI, any on-device end-to-end run, independent review.
