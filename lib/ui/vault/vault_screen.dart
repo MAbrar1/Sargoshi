@@ -177,8 +177,7 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
                 if (store != null) ...[
                   VaultNotesView(key: ObjectKey(store), store: store),
                   const SizedBox(height: 24),
-                  if (lock is VaultOpen && isReal)
-                    const VaultChangePinView(),
+                  if (lock is VaultOpen && isReal) const VaultChangePinView(),
                   const SizedBox(height: 16),
                 ],
                 FilledButton.tonal(

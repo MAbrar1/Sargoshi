@@ -115,25 +115,26 @@ void main() {
     expect(find.text('Notes'), findsOneWidget);
   });
 
-  testWidgets('the new PIN opens the vault after locking, the old one does not', (
-    tester,
-  ) async {
-    await unlock(tester);
-    await change(tester);
-    await reveal(tester, find.text('Lock vault'));
-    await tester.tap(find.text('Lock vault'));
-    await tester.pumpAndSettle();
+  testWidgets(
+    'the new PIN opens the vault after locking, the old one does not',
+    (tester) async {
+      await unlock(tester);
+      await change(tester);
+      await reveal(tester, find.text('Lock vault'));
+      await tester.tap(find.text('Lock vault'));
+      await tester.pumpAndSettle();
 
-    await tester.enterText(find.byType(TextField), '2468');
-    await tester.tap(find.text('Unlock'));
-    await tester.pumpAndSettle();
-    expect(find.textContaining('Incorrect PIN'), findsOneWidget);
+      await tester.enterText(find.byType(TextField), '2468');
+      await tester.tap(find.text('Unlock'));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Incorrect PIN'), findsOneWidget);
 
-    await tester.enterText(find.byType(TextField), '8642');
-    await tester.tap(find.text('Unlock'));
-    await tester.pumpAndSettle();
-    expect(find.text('Notes'), findsOneWidget);
-  });
+      await tester.enterText(find.byType(TextField), '8642');
+      await tester.tap(find.text('Unlock'));
+      await tester.pumpAndSettle();
+      expect(find.text('Notes'), findsOneWidget);
+    },
+  );
 
   testWidgets('a wrong current PIN changes nothing', (tester) async {
     await unlock(tester);
