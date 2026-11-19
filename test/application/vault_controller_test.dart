@@ -50,17 +50,19 @@ void main() {
   });
 
   group('wrong-PIN delays', () {
-    test('after five wrong PINs even the right PIN is refused for a while',
-        () async {
-      for (var i = 0; i < 5; i++) {
-        expect(await ctl().submit('9999'), VaultAttemptOutcome.rejected);
-      }
-      expect(await ctl().submit('1234'), VaultAttemptOutcome.throttled);
-      expect(state(), isA<VaultLocked>());
-      final status = await c.read(attemptStatusProvider.future);
-      expect(status.failures, 5);
-      expect(status.isThrottled, isTrue);
-    });
+    test(
+      'after five wrong PINs even the right PIN is refused for a while',
+      () async {
+        for (var i = 0; i < 5; i++) {
+          expect(await ctl().submit('9999'), VaultAttemptOutcome.rejected);
+        }
+        expect(await ctl().submit('1234'), VaultAttemptOutcome.throttled);
+        expect(state(), isA<VaultLocked>());
+        final status = await c.read(attemptStatusProvider.future);
+        expect(status.failures, 5);
+        expect(status.isThrottled, isTrue);
+      },
+    );
   });
 
   group('with a controllable verifier', () {

@@ -52,25 +52,30 @@ void main() {
     expect(delayAfter(500), const Duration(hours: 1));
   });
 
-  test('four wrong PINs are free, the fifth starts a 30 second delay', () async {
-    final v = _Verifier(PinCheck.rejected);
-    await failTimes(4, v);
-    expect((await limiter.status()).isThrottled, isFalse);
-    await failTimes(1, v);
-    final s = await limiter.status();
-    expect(s.failures, 5);
-    expect(s.remaining, const Duration(seconds: 30));
-  });
+  test(
+    'four wrong PINs are free, the fifth starts a 30 second delay',
+    () async {
+      final v = _Verifier(PinCheck.rejected);
+      await failTimes(4, v);
+      expect((await limiter.status()).isThrottled, isFalse);
+      await failTimes(1, v);
+      final s = await limiter.status();
+      expect(s.failures, 5);
+      expect(s.remaining, const Duration(seconds: 30));
+    },
+  );
 
-  test('while throttled the verifier is not called and nothing is counted',
-      () async {
-    final v = _Verifier(PinCheck.accepted);
-    await failTimes(5, _Verifier(PinCheck.rejected));
-    final r = await guard.check(v, '2468');
-    expect(r, isA<GuardedThrottled>());
-    expect(v.calls, 0);
-    expect((await limiter.status()).failures, 5);
-  });
+  test(
+    'while throttled the verifier is not called and nothing is counted',
+    () async {
+      final v = _Verifier(PinCheck.accepted);
+      await failTimes(5, _Verifier(PinCheck.rejected));
+      final r = await guard.check(v, '2468');
+      expect(r, isA<GuardedThrottled>());
+      expect(v.calls, 0);
+      expect((await limiter.status()).failures, 5);
+    },
+  );
 
   test('the delay passes with the monotonic clock and then grows', () async {
     final bad = _Verifier(PinCheck.rejected);

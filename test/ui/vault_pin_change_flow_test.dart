@@ -190,7 +190,9 @@ void main() {
     }
     await change(tester, current: '2468');
     expect(
-      find.text('Too many wrong PINs. Wait and try again later. Nothing was changed.'),
+      find.text(
+        'Too many wrong PINs. Wait and try again later. Nothing was changed.',
+      ),
       findsOneWidget,
     );
     expect(backend.pin, '2468');

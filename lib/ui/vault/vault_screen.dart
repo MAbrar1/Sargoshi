@@ -254,7 +254,5 @@ String _formatWait(Duration d) {
   final h = total ~/ 3600;
   final m = (total % 3600) ~/ 60;
   final sec = (total % 60).toString().padLeft(2, '0');
-  return h > 0
-      ? '$h:${m.toString().padLeft(2, '0')}:$sec'
-      : '$m:$sec';
+  return h > 0 ? '$h:${m.toString().padLeft(2, '0')}:$sec' : '$m:$sec';
 }

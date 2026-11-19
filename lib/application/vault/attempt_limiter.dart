@@ -36,7 +36,8 @@ final class StopwatchAttemptClock implements AttemptClock {
   final Stopwatch _watch;
 
   @override
-  Future<AttemptTime> now() async => (elapsedMs: _watch.elapsedMilliseconds, boot: 0);
+  Future<AttemptTime> now() async =>
+      (elapsedMs: _watch.elapsedMilliseconds, boot: 0);
 }
 
 final class AttemptStatus {
@@ -131,11 +132,7 @@ final class AttemptLimiter {
     }
     _previous = state;
     final n = state.failures + 1;
-    final next = _State(
-      n,
-      t.elapsedMs + delayAfter(n).inMilliseconds,
-      t.boot,
-    );
+    final next = _State(n, t.elapsedMs + delayAfter(n).inMilliseconds, t.boot);
     await store.write(next.encode());
     return null;
   }

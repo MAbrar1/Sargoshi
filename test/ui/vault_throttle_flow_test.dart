@@ -49,7 +49,10 @@ void main() {
     for (var i = 0; i < 5; i++) {
       await tryPin(tester, '9999');
     }
-    expect(find.text('Too many wrong PINs. Try again in 0:30.'), findsOneWidget);
+    expect(
+      find.text('Too many wrong PINs. Try again in 0:30.'),
+      findsOneWidget,
+    );
     final button = tester.widget<FilledButton>(
       find.widgetWithText(FilledButton, 'Unlock'),
     );
