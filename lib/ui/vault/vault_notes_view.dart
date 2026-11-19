@@ -100,13 +100,16 @@ class _VaultNotesViewState extends State<VaultNotesView> {
         for (final note in _items)
           Padding(
             padding: const EdgeInsetsDirectional.only(bottom: 8),
-            child: Row(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(child: Text(note.text)),
-                TextButton(
-                  onPressed: _busy ? null : () => _remove(note),
-                  child: Text(l10n.vaultNoteDelete),
+                Text(note.text),
+                Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: TextButton(
+                    onPressed: _busy ? null : () => _remove(note),
+                    child: Text(l10n.vaultNoteDelete),
+                  ),
                 ),
               ],
             ),

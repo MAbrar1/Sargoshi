@@ -150,7 +150,7 @@ void main() {
       final err = tester.takeException();
       if (err is FlutterError) {
         // ignore: avoid_print
-        print('DIAG ${err.toStringDeep()}');
+        print('DIAG ${err.diagnostics.map((n) => n.toStringDeep()).join('\n')}');
       }
       expect(err, isNull);
       expect(find.text('Notes', skipOffstage: false), findsOneWidget);
