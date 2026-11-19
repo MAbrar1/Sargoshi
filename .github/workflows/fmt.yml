@@ -1,0 +1,13 @@
+name: fmt
+on: workflow_dispatch
+jobs:
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: {channel: stable, flutter-version: "3.50.0"}
+      - run: flutter pub get
+      - run: dart format lib test
+      - name: Dump changed files
+        run: for f in $(git diff --name-only); do echo "=====FILE $f"; cat "$f"; echo "=====END"; done
