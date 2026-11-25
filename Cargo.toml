@@ -1,0 +1,31 @@
+[workspace]
+resolver = "3"
+# server/crates/* is added to this list by P03, which creates that directory.
+members = ["core/crates/*"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.100"
+
+# Exact pins (Prompt B hard rule 7). Versions were verified against crates.io on
+# 25 Nov 2026 and are at least 14 days old; see docs/ledger/DEPENDENCIES.md.
+[workspace.dependencies]
+prost = { version = "=0.14.5", default-features = false, features = ["derive", "std"] }
+thiserror = "=2.0.21"
+proptest = "=1.12.0"
+
+[workspace.lints.rust]
+missing_docs = "warn"
+unused_must_use = "deny"
+
+[workspace.lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+indexing_slicing = "deny"
+todo = "deny"
+unimplemented = "deny"
+dbg_macro = "deny"
+print_stdout = "deny"
+print_stderr = "deny"

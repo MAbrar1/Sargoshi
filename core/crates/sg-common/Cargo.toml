@@ -1,0 +1,17 @@
+[package]
+name = "sg-common"
+description = "Sargoshi shared protocol constants, version handling, error codes and canonical wire formats"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[dependencies]
+prost.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
+
+[lints]
+workspace = true
