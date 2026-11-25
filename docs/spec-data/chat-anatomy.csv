@@ -1,0 +1,12 @@
+n,part,specification
+1,Status bar and inset,Edge to edge. Content respects system bar insets. Nothing interactive under the bars
+2,Top bar,"64 dp. Back target 48 dp, avatar 38 dp, name Title S 17/24, trust line Caption 12 with lock and Mint check"
+3,Date chip,"Caption on a Dusk 2 pill, sticky while scrolling the day"
+4,Incoming bubble,"Dusk 2, radius 18, padding 14/10, max width 78% of the pane and never over 560 dp, time inside bottom right"
+5,Outgoing bubble,"Ember to Rose gradient fill, white text (5.18:1 on Ember), status ticks in Mint"
+6,Voice note,"Play button 40 dp, waveform bars 3.5 dp wide, speed chip, transcript link when AI-06 is on"
+7,Whisper bubble,"Smaller and 78% opaque, ghost badge, vanishes after reading (RSL-04)"
+8,Rule badge,Amber icon on the bubble corner plus a one-line rule pill. Visible to both sides (RSL-03)
+9,AI chips,"34 dp high, sparkle icon, never auto-send, hidden when unsupported (AI-03)"
+10,Composer,"Minimum 56 dp. Attach target 48 dp, send 44 dp gradient circle, grows to 6 lines then scrolls"
+11,Bottom inset,Composer lifts above the keyboard and the gesture bar. Last message stays visible

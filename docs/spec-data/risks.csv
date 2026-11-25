@@ -1,0 +1,43 @@
+ID,Risk,L,I,Mitigation,Residual,Detect or test
+R-01,Crypto implementation flaw,Med,High,"Vetted primitives only, cryptographer review, known-answer and property tests, fuzzing, audit, bug bounty",Med until audit passes,"Audit report, CI"
+R-02,Post-quantum overclaim,Low,High,"Label ""Post-quantum protected (beta)"". Wording rules",Low,Copy review
+R-03,"Account takeover (SIM swap, code interception)",Med,High,"Existing-device approval, recovery-key sign-in, registration lock, passkeys, alerts",Low,Abuse tests
+R-04,Vault content leaks to gallery or other apps,Med,High,"Zero-footprint rules, no MediaStore, no loopback server, leak test harness, footprint scan",Low,Leak harness on every build
+R-05,Vault PIN brute-forced on a compromised device,Med,High,"Hardware-entangled key, Argon2id, passphrase option, escalating lockout",Med on rooted phones,Pen test
+R-06,User loses PIN or recovery key,High,High,"Recovery kit, drills, warnings. Not recoverable by design",Med (user error),Usability tests
+R-07,Backup corruption or rollback,Low,High,"Manifest hashes, versions, restore drills, counter",Low,Drill pass rate
+R-08,Push unreliable on aggressive phones,High,Med,"Health check, OEM guides, generic fallback",Med,Five-brand beta
+R-09,Pakistan OTT licensing or encryption demands,Med,High,"Counsel, region-pinned storage, no plaintext on servers",High (external),Counsel opinion
+R-10,"Store policy rejection (child safety, disguised icon, media permission, foreground service)",Med,Med,"Self-certify, user-chosen icons only, Photo Picker first, correct service types",Low,Pre-submission checklist
+R-11,"Abuse: spam, scams, CSAM",High,High,"Requests inbox, rate limits, on-device detection, franked reports, human review",Med,Abuse dashboard
+R-12,Solo developer overload,High,High,"Scope tiers, hire cryptographer and backend engineer",High,Milestone gates
+R-13,"Cost blowout (relay, storage, push)",Med,Med,"Peer-to-peer first, quotas, offload, measure per user",Med,Cost dashboard
+R-14,On-device AI unavailable on low-end phones,High,Low,"Tiers, hidden controls, small bundled models",Low,Device lab
+R-15,Model licence not allowing commercial use,Med,Med,"Allow only permissive licences, record each in the model manager",Low,Licence review
+R-16,Supply-chain compromise,Low,High,"Pin versions, two-week-old releases only, `cargo deny`, SBOM, audits",Med,CI scans
+R-17,Metadata visible before sealed sender,High,Med,"Short queues, scrubbed logs, minimal records, ship sealed sender in v1",Med,Metadata review
+R-18,Screen-share privacy leak,Med,Med,"Single-app picker, notification hiding, secure windows blank, pause",Low,Share test script
+R-19,Screenshot or camera capture of ephemeral content,High,Med,Honest labels. No promise of prevention,Accepted,Copy review
+R-20,Slow on 4 GB phones,Med,Med,"Budgets, lite mode, tiered visuals",Low,Device lab
+R-21,FFI or native crashes across OS versions,Med,Med,"Test matrix, crash tooling, staged rollout",Low,Crash-free rate
+R-22,Check-in timer fails (phone dead),Med,High,"Server-held scheduled message with heartbeat, clear limits",Med,Fault tests
+R-23,Name or trademark conflict,Med,Med,"Search and file, backup names",Low,Counsel
+R-24,Key loss when moving phones without backup,Med,High,"Setup wizard, nag, linked-device history sync",Low,Usability tests
+R-25,Legal exposure from intruder photo or recording,Low,Med,"Off by default, local only, consent text, counsel",Low,Legal review
+R-26,Data residency and privacy-law mismatch,Med,Med,"Region pinning, GDPR-level privacy",Low,Counsel
+R-27,Insider or admin abuse,Low,High,"No plaintext, least privilege, audit logs, access reviews",Low,Access audit
+R-28,Denial of service,Med,Med,"CDN or WAF, rate limits, queue caps",Low,Load tests
+R-29,Alert fatigue and security-UI confusion,Med,Med,"Severity discipline, usability tests, plain copy",Low,Usability tests
+R-30,Marketing overclaim,Med,High,"No ""first"" or ""unhackable"" claims without proof",Low,Copy review
+R-31,Over-scoping from the v5 additions,High,High,No new Beta Core rows. Scope tiers unchanged. Each new row has a phase and a gate,Med,Milestone gates
+R-32,Nearby messaging abused for spam or drains battery,Med,Med,"v2 only. Rate limits, opt-in, relay budget, no relaying of media",Low,Field test
+R-33,Censorship-resilience features create legal exposure in Pakistan,Med,High,Counsel review before NET-09 ships. No domain fronting. Neutral wording,High (external),Counsel opinion
+R-34,Users expect auto-moderation to work in end-to-end encrypted groups,Med,Med,Rules run only on admin devices that are online. Honest labels (GRP-17),Med,Copy review
+R-35,Lockdown mode confuses people or hides messages they need,Med,Med,"Exact change list, undo, security alerts always on",Low,Usability tests
+R-36,Family accounts misused for control or hidden surveillance,Med,High,"Pre-teens only, visible to the child, no message reading, no hidden mode, review with a child-safety adviser",Med,Adviser review
+R-37,Look-alike APKs and malware outside Play,Med,High,"Signed update manifest, shown fingerprint, official domain only (ADM-08)",Med,Release checklist
+R-38,Wrong prayer times or cultural missteps,Med,Low,"Manual city and method choice, manual override, no location permission",Low,Community review
+R-39,Logo or name conflicts with an existing mark,Med,High,Trademark and design-mark search before launch. Keep alternates ready,Med,Counsel
+R-40,Remote wipe triggered by a hostile person,Low,High,"Only from an already-approved device, with a confirmation and a 10-minute undo for the sign-out",Low,Abuse tests
+R-41,SOS and check-in create false confidence,Med,High,Plain limits in copy: depends on signal and battery. Test before enabling,Med,Fault tests
+R-42,Usage insights feel like tracking,Low,Low,"Local only, never uploaded, off in Maximum privacy preset",Low,Copy review

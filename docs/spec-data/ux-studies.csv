@@ -1,0 +1,11 @@
+Study,Who,Tasks,Proposed pass rule
+First chat,"8 new users per round: 3 Urdu-first, 2 parents or elders, 3 students on T1 or T2 phones","Install, sign up, add a friend by QR, send a message and a voice note",90% finish unaided in under 3 minutes
+Secure setup,Same,"Set app lock, save the recovery key, pass the quiz",85% pass the quiz on the first try
+Vault,8 users,"Create a Vault, import a photo with remove-original, lock, find it again, use the decoy","80% complete without help, 0 leaks in the harness"
+Backup drill,6 users,"Read the readiness score, run a test restore, explain the result",80% can say whether they could recover
+Rules,8 users,"Send a message with Whisper and no-forward, explain what the badge means",85% explain it correctly
+Presenting,6 users,"Share a file, then a screen, then stop, and explain what viewers could see","90% stop safely, 80% explain visibility"
+Lockdown,6 users,"Turn Lockdown on, read the list, turn it off",90% can say what changed
+Simple mode,6 older users,Send a message and make a call,80% finish unaided
+Urdu and RTL,6 Urdu-first users,"Read, write and search mixed Urdu and English","No reported layout errors, search finds both letter forms"
+Accessibility,"4 users with TalkBack, large text or switch access","Sign-up, first chat, Vault",All tasks completable

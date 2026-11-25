@@ -1,0 +1,9 @@
+order,rule,result
+1,Is it a Critical alert?,Always shown. Skips every later rule
+2,Is the chat muted?,Silent. Counts show only in the app
+3,Is Hush mode on?,"Hold unless the sender is a priority contact (NTF-11), it is a repeat call (NTF-12), or AI-19 marks it urgent"
+4,Is it a Vault chat?,"""New message"", or nothing if the person chose silent. Never name or text"
+5,Privacy level (NTF-05),"Show name and text, or name only, or ""New message"""
+6,Grouping (NTF-10),"One notification per chat. After 5 messages in 30 seconds, collapse to ""5 new messages"""
+7,Rate limit,"At most one sound per chat per 30 seconds, then vibrate only"
+8,Badge (NTF-13),Number of chats with unread messages. Muted chats excluded unless the person turns that on

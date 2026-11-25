@@ -1,0 +1,37 @@
+id,journey,step,gap_found,fix,build_phase
+JNY-01,First run,"Install, welcome, permissions",v3 asked nothing about security setup,"Welcome, then a 3-step Secure setup (app lock, recovery key, optional vault), skippable with a reminder",P06
+JNY-01,First run,Sign-up by code,Code never arrives (SMS cost or filtering in Pakistan),"Email code option, retry with cooldown, clear errors, passkey later",P06
+JNY-01,First run,Username choice,"Name taken, lookalike names","Live check, lookalike warning (SAF-09), burner username option (PER-03)",P06
+JNY-01,First run,First contact,Empty app feels dead,"Invite card, QR, link, import from WhatsApp (GRW-01)",P06
+JNY-02,Send and receive,Send message offline,Silent failure,"Queue view (NET-06), clear ""Not sent"" state, auto-retry with backoff",P07A
+JNY-02,Send and receive,Receive when app is closed,Push dropped by phone battery rules,"Health check (NTF-07), generic fallback, OEM guide",P07A
+JNY-02,Send and receive,Duplicate or out-of-order delivery,Not specified,"Idempotency keys, per-chat sequence, server timestamps (Section 15.5)",P07A
+JNY-02,Send and receive,Edit or delete after delivery,Receiver offline for days,"Edit and delete travel as messages, applied on arrival, with a visible ""edited"" or ""deleted"" state",P07A
+JNY-03,Group,Added by a stranger,Spam and scams,"Preview with ""Leave and report"" (SAF-07), join questions (GRP-08)",P14A
+JNY-03,Group,New member joins,Cannot see context,Optional history for new members (GRP-12),P14A
+JNY-04,New phone,"Install, sign in",Takeover risk,"Approval from an existing device (ACC-12), or recovery key (ACC-13), registration lock (ACC-09)",P13
+JNY-04,New phone,Restore,One big blocking restore,"Chats-first restore, media in background, resume (BKP-10)",P13
+JNY-04,New phone,Vault on new phone,Vault not in backup by default,Vault backup is opt-in with its own key (BKP-08). Restore asks for vault PIN and recovery key,P13
+JNY-05,Lost phone,Remote sign-out,Needs another device,"Sign out from any other device, or request sign-out of all devices after recovery-key verification (Section 14.5)",P06
+JNY-05,Lost phone,Thief with unlocked phone,Opens vault,"Separate vault lock, auto-lock, biometric re-auth per open, lockout, duress PIN",P06
+JNY-06,Vault import,Move photos in,Original stays in gallery and Google Photos,"Remove-original with system consent, footprint scan for remaining copies, clear message about cloud copies",P11
+JNY-06,Vault import,View video,Plaintext temp file,"Custom decrypting data source, no temp file, no local server",P11
+JNY-06,Vault import,Share from vault,Copy left in cache or gallery,"Send straight from vault, attachment follows Message Rules, no cache copy",P11
+JNY-06,Vault import,Phone handed to someone,"Screenshot, recent apps, notification","Screenshots blocked, hidden from recents, no vault notification text, privacy blur grid",P11
+JNY-07,Presenting,Choose source,Only whole screen offered,"Source sheet with six sources, version-aware (Section 9)",P16
+JNY-07,Presenting,Private content on screen,Notification pops up,"Notification hiding, Do Not Disturb prompt, pause button, black placeholder for secure windows",P16
+JNY-07,Presenting,Share stops,Screen locked or consent used up,"Clear ""Sharing stopped"" with one-tap restart",P16
+JNY-08,Backup and restore,Backup runs,Silent failure,"Freshness badge, alert after 7 days of failure (ALR-05)",P13
+JNY-08,Backup and restore,Restore day,Backup unreadable,Restore drills catch it earlier (BKP-09),P13
+JNY-08,Backup and restore,Recovery key lost,Data gone,"Recovery kit PDF, second factor option, unmissable warnings. This risk cannot be removed (R-06)",P13
+JNY-09,Report and appeal,Report a user,Cannot prove authenticity,Franking tag (SAF-10),P07C
+JNY-09,Report and appeal,Banned user,Unclear reason,"Reason, evidence summary, appeal with human review (SAF-06)",P07C
+JNY-10,Delete account,Delete,Backups and vault remain,"Delete dialog lists what is removed from our servers, what stays on devices and in backups they control",P06
+JNY-11,"Lost phone, remote wipe",Owner signs out the lost device from another device,Chats and keys stay on the lost phone until it connects,ACC-16: sign-out also queues a wipe of Sargoshi data and keys. It runs on the next connection. Local app lock and Vault lock protect it until then,P06
+JNY-11,"Lost phone, remote wipe",Wiped device reconnects,Person finds the phone and is confused,ALR-20 explains what happened and offers a fresh sign-in,P06
+JNY-12,Network outage,Messages will not send during a regional outage or block,"Silent waiting, no alternatives","NET-10 outage mode shows the cause class, retry plan and options: transport fallbacks (NET-09), proxy link, Nearby (NET-08, v2)",P19
+JNY-12,Network outage,Someone shares a proxy link,Unknown links are risky,"Proxy links are signed, shown with a fingerprint, and opened only after an explicit tap",P19
+JNY-13,Lockdown,Journalist turns on Lockdown mode,Strict settings break normal use,"PRV-17 shows the exact list before applying, keeps security alerts on, and offers one-tap undo",P18
+JNY-14,Community admin,Admin creates a community with four groups,Joining flow is unclear and spam arrives,"GRP-15 community link with approval, GRP-16 captcha and welcome message, GRP-17 rules on admin devices",P14B
+JNY-15,Scam attempt,Stranger asks for an OTP in a chat,Person shares it,"AI-35 warns before sending a code-like message, SAF-13 pack shows the scam type, SAF-16 restrict silences the sender",P20
+JNY-16,Older user,Family member installs the app for a parent,Too many choices,"SET-17 Simple mode with four large tiles and voice prompts, set up by the family member",P18

@@ -1,0 +1,13 @@
+channel,importance,default_sound,contains
+Messages,High,Sargoshi chime,Chat messages
+Mentions and replies,High,Chime,"Mentions, replies, reactions (reactions off by default)"
+Calls,Max (ring),Ringtone,Incoming and missed calls
+Moments,Default,None,New moments from close friends
+Group activity,Low,None,"Joins, events, polls"
+Reminders,High,Soft tone,"Message reminders, event reminders, ID document reminders"
+Security alerts,High,Alert tone,ALR alerts. Cannot be switched off
+Safety check-in,High,Alert tone,SAF-11 timers
+Safety and account,Default,None,"Report outcomes, ban notices, appeal updates"
+Backup and restore,Low,None,"Backup finished, restore progress"
+System,Low,None,Updates
+Calls and sharing in progress,Low,None,Ongoing notification the system requires

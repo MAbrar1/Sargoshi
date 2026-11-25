@@ -1,0 +1,10 @@
+region,size,rules
+System status bar,System inset,Content draws behind it (edge to edge) with a scrim only when text would collide
+Top app bar,64 dp,Identity and secondary actions only. Collapses on scroll in lists and in landscape
+Search,44 dp field,Sits in the lower reach zone when the list is long (pull down reveals it)
+Content,Fills the rest,Scrolls under both bars. Bottom content padding equals the bar height
+Bottom navigation,80 dp including indicator,4 tabs. Hidden inside a chat and inside the Vault. Active tab uses the Fill icon weight and a Dusk 3 pill
+Floating action button,"56 dp, radius 18","16 dp above the bottom bar, right aligned (left in right-to-left)"
+Composer,56 dp minimum,Grows to 6 lines. Sits above the keyboard and the gesture inset
+Bottom sheet,"Radius 28, drag handle 5 by 60 dp",Opens to 50% or full height. Dim scrim 55%
+Gesture inset,System,Never place a target in it

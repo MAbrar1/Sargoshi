@@ -1,0 +1,30 @@
+id,leak_vector,control,proven_by,build_phase
+LKV-01,Phone gallery and MediaStore,Never write to shared storage or MediaStore,MediaStore row count before and after every operation,P10
+LKV-02,System thumbnail caches,"Nothing in shared storage, so the system never sees a file to thumbnail",Thumbnail directory scan,P10
+LKV-03,Google Photos and other cloud backup of originals,Vault storage is app-private. Leftover report and footprint scan for originals,Manual checklist in the beta,P10
+LKV-04,Android Auto Backup and device-to-device transfer (both on by default),"`allowBackup=""false""` and data-extraction rules that exclude everything for cloud backup and device transfer. Sargoshi uses its own encrypted backup (Section 12)",`bmgr` backup test restores nothing,P10
+LKV-05,File managers and other apps,"Internal storage only. No file provider exposure except a short-lived, single-item export",Provider and permission audit,P10
+LKV-06,Temporary plaintext files and caches,"No plaintext temp files. Image, video and network caches are disabled for Vault views. Cache, code-cache and no-backup folders are scanned",Plaintext scanner (file magic bytes and test strings) after every flow,P10
+LKV-07,Local web server for video,None. Media3 uses a custom data source that decrypts chunks on demand. No listening sockets,Socket listing during playback,P10
+LKV-08,"Share sheet and ""Open with""",Disabled for Vault items. Only the export flow exists,UI and intent audit,P10
+LKV-09,"Screenshots, screen recording, casting, recent apps","Secure window flag on every Vault screen, recents screenshot disabled, Vault activities excluded from recents, Vault never appears in a screen share",Automated screenshot test returns black,P10
+LKV-10,Notifications,"Vault chats show ""New message"" or nothing. ID reminders say ""Document reminder""",Notification text test,P10
+LKV-11,"Widgets, shortcuts, Direct Share, assistants",No shortcuts or share targets are published for Vault chats,Shortcut manager dump,P10
+LKV-12,System and app search,Vault content is excluded from global search and from the global AI index. The Vault has its own encrypted index,Index inspection,P10
+LKV-13,Clipboard,Copy disabled in Vault viewers. Sensitive-content flag and auto-clear for anything copied from notes,Clipboard test,P10
+LKV-14,Keyboard learning and suggestions,Personalised learning disabled for Vault text fields. PIN uses an in-app pad. Third-party keyboards are warned about,Field flag audit,P10
+LKV-15,Autofill,Vault fields are excluded from autofill,View flag audit,P10
+LKV-16,Accessibility services reading the screen,"A secure window does not stop accessibility services. Vault checkup lists non-system services and warns. Optional ""lock while one is active""",Checkup test,P10
+LKV-17,Overlays and tapjacking,Hide overlay windows and filter obscured touches on Vault screens,Overlay test app,P10
+LKV-18,Logs and crash reports,Redaction layer. No names or paths in logs,Log scanner,P10
+LKV-19,Sargoshi's own backups,"Vault excluded unless BKP-08 is on, then encrypted under its own key",Backup content test,P13
+LKV-20,Memory,"Decrypted data lives in memory only while viewed, cleared on lock",Lock test,P10
+LKV-21,Before first unlock after reboot,Vault storage uses credential-encrypted storage,Boot test,P10
+LKV-22,ADB backup and debugging,"Release builds not debuggable, backup off",Build check,P10
+LKV-23,Deleted originals on flash storage,Honest note. Android's file-based encryption protects data at rest on modern phones,Copy review,P10
+LKV-24,Photos of the screen by a camera,Cannot be stopped. Honest label,Copy review,P10
+LKV-25,Contacts and calendar providers,Vault contacts and reminders stay inside Sargoshi,Provider test,P10
+LKV-26,Links opened from notes,A warning explains that the browser keeps history,Copy review,P10
+LKV-27,"Launcher shortcuts and widgets (SET-13, SET-21)","Only New chat, Scan QR and Record voice note are published. No Vault names. Widgets show counts, never text",Shortcut manager dump,P18
+LKV-28,Live progress and ongoing notifications (NTF-16),"Text is generic (""Backup in progress""). Vault backup shows no item names or counts",Notification text test,P13
+LKV-29,"Wear OS and Android Auto surfaces (DSK-05, DSK-06)",Vault chats are never bridged. Notification text follows NTF-05 and never names a Vault chat,Companion app test,P22

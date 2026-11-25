@@ -1,0 +1,14 @@
+axis,cover
+Device tiers,T1: a 3 GB phone on Android 11. T2: a 4 GB phone with 64 GB storage on Android 13 (the typical entry phone). T3: a recent Pixel or Galaxy S on Android 15 or 16. Plus one foldable and one tablet
+Phone makers,"Xiaomi or Redmi, Oppo or Realme, Vivo, Samsung, Infinix or Tecno, Pixel"
+Android versions,"11, 12, 13, 14, 15, 16 (these cover the share seen in Pakistan). Spot-check 9 and 10 for the import and delete rules"
+Networks,"2G-class, flaky 3G, 4G, Wi-Fi with captive portal, airplane-mode toggling, Wi-Fi to mobile handover mid-call"
+Languages,"English, Urdu (RTL), mixed Urdu and English messages, Roman Urdu"
+Suites,"Crypto (known-answer, property, fuzz), Vault leak harness, backup and restore drills, push delivery per brand, presenting per Android version, accessibility (TalkBack, 200% text, contrast), performance budgets (Section 15.3), battery, golden screenshots at five widths in LTR and RTL"
+Outage and censorship,"Block WebSocket, then block 443 to the gateway, then drop the network: confirm fallbacks, Outage mode messages and recovery. Test proxy-link signing and the fingerprint prompt"
+Lockdown and wipe,"Apply and undo Lockdown. Remote-wipe a second device online, offline and after a reconnect. Confirm nothing remains and ALR-20 shows"
+Design,"Goldens at five widths in LTR and RTL, component gallery diff, 200% text, reduce-motion, contrast and target audit, logo legibility at 16, 24 and 48 dp and in themed icons"
+Scam and OTP,"Pakistan scam pack hit rate on a self-written test set, false-positive review on normal chats, OTP guard on real code formats"
+Groups at scale,"Community with 4 groups and 500 members: captcha, auto-moderation on offline admins, ownership succession, ban list"
+Companion surfaces,"Watch and car emulator: no Vault text, notification privacy level respected"
+Battery,"Budgets in Section 15.3 on a T2 phone, including idle with push, calls and presenting"

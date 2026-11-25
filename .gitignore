@@ -1,0 +1,33 @@
+# build output
+build/
+.dart_tool/
+.gradle/
+target/
+node_modules/
+*.apk
+*.aab
+*.so
+*.class
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+# secrets (never commit)
+.env
+.env.*
+!.env.example
+key.properties
+*.jks
+*.keystore
+google-services.json
+service-account*.json
+local.properties
+# flutter generated
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+# logs and scratch
+*.log
+*.tmp

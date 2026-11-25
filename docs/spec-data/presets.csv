@@ -1,0 +1,13 @@
+Setting,Standard,Private,Maximum privacy,Low data,Battery saver
+Read receipts and typing,On,Off,Off,On,On
+Last seen and online,Contacts,Nobody,Nobody,Contacts,Contacts
+Notification content,Name and text,Name only,Hidden,Name and text,Name only
+Link previews,On,Off,Off,Off,On
+Auto-download on mobile data,Photos,Off,Off,Off,Photos
+Disappearing default,Off,1 week,1 day,Off,Off
+Always relay calls (PRV-12),Off,On,On,Off,Off
+App lock,Off,On,On,Off,Off
+Screenshot blocking,Off,Vault only,Everywhere,Off,Off
+AI on-device features,On,On,"On, no cloud",Off,Off
+Visual effects,Per tier,Per tier,Per tier,Reduced,Minimal
+Backup,"Daily, Wi-Fi","Daily, Wi-Fi",Local only,"Weekly, Wi-Fi","Weekly, charging"

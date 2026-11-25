@@ -1,0 +1,20 @@
+screen,figure,blueprint_compact
+Chat list,6,"Top bar 64 (mark, title Headline 24, Hush moon, overflow) · Search 44 · Filter chips 32 · Requests row 46 · Chat rows 72 each (avatar 48, name Title S, preview Body, time Caption, unread badge 22) · FAB 56 · Bottom bar 80"
+Chat,6,"Top bar 64 (back, avatar 38, name, trust line, video, call) · Messages (date chips, bubbles, voice, media grid) · AI chips 34 (conditional) · Composer 56"
+Vault lock,7,Gradient Indigo to Ink · Vault mark 100 · Title Display 28 · PIN dots 6 · Custom pin pad 4 rows of 52 dp keys · Recovery link · Hint
+Vault home,7,"Top bar 64 in Lilac · Storage card 124 (ring 80, counts, checkup pill) · 2 by 4 tiles 82 high · Speed-dial 56 · Lock timer strip"
+Vault gallery,7,"Top bar · Album chips 32 · 3 column grid, 110 dp cells, 6 dp gaps, blur on · Footer hint strip"
+Present sheet,8,Dimmed call behind · Sheet radius 28 · Six source tiles 100 by 84 · Version reason line · Pre-share toggles · Quality segmented control · Start button 44
+Call with presenting,8,Red sharing bar 28 · Presented content 300 high · Participant tiles 100 high · Status pills · Call controls (5 circles of 54)
+Backup,8,"Top bar · Readiness card 150 (ring 92, status, test button) · Destinations 50 each · Versions list · Two buttons 48"
+Settings home,9,Title · Search 44 · Security checkup card 64 · Preset chips 30 · 14 group rows 34 · Bottom bar
+Alerts,9,Title · Severity cards (84 or 118) with 5 dp colour edge and icon · Footnote
+AI sheet,9,"Chat dimmed · Sheet · Header with ""On this phone"" tag · Four action cards 58 · Model manager and Settings buttons"
+Welcome and setup,10,"Mark 168 on a rose glow · Headline 27 · Three-dot pager · Primary button 52 · Language toggle. Setup: three 100 dp cards with status, Continue 50, Skip link"
+Add a friend,10,QR card 220 with centre mark · Username Title · Four action tiles 150 by 50
+Lockdown,12,Top bar · Amber card with toggle · Six change rows 52 · Review button
+Focus profiles,12,Title · Five profile cards 74 with toggle · Add button · Bottom bar
+Data usage,12,Top bar · Month card 120 with cap bar · By-feature bars · Network note · Cap button
+Communities,12,Gradient banner 150 · Announcements row 64 · Group rows 64 · Invite button
+Simple mode,12,Greeting · 2 by 2 large tiles 152 by 184 with 80 dp icons · Voice tile 84
+Tablet and desktop,11,Rail 66 · List 250 (340 dp at full scale) · Chat · Info pane

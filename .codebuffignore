@@ -1,0 +1,16 @@
+# Keep the agent away from heavy or irrelevant files
+build/
+.dart_tool/
+target/
+node_modules/
+*.apk
+*.aab
+docs/blueprint/figures/
+docs/blueprint/logo/
+docs/blueprint/*.pdf
+docs/quality/screens/
+apps/mobile/assets/fonts/
+*.g.dart
+*.freezed.dart
+Cargo.lock
+pubspec.lock

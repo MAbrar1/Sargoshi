@@ -1,0 +1,23 @@
+{
+  "color": {
+    "ink": "#0B0D1A", "dusk": "#161A33", "dusk2": "#20254A", "dusk3": "#2A3060", "line": "#2E3463",
+    "moon": "#EDEBFF", "mist": "#A7A9C7", "ember": "#C2410C", "rose": "#BE185D", "glow": "#FF8A4C",
+    "mint": "#4ADE9C", "amber": "#FFC857", "coral": "#FF6B6B", "sky": "#6EA8FF",
+    "vaultIndigo": "#4A3FD6", "vaultLilac": "#B9B1FF", "amoled": "#000000",
+    "parchment": "#FAF7F2", "paper": "#FFFFFF", "lightSecondary": "#5B5F7E", "lightAccentText": "#9A3412"
+  },
+  "gradient": { "brand": ["#C2410C", "#BE185D"], "vault": ["#4A3FD6", "#2B2397"] },
+  "space": [4, 8, 12, 16, 20, 24, 32, 40, 48, 64],
+  "radius": { "button": 14, "card": 16, "bubble": 18, "sheet": 28, "chip": 999, "fab": 18 },
+  "elevation": { "s0": "ink", "s1": "dusk", "s2": "dusk2", "s3": "dusk3" },
+  "motion": { "micro": 120, "standard": 200, "screen": 320, "springSheet": "stiffness 400, damping 0.8" },
+  "type": {
+    "displayL": ["PlusJakartaSans", 800, 36, 44], "display": ["PlusJakartaSans", 700, 30, 38],
+    "headline": ["PlusJakartaSans", 700, 24, 32], "title": ["PlusJakartaSans", 600, 20, 28],
+    "titleS": ["Inter", 600, 17, 24], "bodyL": ["Inter", 400, 16, 24], "message": ["Inter", 400, 16, 22],
+    "body": ["Inter", 400, 15, 22], "label": ["Inter", 600, 13, 18], "caption": ["Inter", 400, 12, 16],
+    "mono": ["JetBrainsMono", 600, 15, 22], "urduBody": ["NotoNaskhArabic", 400, 17, 30]
+  },
+  "breakpoints": { "compact": 0, "medium": 600, "expanded": 840 },
+  "target": { "min": 48 }
+}

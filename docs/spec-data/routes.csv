@@ -1,0 +1,22 @@
+screen,route,entry_points,notes
+Chat list,/chats,"Tab, notification, launcher",Start tab by default (SET-08)
+Chat,/chats/{chatId},"List, notification, share target, deep link",`?msg={id}` jumps to a message (MSG-30)
+Chat info,/chats/{chatId}/info,Chat top bar,Third pane on large screens
+Message rules,/chats/{chatId}/rules,"Chat info, long-press",
+Trust screen,/chats/{chatId}/trust,Lock icon in the top bar,"Safety number, QR"
+Requests,/requests,Chat list row,
+Add friend,/add` and `/u/{username},"Invite link, QR, deep link",Shows a preview before adding
+Moments,/moments,Tab,
+Calls,/calls,"Tab, missed-call notification",
+Call,/calls/{callId},"Incoming call, call link",Present sheet opens as an overlay
+Join by link,/j/{token},Call or group link,Lobby when set (CAL-15)
+Community,/communities/{id},"List, invite link",
+You,/you,Tab,
+Settings,/settings` and `/settings/{group}/{id},"You, search, widget",Deep link to any setting (SET-01)
+Security centre,/security,"Settings, alert",
+Backup,/backup,"Settings, alert, progress notification",
+Focus profiles,/focus,"Quick Settings tile, widget",
+Data usage,/data,"Settings, cap alert",
+AI and models,/ai,"Settings, AI sheet",
+Vault,not linkable,"You, logo gesture",Always passes through the Vault lock
+Share target,/share,Android share sheet,Vault chats never listed

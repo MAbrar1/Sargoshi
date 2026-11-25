@@ -1,0 +1,351 @@
+id,module,feature,blueprint_phase,beta_core,new_v4,new_v5,build_phase,v2_mode,blueprint_line
+ACC-01,ACC,"Sign up with phone or email and a one-time code, then choose a unique username",MVP,1,,,P06,,871
+ACC-02,ACC,"Add contacts by username, QR code or invite link. No mandatory contact upload",MVP,1,,,P06,,872
+ACC-03,ACC,Linked devices (start with 4) and QR sign-in for a new device,MVP,1,,,P06,,873
+ACC-04,ACC,"Device management: last active time, rename, remote sign-out",MVP,,,,P06,,874
+ACC-05,ACC,Delete account inside the app,MVP,1,,,P06,,875
+ACC-06,ACC,"Profile: name, photo, short bio, per-field visibility",MVP,,,,P06,,876
+ACC-07,ACC,Passkey sign-in,v1,,,,P06,,877
+ACC-08,ACC,Multi-account switch,v1,,,,P06,,878
+ACC-09,ACC,"Registration lock PIN, so nobody can re-register your number or email",v1,,,,P06,,879
+ACC-10,ACC,Username change with a 30-day cooldown,v1,,,,P06,,880
+ACC-11,ACC,"Contact nicknames and private notes, stored only on your devices",v1,,,,P06,,881
+ACC-12,ACC,"New-device approval: a new device needs approval from an existing device. If none is reachable, a 24-hour wait with alerts on every device",MVP,1,1,,P06,,882
+ACC-13,ACC,Sign in with the recovery key instead of a code,v1,,1,,P06,,883
+ACC-14,ACC,Rotating contact link and QR that revoke the old ones,v1,,1,,P06,,884
+ACC-15,ACC,"Request a copy of the data our servers hold about you, as an encrypted file",v1,,1,,P06,,885
+ACC-16,ACC,"Remote wipe: signing out a lost device from another device also queues a wipe of Sargoshi chats, keys and Vault keys on it, applied on its next connection. App lock and Vault lock protect it until then",v1,,,1,P06,,886
+ACC-17,ACC,"Device-link scam signals: an extra warning when a link request arrives during a call, right after a code request, or from an unusual context, with a plain reason",v1,,,1,P06,,887
+ACC-18,ACC,"Inactive account manager: delete after 6, 12 or 24 months without use, with reminders on every device and by email",v1,,,1,P06,,888
+ACC-19,ACC,Legacy contact: a trusted person can ask to close the account or post a memorial notice. Never gives access to chats,v2,,,1,P21,TRY_BUILD,889
+ACC-20,ACC,Several passkeys and hardware security keys (FIDO2),v1,,,1,P06,,890
+ACC-21,ACC,"Age assurance: date-of-birth gate with no ID upload, age-appropriate defaults, and a parent-managed route for pre-teens (SAF-12)",MVP,,,1,P06,,891
+PER-01,PER,"Personas: a different name, photo and bio per chat or group",v1,,1,,P07A,,897
+PER-02,PER,"Burner usernames: temporary usernames with an end date, revocable any time",v1,,1,,P07A,,898
+PER-03,PER,Join public channels as a persona,v1,,1,,P14B,,899
+MSG-01,MSG,1-on-1 and group chat,MVP,1,,,P14A,,905
+MSG-02,MSG,"Replies, reactions, mentions",MVP,1,,,P07A,,906
+MSG-03,MSG,Edit and delete for everyone,MVP,1,,,P07A,,907
+MSG-04,MSG,"Forward messages (limits are set by Message Rules, RSL-01 and RSL-02)",MVP,,1,,P07A,,908
+MSG-05,MSG,Drafts saved per chat,MVP,,,,P07A,,909
+MSG-06,MSG,"Delivered and read states, each optional",MVP,,,,P07A,,910
+MSG-07,MSG,"Typing indicator, optional",MVP,,,,P07A,,911
+MSG-08,MSG,Link previews generated on the sender's phone,MVP,,,,P07A,,912
+MSG-09,MSG,Offline queue with automatic retry,MVP,1,,,P07A,,913
+MSG-10,MSG,Full-text search on the phone,MVP,,,,P07A,,914
+MSG-11,MSG,"Scheduled send and time capsules (deliver now, opens on the date you choose)",v1,,1,,P07A,,915
+MSG-12,MSG,Remind me about this message,v1,,,,P07A,,916
+MSG-13,MSG,Message info: who got and read it (groups up to 50),v1,,,,P07A,,917
+MSG-14,MSG,Quote part of a message,v1,,,,P07A,,918
+MSG-15,MSG,Chat wallpapers and per-chat accent colour,v1,,,,P07A,,919
+MSG-16,MSG,"Polls, with optional anonymous voting",v1,,,,P14A,,920
+MSG-17,MSG,"Whisper Send (signature): hold send and slide up. Applies the Whisper rule set (RSL-04) with a small, faded bubble that vanishes after reading. Works for text, voice and photos",v1,,,,P07B,,921
+MSG-18,MSG,Undo send within 5 seconds,MVP,,1,,P07A,,922
+MSG-19,MSG,Share a contact card,v1,,1,,P07A,,923
+MSG-20,MSG,"Rich text: bold, italic, monospace, strikethrough, quote and spoiler",v1,,1,,P07A,,924
+MSG-21,MSG,Silent send (no notification for the receiver),v1,,1,,P07A,,925
+MSG-22,MSG,"Advanced search: filters for person, chat, date range, type, has link and has file; jump to a date; saved searches",v1,,,1,P07B,,926
+MSG-23,MSG,"Keep this message: in a disappearing chat, ask to keep a message and the sender approves. The kept copy is marked",v1,,,1,P07B,,927
+MSG-24,MSG,"Edit history: optional per chat, shows earlier versions of an edited message to everyone in the chat",v1,,,1,P07B,,928
+MSG-25,MSG,Threads: reply in a side thread in any chat or group without flooding the timeline,v1,,,1,P07B,,929
+MSG-26,MSG,Saved collections: put starred messages and saved items into named collections,v1,,,1,P07B,,930
+MSG-27,MSG,"Repeating scheduled messages: daily, weekly or monthly, with an end date",v1,,,1,P07B,,931
+MSG-28,MSG,Text stickers: turn a short phrase into a styled sticker,v1,,,1,P07B,,932
+MSG-29,MSG,"Custom reactions: any emoji or sticker as a reaction, with favourites",v1,,,1,P07B,,933
+MSG-30,MSG,Link to message: a private link that opens that message for members of the chat only,v1,,,1,P07B,,934
+MSG-31,MSG,"Bulk actions: select many messages to forward, star, delete, export or move to the Vault",v1,,,1,P11,,935
+RSL-01,RSL,"Message rules per message: allow forward, allow copy, hide from search and AI, expire after (30 seconds to 4 weeks), delete after read, require unlock to open",v1,,1,,P07B,,941
+RSL-02,RSL,"Chat rules for everything in a chat: block export, block auto-download, block AI processing, block forwarding. Default rules for new chats",v1,,1,,P07B,,942
+RSL-03,RSL,"Rule badges visible to both sides, and a ""What this does and does not stop"" sheet that is honest about screenshots and cameras",v1,,1,,P07B,,943
+RSL-04,RSL,"Rule templates: Whisper, Confidential, Ephemeral, Custom (view-once media is MED-04)",v1,,1,,P07B,,944
+MED-01,MED,Photos and video,MVP,1,,,P08,,950
+MED-02,MED,"Documents up to 2 GB, resumable",MVP,1,,,P08,,951
+MED-03,MED,Voice notes with waveform and speed control,MVP,1,,,P08,,952
+MED-04,MED,"View-once photos, videos and voice notes",MVP,,1,,P08,,953
+MED-05,MED,Auto-download rules per network type,MVP,,,,P08,,954
+MED-06,MED,"Chat media gallery with filters: photos, videos, files, links, voice",MVP,,,,P08,,955
+MED-07,MED,"""Send in original quality"" toggle",MVP,,,,P08,,956
+MED-08,MED,"Strip location and camera data (EXIF) from every sent photo, on by default",MVP,,,,P08,,957
+MED-09,MED,GIFs through a privacy-preserving proxy,v1,,,,P08,,958
+MED-10,MED,Stickers,v1,,,,P08,,959
+MED-11,MED,"Location sharing, then live location",v1,,,,P08,,960
+MED-12,MED,"Photo editor: crop, draw, text, blur faces by hand (automatic blur is MED-23)",v1,,,,P08,,961
+MED-13,MED,On-device sticker maker,v1,,,,P17,,962
+MED-14,MED,"Nearby share with no internet, over local Wi-Fi",v2,,,,P21,TRY_BUILD,963
+MED-15,MED,"Document scanner with edge detection and multi-page PDF, with ""Scan to Vault""",v1,,1,,P08,,964
+MED-16,MED,Trim and compress video before sending,v1,,1,,P08,,965
+MED-17,MED,Shared albums inside a chat,v1,,1,,P08,,966
+MED-18,MED,Video notes: round videos up to 60 seconds,v1,,,1,P08,,967
+MED-19,MED,"Voice-note upgrades: lock recording, pause and resume, trim, play consecutive notes as a queue, keep playing in the background",v1,,,1,P08,,968
+MED-20,MED,"Smart formats: AVIF or WebP images and HEVC or AV1 video where the phone supports them, with fallback, to cut data",v1,,,1,P08,,969
+MED-21,MED,Content credentials: show provenance (C2PA) on photos that carry it. Never claims to detect fakes,v2,,,1,P21,TRY_BUILD,970
+MED-22,MED,Arrival share: share live location with an ETA that ends by itself on arrival,v1,,,1,P08,,971
+MED-23,MED,Automatic face blur: a per-chat option that blurs every detected face before a photo or video is sent,v1,,,1,P17,,972
+MED-24,MED,"Document preview in chat for PDF, Word, Excel and PowerPoint, rendered on the phone",v2,,,1,P21,TRY_BUILD,973
+ORG-01,ORG,"Pin, mute, archive",MVP,1,,,P07A,,979
+ORG-02,ORG,Chat folders,MVP,1,,,P07A,,980
+ORG-03,ORG,Starred messages,MVP,,,,P07A,,981
+ORG-04,ORG,Saved Messages (note to self),MVP,1,,,P07A,,982
+ORG-05,ORG,Unread filter and swipe actions,MVP,,,,P07A,,983
+ORG-06,ORG,Several pinned messages per chat,MVP,,,,P07A,,984
+ORG-07,ORG,Mark chat as unread,MVP,,,,P07A,,985
+ORG-08,ORG,Colour labels for chats,v1,,,,P07A,,986
+ORG-09,ORG,Chat lock (light): hide a chat behind app unlock and biometrics without moving it into the Vault. The Vault stays the strong option,v1,,,1,P07B,,987
+ORG-10,ORG,"Smart folders that fill by rules: unread, mentions, groups, people, labels",v1,,,1,P07B,,988
+ORG-11,ORG,Mentions and replies filter in the chat list,MVP,,,1,P07B,,989
+ORG-12,ORG,Needs-reply and follow-up markers with reminders,v1,,,1,P07B,,990
+GRP-01,GRP,"Groups up to 100 with owner, admin and member roles",MVP,1,,,P14A,,996
+GRP-02,GRP,"Groups up to 1,000",v1,,,,P14A,,997
+GRP-03,GRP,Topics (threads) inside large groups,v1,,,,P14A,,998
+GRP-04,GRP,Join links with approval and a member limit,v1,,,,P14A,,999
+GRP-05,GRP,Broadcast channels,v1,,,,P14B,,1000
+GRP-06,GRP,Slow mode,v1,,,,P14A,,1001
+GRP-07,GRP,Announcement-only mode,v1,,,,P14A,,1002
+GRP-08,GRP,Join questions that admins review,v1,,,,P14A,,1003
+GRP-09,GRP,Admin log: who changed what,v1,,,,P14A,,1004
+GRP-10,GRP,"Events with RSVP (yes, maybe, no), plus one, end time, pinning and reminders",v1,,,1,P14A,,1005
+GRP-11,GRP,Shared checklists,v2,,,,P21,TRY_BUILD,1006
+GRP-12,GRP,"Group history for new members: admins choose 0, 25 or 100 recent messages, sent encrypted",v1,,1,,P14A,,1007
+GRP-13,GRP,"Mention everyone, with an admin switch",v1,,1,,P14A,,1008
+GRP-14,GRP,Member labels: self-chosen or admin-set tags shown next to names (separate from the admin role),v1,,,1,P14A,,1009
+GRP-15,GRP,"Communities: an umbrella with an announcement channel, linked groups, shared rules and one invite link",v1,,,1,P14B,,1010
+GRP-16,GRP,Join captcha and a welcome message for new members,v1,,,1,P14B,,1011
+GRP-17,GRP,"Auto-moderation rules (keywords, links from new members, rate limits) that run on online admin devices, with honest labels about that limit",v1,,,1,P14B,,1012
+GRP-18,GRP,"Ownership succession: if the owner leaves or is inactive, ownership moves to an admin after 7 days",v1,,,1,P14B,,1013
+GRP-19,GRP,"Ban list and timed mute for members, with an expiry",v1,,,1,P14A,,1014
+GRP-20,GRP,"Group notes: one pinned, editable note",v2,,,1,P21,TRY_BUILD,1015
+GRP-21,GRP,"Group templates: Class, Family, Team and Neighbourhood, each a preset of roles, rules and notification defaults",v1,,,1,P14B,,1016
+PRV-01,PRV,"Disappearing timers per chat, plus a default timer for new chats (a single message can override it with RSL-01)",MVP,1,,,P07C,,1022
+PRV-02,PRV,Hide last seen and online status,MVP,1,,,P07C,,1023
+PRV-03,PRV,Control who can add you and who can call you,MVP,1,,,P07C,,1024
+PRV-04,PRV,"Sealed sender: the server cannot see who sent a message. Envelope designed in MVP, shipped in v1",v1,,,,P20,,1025
+PRV-05,PRV,Android: block screenshots. iOS: alert on screenshot or screen recording (iOS cannot block them),MVP,1,,,P07C,,1026
+PRV-06,PRV,Strip tracking parameters from links,MVP,,,,P07C,,1027
+PRV-07,PRV,Hide app preview in the app switcher,MVP,1,,,P07C,,1028
+PRV-08,PRV,Incognito keyboard flag in text fields,MVP,,,,P07C,,1029
+PRV-09,PRV,Hide profile photo from people who are not contacts,MVP,,,,P07C,,1030
+PRV-10,PRV,Privacy checkup: a 5-step review of your settings,v1,,,,P18,,1031
+PRV-11,PRV,Per-chat overrides for read receipts and typing indicator,v1,,,,P07C,,1032
+PRV-12,PRV,"""Always relay calls"": all call traffic goes through our relay, so the other person never sees your IP address",v1,,,,P15,,1033
+PRV-13,PRV,"""What Sargoshi knows about you"": a screen listing exactly what our servers store",v1,,1,,P19,,1034
+PRV-14,PRV,"App lock for the whole app with PIN or biometrics, separate from the Vault",MVP,1,1,,P06,,1035
+PRV-15,PRV,"Clipboard guard: sensitive copy flag, auto-clear after 30 seconds, no copying from the Vault or Whisper messages",MVP,,1,,P07C,,1036
+PRV-16,PRV,Privacy blur in the chat list: hide previews and photos until tapped,MVP,,1,,P07C,,1037
+PRV-17,PRV,"Lockdown mode: one tap applies strict settings (no links or media from non-contacts, no previews, calls only from contacts and relayed, new linked devices paused). Shows the exact list first and can be undone",v1,,,1,P18,,1038
+PRV-18,PRV,"Quick lock gesture: shake, double power press or a tile locks the app and the Vault and clears the recents entry",v1,,,1,P18,,1039
+PRV-19,PRV,Private link viewer: opens links in an isolated in-app tab with no stored cookies or history and trackers removed,v2,,,1,P21,TRY_BUILD,1040
+PRV-20,PRV,"Capture notice: where Android reports a screenshot or recording, show a notice in chats with Whisper or Confidential rules. Does not prevent capture",v1,,,1,P07C,,1041
+VLT-01,VLT,"Vault space with its own lock: PIN (6 or more digits) or passphrase (8 or more characters), optional biometrics",MVP,1,1,,P10,,1047
+VLT-02,VLT,"Vault Gallery: photos, videos and GIFs with albums, favourites, slideshow and encrypted thumbnails",MVP,1,1,,P10,,1048
+VLT-03,VLT,"Vault Files: documents, PDFs, archives and any file type, with an in-app viewer",MVP,1,1,,P10,,1049
+VLT-04,VLT,"Vault Audio: audio files and voice notes with player, speed control and local transcript",MVP,1,1,,P10,,1050
+VLT-05,VLT,"Vault Notes: rich text, checklists and attachments",v1,,1,,P11,,1051
+VLT-06,VLT,"Vault Chats: move any chat in, including history and media. Messages that arrive while locked wait sealed",MVP,1,1,,P10,,1052
+VLT-07,VLT,Vault Contacts: private contact cards that never enter the phone Contacts,v1,,1,,P11,,1053
+VLT-08,VLT,"ID wallet: scans of CNIC, passport, licence and cards, with expiry reminders",v1,,1,,P11,,1054
+VLT-09,VLT,"Vault camera and recorder: photos, video and voice go straight into the Vault and are never written to the gallery",MVP,1,1,,P10,,1055
+VLT-10,VLT,"Import from gallery or files with ""Remove original"" (system consent) and a leftover-trace report",MVP,1,1,,P10,,1056
+VLT-11,VLT,"Export with unlock and a warning, to a place you choose, with location and camera data removed",MVP,,1,,P10,,1057
+VLT-12,VLT,"Viewers that decrypt on the fly: no temporary plaintext file, no local web server. Screenshots, recording and casting blocked. Hidden from recent apps",MVP,1,1,,P10,,1058
+VLT-13,VLT,"Zero system footprint: nothing in MediaStore, shared storage, system thumbnails, search, widgets, shortcuts, notifications, autofill, clipboard, Android backup or the global AI index",MVP,1,1,,P10,,1059
+VLT-14,VLT,"Lock model: auto-lock choices, lock on screen off, lock on app switch, biometric re-authentication on each open, escalating lockout",MVP,1,1,,P10,,1060
+VLT-15,VLT,Decoy vault: a second PIN opens a believable vault with content you choose,v1,,1,,P11,,1061
+VLT-16,VLT,"Duress PIN: opens the decoy, hides the real Vault entry, can quietly alert a trusted contact",v1,,1,,P11,,1062
+VLT-17,VLT,"Disguised app icon and name (Calculator, Notes, Clock) chosen by you, with the Vault entry hidden behind a gesture",v1,,1,,P11,,1063
+VLT-18,VLT,"Intruder log: time and count of wrong attempts, with an optional front-camera photo kept inside the Vault (off by default)",v1,,1,,P11,,1064
+VLT-19,VLT,"Vault trash with 30-day auto-purge, inside the Vault",MVP,,1,,P10,,1065
+VLT-20,VLT,"Secure delete: destroy the item key, plus best-effort overwrite (honest note for flash storage)",MVP,,1,,P10,,1066
+VLT-21,VLT,"Vault search across names, notes and text found in images, indexed only inside the Vault",v1,,1,,P17,,1067
+VLT-22,VLT,"Vault AI on the phone: text-in-image search, auto-albums (documents, receipts, screenshots), duplicate finder",v1,,1,,P17,,1068
+VLT-23,VLT,Privacy blur grid: Vault thumbnails stay blurred until tapped,MVP,,1,,P10,,1069
+VLT-24,VLT,Send from the Vault straight into a chat with no cache or gallery copy. The attachment follows Message Rules,v1,,1,,P11,,1070
+VLT-25,VLT,"Vault storage manager: size per album, compress photos, recompress video",v1,,1,,P11,,1071
+VLT-26,VLT,"Vault checkup: verifies every item decrypts, finds stray temporary files, warns about risky settings (accessibility services, overlay permission, screen recorders, USB debugging, root)",v1,,1,,P11,,1072
+VLT-27,VLT,"Footprint scan: finds leftover copies of Vault items in the gallery, Downloads and chat media folders using on-device image hashes, and offers to remove them (needs media access, with a Photo Picker fallback)",v1,,1,,P11,,1073
+VLT-28,VLT,Optional encrypted Vault sync to a linked device,v2,,1,,P21,DESIGN_ONLY,1074
+VLT-29,VLT,Smart ID capture: detect the document type and expiry date with on-device text recognition (Latin digits first) and set the reminder,v1,,,1,P17,,1075
+VLT-30,VLT,"Vault secrets: logins, recovery codes, Wi-Fi keys and card notes with no autofill and no clipboard by default",v2,,,1,P21,DESIGN_ONLY,1076
+VLT-31,VLT,Secure one-time share link: a view-only copy for one recipient that expires. Leaves the Vault by design and says so,v2,,,1,P21,DESIGN_ONLY,1077
+SAF-01,SAF,"Report and block, from chats, groups, channels and profiles",MVP,1,,,P07C,,1083
+SAF-02,SAF,"A report sends the selected messages from the reporter's phone, nothing else",MVP,,,,P07C,,1084
+SAF-03,SAF,"Requests inbox: messages from unknown senders wait for approval, with no media or links until you accept",MVP,1,,,P07C,,1085
+SAF-04,SAF,Spam filter: on-device rules plus server rate limits,MVP,,,,P07C,,1086
+SAF-05,SAF,"Child-safety reporting, public CSAE standards page, named safety contact",MVP,1,,,P07C,,1087
+SAF-06,SAF,"Appeals reviewed by a human, with a clear reason for every ban",MVP,1,,,P07C,,1088
+SAF-07,SAF,"Added to a group by a non-contact: show a preview and ""Leave and report"" in one tap",MVP,,,,P14A,,1089
+SAF-08,SAF,Link safety warnings,v1,,,,P20,,1090
+SAF-09,SAF,Look-alike warning when a new contact's username is close to one you already have; Mint verified badge after you compare safety numbers,v1,,,,P20,,1091
+SAF-10,SAF,Message franking so moderators can verify that a reported message was really sent,v1,,1,,P20,,1092
+SAF-11,SAF,"Safety check-in timer: if you do not confirm, trusted contacts get your last shared location and a message",v1,,1,,P20,,1093
+SAF-12,SAF,"Family accounts: parent-managed accounts for pre-teens. Visible to the child, no message reading, no hidden mode. The parent controls who can contact the child and which groups they join",v2,,,1,P21,DESIGN_ONLY,1094
+SAF-13,SAF,"Pakistan scam library: signed, versioned rule packs for wallet-agent fraud, prize and aid scams, fake officers, job offers and OTP requests",v1,,,1,P17,,1095
+SAF-14,SAF,"SOS: hold a button to send an alert, the last location and an optional 10-second audio clip to trusted contacts. Different from the check-in timer",v1,,,1,P20,,1096
+SAF-15,SAF,"Local help directory: offline list of reporting and helpline contacts for cybercrime, harassment and child safety. Numbers verified before each release",v1,,,1,P20,,1097
+SAF-16,SAF,Restrict: a person’s messages go quietly to Requests and they are not told. Plus keyword filters,v1,,,1,P20,,1098
+SAF-17,SAF,QR scanner with a safety check before a link or payment code opens,v1,,,1,P20,,1099
+CAL-01,CAL,"1-on-1 voice call, end-to-end encrypted",MVP,1,,,P15,,1105
+CAL-02,CAL,1-on-1 video call,MVP,1,,,P15,,1106
+CAL-03,CAL,"Native call screen (Telecom on Android, CallKit on iOS)",MVP,,,,P15,,1107
+CAL-04,CAL,Call history,MVP,,,,P15,,1108
+CAL-05,CAL,Low-data call mode,MVP,,,,P15,,1109
+CAL-06,CAL,"Missed-call quick actions: Message, Call back, Remind me",MVP,,,,P15,,1110
+CAL-07,CAL,Group calls up to 8 people,v1,,,,P15,,1111
+CAL-08,CAL,Call waiting and hold,v1,,,1,P15,,1112
+CAL-09,CAL,Call links,v1,,,,P15,,1113
+CAL-10,CAL,Noise suppression and adaptive bitrate,v1,,,,P15,,1114
+CAL-11,CAL,Raise hand and call reactions,v1,,,,P15,,1115
+CAL-12,CAL,In-call chat,v1,,,,P15,,1116
+CAL-13,CAL,Picture-in-picture during video calls,v1,,,,P15,,1117
+CAL-14,CAL,Call verification with a 4-emoji code,v1,,1,,P15,,1118
+CAL-15,CAL,Lobby for call links: the host admits people,v1,,1,,P15,,1119
+CAL-16,CAL,Network handover without dropping the call (Wi-Fi to mobile data),v1,,1,,P15,,1120
+CAL-17,CAL,"Missed-call message: when a call is not answered, the caller can leave a voice or video message",v1,,,1,P15,,1121
+CAL-18,CAL,"Scheduled calls with a calendar entry, reminder and join link",v1,,,1,P15,,1122
+CAL-19,CAL,Huddles: a drop-in audio room inside a group,v2,,,1,P21,DESIGN_ONLY,1123
+CAL-20,CAL,"Video effects: background blur and replacement, low-light boost, framing (T2 and above)",v1,,,1,P15,,1124
+CAL-21,CAL,Call handoff between linked devices,v2,,,1,P21,DESIGN_ONLY,1125
+CAL-22,CAL,"Classroom and webinar mode: up to 100 viewers, speakers on stage, raise-hand queue, view-only audience. The SFU sees participants, not content",v2,,,1,P21,DESIGN_ONLY,1126
+CAL-23,CAL,"Call quality report: after a poor call, one tap sends network statistics only",v1,,,1,P15,,1127
+CAL-24,CAL,Caller screening: calls from unknown people ring silently with a prompt and appear in Requests,v1,,,1,P15,,1128
+CAL-25,CAL,"Audio routing: earpiece, speaker, Bluetooth and hearing-aid choices with a remembered preference and proximity sensor",v1,,,1,P15,,1129
+SHR-01,SHR,Share the entire screen,v1,,1,,P16,,1135
+SHR-02,SHR,Share one app through the system picker (Android 14 and up where the phone offers it),v1,,1,,P16,,1136
+SHR-03,SHR,"Present from inside Sargoshi: photo, video, PDF, slides, document or note. Works on every supported Android version",v1,,1,,P16,,1137
+SHR-04,SHR,"Share the camera as a source, with flip, torch and zoom",v1,,1,,P16,,1138
+SHR-05,SHR,Share device audio alone or with the screen,v1,,1,,P16,,1139
+SHR-06,SHR,"Shared whiteboard: pen, shapes, text, laser pointer, per-person cursors, export to the Vault",v1,,1,,P16,,1140
+SHR-07,SHR,"Presenter privacy shield: hides Sargoshi notification text, prompts for Do Not Disturb, shows black for secure windows",v1,,1,,P16,,1141
+SHR-08,SHR,"Pause, resume and stop from a floating control (optional permission) or the status chip",v1,,1,,P16,,1142
+SHR-09,SHR,"Quality modes: Text and slides, Smooth motion, Auto, with frame rate and resolution caps",v1,,1,,P16,,1143
+SHR-10,SHR,Switch source in the middle of a call (asks the system for new consent),v1,,1,,P16,,1144
+SHR-11,SHR,"Audience controls: who can view, who can present, viewer zoom and pan, follow presenter",v1,,1,,P16,,1145
+SHR-12,SHR,"Record the session with a recording indicator for everyone, saved into the Vault",v1,,1,,P16,,1146
+SHR-13,SHR,"Viewer pointer: viewers draw a temporary laser pointer on the presented screen. No remote control, by design",v1,,1,,P16,,1147
+SHR-14,SHR,Two presenters at the same time,v2,,1,,P21,DESIGN_ONLY,1148
+SHR-15,SHR,Presenter notes and a private timer for slides and files,v1,,,1,P16,,1149
+SHR-16,SHR,Freeze frame: pause a video or screen and annotate the still,v1,,,1,P16,,1150
+SHR-17,SHR,Scenes: save and switch layouts such as slides with camera,v2,,,1,P21,DESIGN_ONLY,1151
+MOM-01,MOM,"24-hour moments with audience control, encrypted",v1,,,,P14B,,1157
+MOM-02,MOM,Replies go to the chat,v1,,,,P14B,,1158
+MOM-03,MOM,Optional view list,v1,,,,P14B,,1159
+MOM-04,MOM,Close friends list,v1,,,,P14B,,1160
+MOM-05,MOM,Mute someone's moments,v1,,,,P14B,,1161
+MOM-06,MOM,Question and poll stickers in moments,v1,,,1,P14B,,1162
+MOM-07,MOM,Highlights: keep chosen moments on the profile with audience control,v1,,,1,P14B,,1163
+BKP-01,BKP,"Local encrypted backup to a folder you choose, including SD card or USB-OTG storage",MVP,1,1,,P13,,1169
+BKP-02,BKP,"Sargoshi Secure Backup in the cloud, zero-knowledge",v1,,1,,P13,,1170
+BKP-03,BKP,"Your own cloud: Google Drive app data, S3-compatible storage or WebDAV",v1,,1,,P13,,1171
+BKP-04,BKP,"24-word recovery key with optional passphrase, and a printable Recovery Kit with QR",MVP,1,1,,P13,,1172
+BKP-05,BKP,"Incremental, deduplicated backups with versions (7 daily, 4 weekly, 6 monthly)",v1,,1,,P13,,1173
+BKP-06,BKP,"Schedules and conditions: daily, weekly or manual; Wi-Fi only; charging only; battery above 30%",MVP,,1,,P13,,1174
+BKP-07,BKP,"Scope control: chats, media types, size caps, last N days of media, text only",v1,,1,,P13,,1175
+BKP-08,BKP,"Vault backup with its own key, off by default",v1,,1,,P13,,1176
+BKP-09,BKP,Verification: integrity checks and monthly restore drills on a random sample,v1,,1,,P13,,1177
+BKP-10,BKP,"Restore wizard: new phone, same phone, one chat or a chosen version. Chats first, media in the background, resumes after interruption",MVP,1,1,,P13,,1178
+BKP-11,BKP,"Phone-to-phone transfer over local Wi-Fi, encrypted, no internet",v1,,1,,P13,,1179
+BKP-12,BKP,"Cross-platform restore (Android, iOS, desktop)",v2,,1,,P21,DEFERRED,1180
+BKP-13,BKP,"Export a chat or all chats as HTML, PDF, JSON or text with media, optionally encrypted",v1,,1,,P13,,1181
+BKP-14,BKP,"Backup health dashboard: last success, size, next run, restore-readiness score",MVP,,1,,P13,,1182
+BKP-15,BKP,"Smart storage: offload old media to your backup and keep thumbnails, restore on tap",v1,,1,,P13,,1183
+BKP-16,BKP,"Change or revoke the recovery key, delete cloud backups",v1,,1,,P13,,1184
+BKP-17,BKP,Encrypted history sync to a newly linked device,v1,,1,,P13,,1185
+BKP-18,BKP,"Recovery key quiz with reminders at 7, 30 and 90 days, feeding the readiness score",MVP,,,1,P13,,1186
+BKP-19,BKP,"Storage forecast: how big the backup will be in 3 and 12 months at the current rate, and what each destination will cost to hold",v1,,,1,P13,,1187
+NTF-01,NTF,Content-free push payloads,MVP,1,,,P09,,1193
+NTF-02,NTF,Notification channels by category,MVP,1,,,P09,,1194
+NTF-03,NTF,"Per-chat sound, vibration and mute",MVP,1,,,P09,,1195
+NTF-04,NTF,Hush mode: scheduled quiet hours with exceptions,MVP,1,,,P09,,1196
+NTF-05,NTF,Notification privacy levels,MVP,1,,,P09,,1197
+NTF-06,NTF,Alert system with four severity levels (ALR-01 to ALR-23),MVP,1,,,P09,,1198
+NTF-07,NTF,Notification health check in Settings: shows whether battery rules are blocking pushes,MVP,1,,,P09,,1199
+NTF-08,NTF,In-app notification centre with alert history,MVP,,,,P09,,1200
+NTF-09,NTF,"Reply, Mark as read and Mute for 1 hour from the notification",MVP,,1,,P09,,1201
+NTF-10,NTF,Smart grouping and rate limits,MVP,,,,P09,,1202
+NTF-11,NTF,Priority contacts that can break through Hush mode,MVP,,,,P09,,1203
+NTF-12,NTF,Repeat-caller breakthrough: a second call within 3 minutes rings through,MVP,,,,P09,,1204
+NTF-13,NTF,"Badge count rules (count chats, not messages; muted chats excluded)",MVP,,,,P09,,1205
+NTF-14,NTF,Prayer-time engine: times calculated on the phone from a city and method you choose. No location permission needed,v1,,,1,P09,,1206
+NTF-15,NTF,Push fallback for phones without Google services: UnifiedPush or a battery-guarded persistent connection,v2,,,1,P21,TRY_BUILD,1207
+NTF-16,NTF,"Live progress notifications: Android 16 progress style for backup, restore, large uploads, presenting and check-in timers. Older Android uses a standard ongoing notification",v1,,,1,P09,,1208
+NTF-17,NTF,"Driving mode: starts on a car Bluetooth connection or by hand. Reads messages aloud, takes voice replies, rings only priority contacts",v1,,,1,P09,,1209
+NTF-18,NTF,"Highlights mode per group: notify only for mentions, replies and saved contacts",MVP,,,1,P09,,1210
+NTF-19,NTF,"Focus profiles: Work, Study, Sleep, Prayer, Driving and custom. Each bundles a Hush schedule, allowed contacts and which chats show",v1,,,1,P09,,1211
+SET-01,SET,Settings search with deep links and recent settings,MVP,1,1,,P18,,1217
+SET-02,SET,"Presets: Standard, Private, Maximum privacy, Low data, Battery saver. Each shows exactly what changes before you apply it",v1,,1,,P18,,1218
+SET-03,SET,"Per-chat and per-contact overrides, with one overview of everything you overrode",v1,,1,,P18,,1219
+SET-04,SET,"Settings file: export, import, and automatic inclusion in every backup",v1,,1,,P18,,1220
+SET-05,SET,"Appearance studio: theme, accent colour (12 plus custom), text size, font choice, bubble style, corner radius, density, avatar shape",MVP,,1,,P18,,1221
+SET-06,SET,Alternative branded app icons,v1,,1,,P18,,1222
+SET-07,SET,"Gestures and quick actions: remap swipes, double-tap, long-press menu order and the composer quick-action bar",v1,,1,,P18,,1223
+SET-08,SET,"Navigation: reorder or hide tabs, choose the start tab, rail or bar on large screens",v1,,1,,P18,,1224
+SET-09,SET,"Language and region: UI language, per-chat translation language, number style (Western or Eastern Arabic), Gregorian calendar with optional Hijri dates",MVP,,1,,P18,,1225
+SET-10,SET,"Sounds and haptics: per-event sounds, ringtone, haptic strength",MVP,,1,,P18,,1226
+SET-11,SET,Performance profile: automatic device tier with manual override,MVP,,1,,P18,,1227
+SET-12,SET,"Accessibility suite: high-contrast theme, dyslexia-friendly font, colour-blind-safe palette, one-handed mode, screen-reader verbosity",v1,,1,,P18,,1228
+SET-13,SET,"Quick Settings tiles and privacy-safe widgets (Hush, Lock Vault, Present screen). Widgets show counts, never message text",v1,,1,,P18,,1229
+SET-14,SET,"Security centre: devices, sessions, recovery key status, alert log, vault checkup and security checkup in one place",MVP,,1,,P18,,1230
+SET-15,SET,"About and transparency: versions, protocol version, audit report, licences, SBOM, transparency report, build hash",MVP,,1,,P18,,1231
+SET-16,SET,Experiments: opt-in early features behind flags,v1,,1,,P18,,1232
+SET-17,SET,"Simple mode: larger text, four big tiles, voice prompts and fewer features for first-time and older users, set up by a family member",v1,,,1,P18,,1233
+SET-18,SET,"Digital wellbeing: local usage insights, daily limit nudges, bedtime. Nothing leaves the phone",v1,,,1,P18,,1234
+SET-19,SET,"Guided tour and demo mode with sample content, so the Vault and rules can be tried before real data goes in",v1,,,1,P18,,1235
+SET-20,SET,Theme packs: export and import a theme file,v1,,,1,P18,,1236
+SET-21,SET,"Launcher shortcuts: New chat, Scan QR and Record voice note. Never a Vault chat",v1,,,1,P18,,1237
+LOC-01,LOC,English and Urdu with full right-to-left mirroring,MVP,1,,,P01,,1243
+LOC-02,LOC,Text scales to 200%; TalkBack and VoiceOver labels; WCAG AA contrast; no meaning by colour alone,MVP,1,,,P22,,1244
+LOC-03,LOC,Reduce-motion setting,MVP,,1,,P18,,1245
+LOC-04,LOC,Read messages aloud with the system voice,v1,,,,P18,,1246
+LOC-05,LOC,"Interface in Punjabi, Pashto and Sindhi",v2,,,,P21,EXTERNAL_BLOCKED,1247
+LOC-06,LOC,"Urdu typing aids: phonetic Urdu layout in the composer, Roman Urdu conversion and word suggestions from an on-device lexicon",v1,,,1,P17,,1248
+LOC-07,LOC,"Hearing and vision suite: flash and vibration call alerts, per-contact haptic patterns, TalkBack custom actions on messages, switch access support, large-print reading mode",v1,,,1,P18,,1249
+LOC-08,LOC,"Interface in Saraiki and Balochi, with community translation review",v2,,,1,P21,EXTERNAL_BLOCKED,1250
+NET-01,NET,Lite UI profile,MVP,1,,,P01,,1256
+NET-02,NET,Data saver and image quality caps,MVP,1,,,P08,,1257
+NET-03,NET,Resumable uploads and sync that survives dropped connections,MVP,1,,,P08,,1258
+NET-04,NET,"Network diagnostics in Settings > Advanced, real measurements only",v1,,,,P19,,1259
+NET-05,NET,Storage manager: clear media by chat,MVP,,,,P19,,1260
+NET-06,NET,"Waiting-to-send queue view (""3 messages waiting"")",MVP,,,,P07A,,1261
+NET-07,NET,Connect through your own proxy,v1,,,,P19,,1262
+NET-08,NET,"Nearby messaging: short text and voice notes over Bluetooth and Wi-Fi Direct when the network is down, relayed through nearby Sargoshi phones, end to end encrypted. No media relaying",v2,,,1,P21,DESIGN_ONLY,1263
+NET-09,NET,"Connection resilience: transport fallbacks (WebSocket over 443, QUIC, long polling), signed shareable proxy links and bridge-list updates. No domain fronting",v1,,,1,P19,,1264
+NET-10,NET,"Outage mode: when the network is down, show the likely cause class, the retry plan and the options (proxy link, Nearby)",v1,,,1,P19,,1265
+NET-11,NET,"Data usage monitor: per feature (messages, media, calls, presenting, backup) and per network, with a monthly cap alert",MVP,,,1,P19,,1266
+NET-12,NET,Preview size before send: shows the size before and after compression and lets you choose,v1,,,1,P08,,1267
+NET-13,NET,Background data and battery guard: a budget for background sync with adaptive behaviour,v1,,,1,P19,,1268
+ADM-01,ADM,Abuse dashboard,MVP,1,,,P19,,1274
+ADM-02,ADM,Feature flags,MVP,,,,P19,,1275
+ADM-03,ADM,"Content-free analytics, opt-in",MVP,,,,P19,,1276
+ADM-04,ADM,Support tooling,MVP,,,,P19,,1277
+ADM-05,ADM,Transparency report generator,MVP,,,,P19,,1278
+ADM-06,ADM,Help and safety centre inside the app,MVP,,,,P19,,1279
+ADM-07,ADM,Service status banner,v1,,,,P19,,1280
+ADM-08,ADM,"Verified update channel for direct APK downloads: signed update manifest, in-app update check, signature fingerprint shown",v1,,,1,P19,,1281
+ADM-09,ADM,Reproducible builds and a public guide to verify a build,v2,,,1,P21,TRY_BUILD,1282
+ADM-10,ADM,In-app feedback with a redacted diagnostics bundle the person reviews before sending,MVP,,,1,P19,,1283
+ADM-11,ADM,What’s new cards with a switch to turn them off,v1,,,1,P19,,1284
+GRW-01,GRW,Import WhatsApp chat exports (text with media) on the phone,v1,,1,,P13,,1290
+GRW-02,GRW,Import Telegram exports (JSON),v1,,1,,P13,,1291
+GRW-03,GRW,"Invite cards, links and QR with deep links that open the right chat after install",MVP,1,1,,P06,,1292
+GRW-04,GRW,"Switch kit: checklist to move your circle, and a group-move announcement template",v1,,1,,P19,,1293
+GRW-05,GRW,Share to Sargoshi from any app and Direct Share targets (Vault chats excluded),MVP,,1,,P19,,1294
+GRW-06,GRW,Find friends privately: contact matching that never uploads your address book,v2,,1,,P21,DESIGN_ONLY,1295
+GRW-07,GRW,Public username page: a web landing page with a safe install fallback and no tracking,v1,,,1,P19,,1296
+GRW-08,GRW,Group move tracker: bulk-invite a group to a new Sargoshi group and see who has joined,v1,,,1,P19,,1297
+DSK-01,DSK,Windows desktop app as a linked device,v2,,1,,P21,DEFERRED,1303
+DSK-02,DSK,Web app as a linked device,v2,,1,,P21,DEFERRED,1304
+DSK-03,DSK,Tablet and foldable layouts,v1,,1,,P22,,1305
+DSK-04,DSK,Present a desktop window or monitor from the desktop app,v2,,1,,P21,DEFERRED,1306
+DSK-05,DSK,"Wear OS companion: notification actions, quick replies and the Hush toggle. No Vault",v2,,,1,P21,DESIGN_ONLY,1307
+DSK-06,DSK,"Android Auto: read aloud and voice reply, tied to Driving mode. No Vault",v2,,,1,P21,DESIGN_ONLY,1308
+DSK-07,DSK,"Keyboard, mouse and Chromebook support: hover, right-click menus, shortcuts",v1,,,1,P22,,1309
+BOT-01,BOT,Bot API and webhooks,v2,,,,P21,TRY_BUILD,1315
+BOT-02,BOT,"Mini-app container for polls, tools and services",v2,,,,P21,TRY_BUILD,1316
+BOT-03,BOT,Bot permission labels: every bot declares which messages it can read,v2,,,1,P21,TRY_BUILD,1317
+BOT-04,BOT,"Rules on my phone: if-then automation (auto-reply, auto-archive, remind) that runs locally and gives no bot access to messages",v1,,,1,P18,,1318
+PAY-01,PAY,Wallet and transfers through licensed local partners. Needs regulatory approval first,v2,,,,P21,EXTERNAL_BLOCKED,1324
+PAY-02,PAY,Payment request cards with deep links to local payment apps. Sargoshi holds no money and takes no custody. Needs a legal and technical review,v2,,,1,P21,DESIGN_ONLY,1325
+BIZ-01,BIZ,Verified business profile and catalogue,v2,,,,P21,TRY_BUILD,1331
+BIZ-02,BIZ,Quick replies,v2,,,,P21,TRY_BUILD,1332
+BIZ-03,BIZ,Business hours and away message,v2,,,,P21,TRY_BUILD,1333
+BIZ-04,BIZ,API for shops and schools,v2,,,,P21,TRY_BUILD,1334
+BIZ-05,BIZ,Verified official accounts through domain proof,v2,,,1,P21,TRY_BUILD,1335

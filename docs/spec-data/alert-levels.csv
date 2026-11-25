@@ -1,0 +1,5 @@
+Level,Colour,How it looks,Can Hush mode hold it?
+Info,Sky,"Banner for 4 seconds, or an entry in the notification centre",Yes
+Notice,Mist,Dismissible card in the chat list or Settings,Yes
+Warning,Amber,Persistent card or banner until the person acts or dismisses. A notification with the default sound,Yes
+Critical,Coral,"Bottom sheet that needs a choice, plus a high-importance notification","No, never"

@@ -1,0 +1,22 @@
+Token,Hex,Use,Contrast on its background
+Ink,#0B0D1A,App background (S0),n/a
+Dusk,#161A33,"Cards, list rows (S1)",n/a
+Dusk 2,#20254A,"Incoming bubbles, inputs (S2)",Moon on Dusk 2: 12.58
+Dusk 3,#2A3060,Raised sheets (S3),n/a
+Line,#2E3463,"Dividers, borders",decorative
+Moon,#EDEBFF,Primary text,on Ink: 16.5
+Mist,#A7A9C7,Secondary text,"on Ink: 8.41, on Dusk: 7.44"
+Ember,#C2410C,"Gradient start, outgoing bubbles, primary buttons",white on Ember: 5.18
+Rose,#BE185D,Gradient end,white on Rose: 6.04
+Glow,#FF8A4C,"Accent for icons, focus ring",on Ink: 8.27
+Mint,#4ADE9C,"Verified, encrypted, success",on Ink: 11.24
+Amber,#FFC857,Warnings,on Ink: 12.56
+Coral,#FF6B6B,"Errors, critical alerts",on Ink: 6.96
+Sky,#6EA8FF,"Info, links",on Ink: 8.01
+Vault Indigo,#4A3FD6,Vault surfaces and buttons,white on Vault Indigo: 7.06
+Vault Lilac,#B9B1FF,Vault text accent and icons,on Ink: 9.93
+AMOLED,#000000,Optional pure-black theme background,n/a
+Parchment,#FAF7F2,Light background,Ink-text #1B1D2E on it: 15.57
+Paper,#FFFFFF,Light cards,n/a
+Light secondary,#5B5F7E,Light secondary text,on Parchment: 5.81
+Light accent text,#9A3412,Light-theme accent text,on Parchment: 6.84

@@ -1,0 +1,17 @@
+area,check
+Crypto,Handshake and ratchet known-answer and property tests pass. Protocol document written. Cryptographer has reviewed Section 14 and PROTOCOL.md
+Messaging,"Two phones exchange messages with airplane mode toggled mid-conversation. No loss, no duplicates"
+Push,Notification health check passes on all six brands. Generic fallback verified
+Alerts,"ALR-01, 02, 04 and 06 triggered on a real device and tested in Urdu RTL"
+Vault,All eight leak tests green with zero failures. Decoy and duress work. Import with remove-original tested on Android 11 to 16
+Backup,Backup then restore on a clean phone equals the original. Interrupted restore resumes. A restore drill catches a corrupted chunk. Recovery kit quiz works
+Safety,"Report, block, requests inbox, CSAE page live, named contact, appeal route tested"
+Privacy,Photo location data stripped. Secure windows work. Vault chats never in notification text
+Presenting,"Source sheet shows the right reasons on Android 13, 14 and 15. Notification text hidden while sharing. Stop and restart work"
+Accessibility,"TalkBack walk-through of sign-up, first chat and Vault. 200% text with no clipping"
+Store,"Play closed test with 12 testers for 14 days. Data Safety form, privacy policy, child-safety self-certification, foreground-service declaration"
+Cost,"Cost per active user measured for push, storage and relay"
+Brand,"Logo clearance search done, icon checked in the launcher, themed icon, notification icon and Play listing"
+Design gates,Gates G1 to G6 (Section 18.6) recorded with evidence
+Resilience,"Counsel opinion on NET-08 and NET-09, outage test results, signed-manifest test for ADM-08"
+Safety,SAF-15 numbers verified on the release day. Scam pack reviewed by a native reviewer

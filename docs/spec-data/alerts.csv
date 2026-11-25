@@ -1,0 +1,24 @@
+id,trigger,severity,where_it_shows,actions,blueprint_line,build_phase
+ALR-01,A new device was linked,Critical,"Push on all your devices, sheet, notification centre","Review device, This wasn't me",1723,P06
+ALR-02,A contact's safety number changed,Warning,"A banner at the top of that chat. It is a chat banner, not a notification, so Hush mode does not affect it. It cannot be dismissed without a choice","Verify, Continue anyway",1724,P07C
+ALR-03,A sign-in code was requested,Warning,Push to your existing devices,"This was me, This wasn't me",1725,P06
+ALR-04,Wrong Vault or app PIN 3 times,Critical,Local sheet and a saved log entry,"Try later, Reset",1726,P06
+ALR-05,"No backup, or backup older than 7 days with failures, or older than 30 days","Notice, then Warning",Card in Settings and the chat list,Back up now,1727,P13
+ALR-06,Push health check failed,Warning,Card in the chat list,Fix notifications,1728,P09
+ALR-07,Registration lock or recovery key changed,Critical,Push on all devices,"Review, This wasn't me",1729,P06
+ALR-08,Scam or phishing risk (AI-11),Warning,Banner above the message,"Why?, Report, Ignore",1730,P17
+ALR-09,"Integrity check failed, or rooted or jailbroken",Warning,Card in Settings > Security,Learn more. Never blocks use,1731,P22
+ALR-10,Storage low,"Notice, then Warning",Card in Settings,Free up space,1732,P19
+ALR-11,App too old for the protocol,Critical,Full-screen sheet,Update now,1733,P19
+ALR-12,Invite or call link about to expire,Info,Banner,Make a new link,1734,P06
+ALR-13,Moderator action on your account,Critical,"Push, sheet, notification centre","See the reason, Appeal",1735,P19
+ALR-14,Screen share or call in progress,Notice (persistent),Ongoing notification and in-app bar,"Stop sharing, Return to call",1736,P16
+ALR-15,Vault checkup found a risk,Warning,Card in Security centre,Fix now,1737,P11
+ALR-16,Check-in timer about to expire,Warning,"Notification with sound. The one Warning that Hush mode never holds, because the person set the timer","I'm safe, Add time",1738,P20
+ALR-17,Restore drill failed,Warning,Card in Backup dashboard,"Back up again, Learn more",1739,P13
+ALR-18,Suspicious device-link request (ACC-17),Critical,Push on all devices and a sheet,"Deny, Review",1740,P06
+ALR-19,Lockdown mode is on,Notice (persistent),Card in the chat list and Security centre,"Review, Turn off",1741,P18
+ALR-20,This device was signed out and wiped by you (ACC-16),Notice,Sheet on the next open,"Sign in again, Learn more",1742,P06
+ALR-21,Update available from the verified channel (ADM-08),"Notice, Critical for security fixes","Card, or a full-screen sheet for Critical","Update now, Later",1743,P19
+ALR-22,Network outage detected (NET-10),Info,Banner in the chat list,See options,1744,P19
+ALR-23,Data cap near (NET-11),Notice,Card in Settings,"See usage, Change cap",1745,P19

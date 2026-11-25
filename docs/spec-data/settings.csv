@@ -1,0 +1,215 @@
+id,group_letter,group,setting,options,default,scope,feature,new_v5,blueprint_line
+STA-01,A,Account and profile,"Name, photo, bio",Text and image,Name set at sign-up,G,ACC-06,,1871
+STA-02,A,Account and profile,Who sees each profile field,"Everyone, Contacts, Nobody",Contacts,G,ACC-06,,1872
+STA-03,A,Account and profile,Username,Change (30-day cooldown),As chosen,G,ACC-10,,1873
+STA-04,A,Account and profile,Contact link and QR,Reset (revokes old),Active,G,ACC-14,,1874
+STA-05,A,Account and profile,Burner usernames,"Create, set end date, revoke",None,G,PER-02,,1875
+STA-06,A,Account and profile,Personas,"Create, assign to a chat or group",None,C,PER-01,,1876
+STA-07,A,Account and profile,Contact nickname and private note,Text,Empty,P,ACC-11,,1877
+STA-08,A,Account and profile,Request my data,Request,n/a,G,ACC-15,,1878
+STA-09,A,Account and profile,Delete account,Delete,n/a,G,ACC-05,,1879
+STB-01,B,Privacy,Last seen and online,"Everyone, Contacts, Nobody",Contacts,"G, P",PRV-02,,1885
+STB-02,B,Privacy,Profile photo visibility,"Everyone, Contacts, Nobody",Contacts,G,PRV-09,,1886
+STB-03,B,Privacy,Who can add me to groups,"Everyone, Contacts, Nobody",Contacts,G,PRV-03,,1887
+STB-04,B,Privacy,Who can call me,"Everyone, Contacts, Nobody",Contacts,G,PRV-03,,1888
+STB-05,B,Privacy,Who can message me first,"Everyone (goes to Requests), Contacts",Everyone to Requests,G,SAF-03,,1889
+STB-06,B,Privacy,Read receipts,"On, Off",On,"G, C","MSG-06, PRV-11",,1890
+STB-07,B,Privacy,Typing indicator,"On, Off",On,"G, C","MSG-07, PRV-11",,1891
+STB-08,B,Privacy,Link previews,"On, Off",On,G,MSG-08,,1892
+STB-09,B,Privacy,Strip tracking from links,"On, Off",On,G,PRV-06,,1893
+STB-10,B,Privacy,Strip photo location and camera data,"On, Off",On,G,MED-08,,1894
+STB-11,B,Privacy,Always relay calls,"On, Off",Off,G,PRV-12,,1895
+STB-12,B,Privacy,Clipboard guard,"On, Off",On,G,PRV-15,,1896
+STB-13,B,Privacy,Hide previews in chat list,"Off, Hide text, Hide text and photos",Off,G,PRV-16,,1897
+STB-14,B,Privacy,Hide app preview in recents,"On, Off",On,"G, D",PRV-07,,1898
+STB-15,B,Privacy,Block screenshots,"Off, Vault only, Chosen chats, Everywhere",Vault only,"G, C",PRV-05,,1899
+STB-16,B,Privacy,Incognito keyboard,"On, Off",On,G,PRV-08,,1900
+STB-17,B,Privacy,What Sargoshi knows about me,View,n/a,G,PRV-13,,1901
+STB-18,B,Privacy,Privacy checkup,Start,n/a,G,PRV-10,,1902
+STB-19,B,Privacy,Lockdown mode,"Off, On",Off,G,PRV-17,1,1903
+STB-20,B,Privacy,Quick lock gesture,"Off, Shake, Double power press, Tile",Off,D,PRV-18,1,1904
+STB-21,B,Privacy,Capture notice,"On, Off",On,"G, C",PRV-20,1,1905
+STC-01,C,Security,App lock,"Off, PIN, Biometrics",Off (suggested at setup),"G, D",PRV-14,,1911
+STC-02,C,Security,Lock after,"Immediately, 1 min, 5 min, 30 min",1 min,D,PRV-14,,1912
+STC-03,C,Security,Registration lock PIN,"Set, change, remove",Off (suggested),G,ACC-09,,1913
+STC-04,C,Security,Passkey,"Add, remove",None,G,ACC-07,,1914
+STC-05,C,Security,Sign in with recovery key,"Allow, Disallow",Allow,G,ACC-13,,1915
+STC-06,C,Security,New-device approval,On (cannot be turned off),On,G,ACC-12,,1916
+STC-07,C,Security,Linked devices,"List, rename, sign out",n/a,G,"ACC-03, ACC-04",,1917
+STC-08,C,Security,Email alerts for security events,"Off, On",Off,G,Section 11.7,,1918
+STC-09,C,Security,Safety numbers and key changes,"View, verify",n/a,P,SAF-09,,1919
+STC-10,C,Security,Security centre,Open,n/a,G,SET-14,,1920
+STC-11,C,Security,Remote wipe on sign-out,"Ask, Always, Never",Ask,G,ACC-16,1,1921
+STC-12,C,Security,Device-link scam warnings,On (cannot be turned off),On,G,ACC-17,1,1922
+STC-13,C,Security,Inactive account,"Off, 6, 12, 24 months",12 months,G,ACC-18,1,1923
+STC-14,C,Security,Several passkeys and security keys,"Add, remove",None,G,ACC-20,1,1924
+STC-15,C,Security,Date of birth and age settings,View,n/a,G,ACC-21,1,1925
+STD-01,D,Vault,Vault lock type,"PIN (6 or more digits), passphrase (8 or more characters)",Chosen at setup,G,VLT-01,,1931
+STD-02,D,Vault,Biometric unlock,"Off, On",On if available,"G, D",VLT-14,,1932
+STD-03,D,Vault,Auto-lock,"Immediately, 30 s, 1 min, 5 min",30 s,G,VLT-14,,1933
+STD-04,D,Vault,Lock on screen off,"On, Off",On,G,VLT-14,,1934
+STD-05,D,Vault,Lock on app switch,"On, Off",On,G,VLT-14,,1935
+STD-06,D,Vault,Wipe after wrong attempts,"Off, 5, 10, 20",Off,G,VLT-14,,1936
+STD-07,D,Vault,Privacy blur grid,"On, Off",On,G,VLT-23,,1937
+STD-08,D,Vault,Show vault entry,"Tab, Hidden behind gesture",Tab,G,VLT-17,,1938
+STD-09,D,Vault,Decoy vault and duress PIN,"Set up, edit content",Off,G,"VLT-15, VLT-16",,1939
+STD-10,D,Vault,Disguised icon and name,"Default, Calculator, Notes, Clock",Default,G,VLT-17,,1940
+STD-11,D,Vault,Intruder log,"Off, Log only, Log with photo",Log only,G,VLT-18,,1941
+STD-12,D,Vault,Vault chat notifications,"New message, Silent",New message,G,Section 11.3,,1942
+STD-13,D,Vault,Trash retention,"7, 30 days",30 days,G,VLT-19,,1943
+STD-14,D,Vault,Vault checkup,Run now,n/a,G,VLT-26,,1944
+STD-15,D,Vault,Footprint scan,Run now,n/a,G,VLT-27,,1945
+STD-16,D,Vault,Vault AI features,"Off, On",On,G,VLT-22,,1946
+STD-17,D,Vault,Include Vault in backups,"Off, On",Off,G,BKP-08,,1947
+STE-01,E,Chats,Disappearing messages,"Off, 1 hour, 1 day, 1 week, 4 weeks",Off,"G default, C",PRV-01,,1953
+STE-02,E,Chats,Chat rules,"Block export, block auto-download, block AI, block forwarding",Off,C,RSL-02,,1954
+STE-03,E,Chats,Default rule template for new chats,"None, Whisper, Confidential, Ephemeral",None,G,RSL-04,,1955
+STE-04,E,Chats,Undo send,"Off, 5 seconds",5 seconds,G,MSG-18,,1956
+STE-05,E,Chats,Enter key,"Sends, New line",New line,G,MSG-01,,1957
+STE-06,E,Chats,Rich text,"On, Off",On,G,MSG-20,,1958
+STE-07,E,Chats,Translate language,"Per chat language, Auto",Off,C,AI-02,,1959
+STE-08,E,Chats,Swipe actions,"Reply, Archive, Mute, Pin, Mark unread, Delete","Right Reply, Left Archive",G,SET-07,,1960
+STE-09,E,Chats,Double-tap reaction,Any emoji or Off,Heart,G,SET-07,,1961
+STE-10,E,Chats,Long-press menu order,Reorder,Default,G,SET-07,,1962
+STE-11,E,Chats,Composer quick-action bar,Reorder or hide,Default,G,SET-07,,1963
+STE-12,E,Chats,Archived chats,"Stay archived, Unarchive on new message",Stay archived,G,ORG-01,,1964
+STE-13,E,Chats,Chat folders,"Create, order, auto-rules",None,G,ORG-02,,1965
+STE-14,E,Chats,Wallpaper and accent,Per chat,Theme default,C,MSG-15,,1966
+STE-15,E,Chats,Message info,"On, Off",On,G,MSG-13,,1967
+STE-16,E,Chats,Edit history,"Off, On",Off,C,MSG-24,1,1968
+STE-17,E,Chats,Keep this message,"Ask sender, Never",Ask sender,C,MSG-23,1,1969
+STE-18,E,Chats,Threads,"On, Off",On,G,MSG-25,1,1970
+STE-19,E,Chats,Repeating scheduled messages,"View, edit",None,C,MSG-27,1,1971
+STE-20,E,Chats,Saved collections,"Create, edit",None,G,MSG-26,1,1972
+STE-21,E,Chats,Custom reactions,Choose favourites,Default set,G,MSG-29,1,1973
+STE-22,E,Chats,Chat lock (light),"Off, On per chat",Off,C,ORG-09,1,1974
+STE-23,E,Chats,Smart folders,"Create, rules",None,G,ORG-10,1,1975
+STE-24,E,Chats,Mentions and replies filter,"On, Off",On,G,ORG-11,1,1976
+STE-25,E,Chats,Needs-reply markers,"On, Off",On,G,ORG-12,1,1977
+STE-26,E,Chats,Automatic face blur,"Off, On",Off,C,MED-23,1,1978
+STE-27,E,Chats,Member label,"Set, clear",None,C,GRP-14,1,1979
+STE-28,E,Chats,Join captcha and welcome message,Admins only,Off,C,GRP-16,1,1980
+STE-29,E,Chats,Auto-moderation rules,Admins only,Off,C,GRP-17,1,1981
+STF-01,F,Notifications,Notification content,"Name and text, Name only, Hidden",Name only,G,NTF-05,,1987
+STF-02,F,Notifications,Per-chat sound and vibration,Choose or Mute,Default,"C, P",NTF-03,,1988
+STF-03,F,Notifications,Mute,"1 hour, 8 hours, 1 week, Always",Off,C,ORG-01,,1989
+STF-04,F,Notifications,Hush mode schedule,Days and times,Off,G,NTF-04,,1990
+STF-05,F,Notifications,Priority contacts,Choose,None,P,NTF-11,,1991
+STF-06,F,Notifications,Allow repeat calls,"On, Off",On,G,NTF-12,,1992
+STF-07,F,Notifications,Urgent detection (AI),"Off, On",Off,G,AI-19,,1993
+STF-08,F,Notifications,Grouping and rate limits,"On, Off",On,G,NTF-10,,1994
+STF-09,F,Notifications,Badge counts,"Chats, Messages, Off",Chats,G,NTF-13,,1995
+STF-10,F,Notifications,Reactions notify,"On, Off",Off,G,Section 11.4,,1996
+STF-11,F,Notifications,Notification actions,"Reply, Mark read, Mute 1 hour",All,G,NTF-09,,1997
+STF-12,F,Notifications,Notification check,Run,n/a,"G, D",NTF-07,,1998
+STF-13,F,Notifications,Alert history,Open,n/a,G,NTF-08,,1999
+STF-14,F,Notifications,Group notifications,"All, Highlights, None",All,C,NTF-18,1,2000
+STF-15,F,Notifications,Focus profiles,"Work, Study, Sleep, Prayer, Driving, custom",None,G,NTF-19,1,2001
+STF-16,F,Notifications,Prayer times city and method,Choose or manual,None,G,NTF-14,1,2002
+STF-17,F,Notifications,Driving mode trigger,"Off, Car Bluetooth, Manual",Off,"G, D",NTF-17,1,2003
+STF-18,F,Notifications,Live progress notifications,"On, Off",On,D,NTF-16,1,2004
+STG-01,G,Media and storage,Auto-download on Wi-Fi,"Photos, Audio, Video, Files","Photos, Audio",G,MED-05,,2010
+STG-02,G,Media and storage,Auto-download on mobile data,"Photos, Audio, Video, Files",Off,G,MED-05,,2011
+STG-03,G,Media and storage,Auto-download when roaming,Off,Off,G,MED-05,,2012
+STG-04,G,Media and storage,Upload quality,"Standard, Original",Standard,G,MED-07,,2013
+STG-05,G,Media and storage,Data saver,"Off, Medium, Strict",Off,G,NET-02,,2014
+STG-06,G,Media and storage,Lite UI,"Auto, On, Off",Auto,"G, D",NET-01,,2015
+STG-07,G,Media and storage,Waiting-to-send queue,View,n/a,G,NET-06,,2016
+STG-08,G,Media and storage,Storage manager,"By chat, by type",n/a,G,NET-05,,2017
+STG-09,G,Media and storage,Keep media for,"Forever, 1 year, 6 months, 30 days",Forever,"G, C",NET-05,,2018
+STG-10,G,Media and storage,Offload old media,"Off, On",Off,G,BKP-15,,2019
+STG-11,G,Media and storage,Connect through proxy,"None, SOCKS5, HTTP",None,G,NET-07,,2020
+STG-12,G,Media and storage,Data usage monitor,View,n/a,G,NET-11,1,2021
+STG-13,G,Media and storage,Monthly data cap alert,"Off, set a limit",Off,G,NET-11,1,2022
+STG-14,G,Media and storage,Smart image and video formats,"Auto, Off",Auto,G,MED-20,1,2023
+STG-15,G,Media and storage,Preview size before send,"On, Off",Off,G,NET-12,1,2024
+STG-16,G,Media and storage,Background data guard,"Auto, Strict",Auto,G,NET-13,1,2025
+STH-01,H,Calls and presenting,Low-data calls,"Auto, Always",Auto,G,CAL-05,,2031
+STH-02,H,Calls and presenting,Picture-in-picture,"On, Off",On,G,CAL-13,,2032
+STH-03,H,Calls and presenting,Call verification code,"Show, Hide",Show,G,CAL-14,,2033
+STH-04,H,Calls and presenting,Default presenting quality,"Auto, Text and slides, Smooth motion",Auto,G,SHR-09,,2034
+STH-05,H,Calls and presenting,Hide notification text while presenting,On (cannot be turned off),On,G,SHR-07,,2035
+STH-06,H,Calls and presenting,Show Do Not Disturb prompt,"On, Off",On,G,SHR-07,,2036
+STH-07,H,Calls and presenting,Floating presenter control,"Off, On (needs permission)",Off,D,SHR-08,,2037
+STH-08,H,Calls and presenting,Who can present in my calls,"Everyone, Selected, Admins",Selected,G,SHR-11,,2038
+STH-09,H,Calls and presenting,Recording,"Host only, Off",Off,G,SHR-12,,2039
+STH-10,H,Calls and presenting,Captions in calls,"Off, On",Off,G,AI-17,,2040
+STH-11,H,Calls and presenting,Caller screening,"Off, Unknown callers",Unknown callers,G,CAL-24,1,2041
+STH-12,H,Calls and presenting,Missed-call message,"Off, On",On,G,CAL-17,1,2042
+STH-13,H,Calls and presenting,Call waiting,"On, Off",On,G,CAL-08,1,2043
+STH-14,H,Calls and presenting,Video effects,"Off, Blur, Background",Off,G,CAL-20,1,2044
+STH-15,H,Calls and presenting,Audio routing,"Auto, Earpiece, Speaker, Bluetooth",Auto,G,CAL-25,1,2045
+STH-16,H,Calls and presenting,Call quality report,"Ask, Never",Ask,G,CAL-23,1,2046
+STH-17,H,Calls and presenting,Presenter notes,"On, Off",On,G,SHR-15,1,2047
+STI-01,I,AI,Master switch,"On, Off",On,G,Section 10.1,,2053
+STI-02,I,AI,Each feature (AI-01 to AI-36),"On, Off","On except AI-19, AI-20, AI-23, AI-33, AI-34, AI-36",G,Section 10.4,,2054
+STI-03,I,AI,Cloud assistant,"Never, Ask each time",Never,G,AI-22,,2055
+STI-04,I,AI,Model manager,"Download, remove, Wi-Fi only",Wi-Fi only,G,AI-24,,2056
+STI-05,I,AI,Allow AI in a chat,"On, Off",On,C,RSL-02,,2057
+STI-06,I,AI,Translation packs,Choose languages,"English, Urdu",G,AI-01,,2058
+STI-07,I,AI,Pakistan scam packs,"On, Off",On,G,AI-31,1,2059
+STI-08,I,AI,OTP and secret guard,"On, Off",On,G,AI-35,1,2060
+STI-09,I,AI,Add a description to images,"Off, On",Off,G,AI-33,1,2061
+STI-10,I,AI,Voice-note translation,"Off, On",Off,G,AI-34,1,2062
+STI-11,I,AI,Calm send,"Off, On",Off,G,AI-36,1,2063
+STJ-01,J,Backup,Destinations,"Local, Sargoshi cloud, Drive, S3, WebDAV",Local,G,BKP-01 to BKP-03,,2069
+STJ-02,J,Backup,Schedule,"Off, Daily, Weekly",Daily,G,BKP-06,,2070
+STJ-03,J,Backup,"Only on Wi-Fi, only when charging","On, Off","Wi-Fi on, charging off",G,BKP-06,,2071
+STJ-04,J,Backup,What to include,"Chats, media types, size cap, last N days",Chats and recent media,G,BKP-07,,2072
+STJ-05,J,Backup,Versions to keep,"Preset, Custom","7 daily, 4 weekly, 6 monthly",G,BKP-05,,2073
+STJ-06,J,Backup,Recovery key,"View, test, change",Set at setup,G,"BKP-04, BKP-16",,2074
+STJ-07,J,Backup,Restore drill,"Monthly, Off",Monthly,G,BKP-09,,2075
+STJ-08,J,Backup,Export chats,Choose,n/a,G,BKP-13,,2076
+STJ-09,J,Backup,Settings file,"Export, import",n/a,G,SET-04,,2077
+STJ-10,J,Backup,Phone-to-phone transfer,Start,n/a,G,BKP-11,,2078
+STJ-11,J,Backup,Recovery key quiz reminders,"On, Off",On,G,BKP-18,1,2079
+STJ-12,J,Backup,Storage forecast,View,n/a,G,BKP-19,1,2080
+STK-01,K,Appearance,Theme,"Dark, Light, AMOLED, Midnight Sky, System, Dynamic colour",Dark,"G, D",SET-05,,2086
+STK-02,K,Appearance,Accent colour,12 presets or custom,Ember,G,SET-05,,2087
+STK-03,K,Appearance,Text size,5 steps and custom,Default,G,SET-05,,2088
+STK-04,K,Appearance,Font,"Inter, Plus Jakarta Sans, System, Dyslexia-friendly",Inter,G,SET-05,,2089
+STK-05,K,Appearance,Bubble style,"Soft, Flat, Compact",Soft,"G, C",SET-05,,2090
+STK-06,K,Appearance,Corner radius,0 to 24 slider,18,G,SET-05,,2091
+STK-07,K,Appearance,Chat density,"Comfortable, Compact",Comfortable,G,SET-05,,2092
+STK-08,K,Appearance,Avatar shape,"Circle, Rounded square",Circle,G,SET-05,,2093
+STK-09,K,Appearance,App icon,Default or branded set,Default,G,SET-06,,2094
+STK-10,K,Appearance,Tabs,"Reorder, hide, start tab",Chats first,G,SET-08,,2095
+STK-11,K,Appearance,Navigation on large screens,"Rail, Bar",Rail,"G, D",SET-08,,2096
+STK-12,K,Appearance,Performance profile,"Auto, Lite, Standard, Full",Auto,D,SET-11,,2097
+STK-13,K,Appearance,Sounds,Per event,Default,G,SET-10,,2098
+STK-14,K,Appearance,Haptics,"Off, Light, Standard, Strong",Standard,"G, D",SET-10,,2099
+STK-15,K,Appearance,Quick Settings tiles and widgets,Add,None,D,SET-13,,2100
+STK-16,K,Appearance,Simple mode,"Off, On",Off,"G, D",SET-17,1,2101
+STK-17,K,Appearance,Digital wellbeing,"Off, Insights, Insights and limits",Off,G,SET-18,1,2102
+STK-18,K,Appearance,Theme pack,"Import, export",None,G,SET-20,1,2103
+STK-19,K,Appearance,Launcher shortcuts,"On, Off",On,D,SET-21,1,2104
+STK-20,K,Appearance,Guided tour and demo mode,Start,n/a,G,SET-19,1,2105
+STL-01,L,Language and region,App language,"English, Urdu (more in version 2)",System,G,LOC-01,,2111
+STL-02,L,Language and region,Numbers,"Western, Eastern Arabic",Western,G,SET-09,,2112
+STL-03,L,Language and region,Calendar,"Gregorian, Gregorian with Hijri dates",Gregorian,G,SET-09,,2113
+STL-04,L,Language and region,Roman Urdu converter,"Off, Chip, Auto-suggest",Chip,G,AI-10,,2114
+STL-05,L,Language and region,Week starts on,"Saturday, Sunday, Monday",System,G,SET-09,,2115
+STL-06,L,Language and region,Urdu typing aids,"Off, Phonetic layout, Phonetic with suggestions",Phonetic layout,G,LOC-06,1,2116
+STM-01,M,Accessibility,High-contrast theme,"Off, On",Off,G,SET-12,,2122
+STM-02,M,Accessibility,Colour-blind-safe palette,"Off, On",Off,G,SET-12,,2123
+STM-03,M,Accessibility,Reduce motion,"System, On, Off",System,G,LOC-03,,2124
+STM-04,M,Accessibility,One-handed mode,"Off, On",Off,"G, D",SET-12,,2125
+STM-05,M,Accessibility,Screen-reader detail,"Brief, Standard, Verbose",Standard,G,SET-12,,2126
+STM-06,M,Accessibility,Read messages aloud,"Off, On",Off,G,LOC-04,,2127
+STM-07,M,Accessibility,Captions,"Off, On",Off,G,AI-17,,2128
+STM-08,M,Accessibility,Visual call alerts,"Off, Flash, Flash and vibrate",Off,D,LOC-07,1,2129
+STM-09,M,Accessibility,Per-contact haptic pattern,Choose,Default,P,LOC-07,1,2130
+STM-10,M,Accessibility,Switch access and TalkBack actions,On,On,G,LOC-07,1,2131
+STM-11,M,Accessibility,Large-print reading mode,"Off, On",Off,G,LOC-07,1,2132
+STN-01,N,Advanced and About,Network diagnostics,Run,n/a,G,NET-04,,2138
+STN-02,N,Advanced and About,Experiments,"Off, On per feature",Off,G,SET-16,,2139
+STN-03,N,Advanced and About,Export redacted logs,Export,n/a,G,Section 14.6,,2140
+STN-04,N,Advanced and About,Reset settings,Reset all or by group,n/a,G,SET-04,,2141
+STN-05,N,Advanced and About,About and transparency,"Versions, audit, licences, SBOM, transparency report, build hash",n/a,G,SET-15,,2142
+STN-06,N,Advanced and About,Help and safety centre,Open,n/a,G,ADM-06,,2143
+STN-07,N,Advanced and About,Connection fallbacks,"Auto, Off",Auto,G,NET-09,1,2144
+STN-08,N,Advanced and About,Outage mode,"Auto, Off",Auto,G,NET-10,1,2145
+STN-09,N,Advanced and About,Proxy link,Open or share a signed link,None,G,"NET-07, NET-09",1,2146
+STN-10,N,Advanced and About,Update channel,"Store, Verified direct download",Store,D,ADM-08,1,2147
+STN-11,N,Advanced and About,Send feedback,Open,n/a,G,ADM-10,1,2148
+STN-12,N,Advanced and About,What’s new cards,"On, Off",On,G,ADM-11,1,2149

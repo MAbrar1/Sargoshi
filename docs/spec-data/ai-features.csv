@@ -1,0 +1,37 @@
+id,feature,what_the_person_sees,where_it_runs,build_phase,v2_mode,blueprint_line
+AI-01,Translate message,"""Translate"" on any message, with the original one tap away","On-device translation packs, all tiers",P17,,1605
+AI-02,Auto-translate chat,Per-chat switch. Translation under each incoming message,Same,P17,,1606
+AI-03,Smart replies,Up to 3 chips above the keyboard. Never auto-sends,System model on T3 where supported (English only as far as I know). Bundled small model on T2 later. Hidden if unsupported,P17,,1607
+AI-04,Catch me up,Summary of unread group messages with links back to the messages,"T2 small model, T3 system model",P17,,1608
+AI-05,Voice note summary,One line under a long voice note,Needs AI-06,P17,,1609
+AI-06,Voice note transcript,"""Transcribe"" under a voice note",System speech recognition (basic mode on Android 12 and up) or a bundled small speech model. Check Urdu quality on real phones (unverified),P17,,1610
+AI-07,Tone rewrite,"Friendly, Formal, Shorter, Clearer in a sheet with Use, Edit, Dismiss",T3 system rewriting. T2 small model later. Urdu later,P17,,1611
+AI-08,Fix spelling and grammar,One-tap fix in the composer,T3 system proofreading (English first). Others later,P17,,1612
+AI-09,Urdu voice typing,"Mic in the composer, Urdu or English",System speech recognition,P17,,1613
+AI-10,Roman Urdu to Urdu script,"Type ""kya haal hai"", tap the chip","Own converter, all tiers",P17,,1614
+AI-11,Scam and phishing warning,Amber banner with a one-line reason. Never blocks,Rules on all tiers. Small classifier on T2 and T3,P17,,1615
+AI-12,Search by meaning,"Find ""the plumber's number"" without those words","Small embedding model, T2 and T3. One index per space (normal, Vault)",P17,,1616
+AI-13,Smart actions,"Long-press for Add reminder, Add to calendar, Copy address, Copy number. Understands Urdu digits and words like ""kal"" and ""parson""","Rules, all tiers",P17,,1617
+AI-14,Copy text from image,Select text in a photo,"Latin text through ML Kit. ML Kit's text recognition does not cover Arabic script as far as I know, so Urdu needs another engine such as Tesseract (Apache-2.0). Test quality before promising Urdu OCR (unverified)",P17,,1618
+AI-15,Image descriptions,Screen readers get a short description of received images,T3 system image description on listed phones. Hidden elsewhere,P17,,1619
+AI-16,Sensitive image blur,"Explicit-looking images from unknown senders are blurred with ""View anyway"". Nothing is reported automatically","Small classifier, T2 and T3",P17,,1620
+AI-17,Live captions in calls,"Captions under the speaker. A ""Captions on"" label shows to everyone","System speech recognition, local only",P17,,1621
+AI-18,Call notes,Opt-in per call. Everyone is told. Summary saved to Saved Messages or the Vault,Needs AI-17,P17,,1622
+AI-19,Urgent message detection,Lets urgent messages from priority contacts break through Hush mode,Small local classifier plus keywords. Runs in the background after decryption,P17,,1623
+AI-20,Digest of muted chats,One daily or weekly card,"Foreground generation when the app opens, or rules on T1",P17,,1624
+AI-21,Announcement helper,Draft or polish a channel announcement,"T3 system model, T2 small model",P17,,1625
+AI-22,Cloud assistant,"A sheet shows exactly which text leaves the phone and where it goes, with Send and Cancel. Visible ""Cloud"" label",Opt-in per use. Never for Vault chats. Nothing stored server-side,P17,,1626
+AI-23,Auto-reply when busy,"Hush mode can send a short, editable reply",Template plus optional AI draft,P17,,1627
+AI-24,Model manager,"Installed models, size, licence, language, remove, Wi-Fi only downloads",Local,P17,,1628
+AI-25,Ask this chat,A side panel: ask a private question about the current chat,"On device where the tier allows, else cloud with consent. Not available when the chat has ""block AI"" (RSL-02)",P17,,1629
+AI-26,Word lookup,"Long-press a word for meaning, Urdu and Roman Urdu forms, pronunciation",Offline dictionary packs (check licences),P17,,1630
+AI-27,Document summary,Summary of a PDF or document before opening,"T2 small model, T3 system model",P17,,1631
+AI-28,Smart privacy suggestions,"""This chat looks sensitive. Move it to the Vault?"" or ""Turn on Confidential rules?""","Local rules and classifier, never logged",P17,,1632
+AI-29,Redact assist,"Finds CNIC numbers, card numbers and phone numbers in text or images before sending and offers to mask or blur",Rules plus text recognition (Latin digits first),P17,,1633
+AI-30,Live call translation,Spoken translation between two languages in a call,"T3 only, version 2",P17,DESIGN_ONLY_OR_TRY,1634
+AI-31,Pakistan scam packs,"Amber warning naming the scam type (fake wallet agent, prize, fake officer, job offer, OTP request) and one line on what to do. Never blocks","Signed rule packs updated through the app, run on the phone, all tiers",P17,,1635
+AI-32,Voice commands,"""Call Ayesha"", ""Read my messages"", ""Reply yes"" in Urdu or English",System speech recognition with local intent rules. Version 2,P17,DESIGN_ONLY_OR_TRY,1636
+AI-33,Add a description,Suggested alt text for images you send. You edit or skip,T3 system image description. Hidden elsewhere,P17,,1637
+AI-34,Voice-note translation,Transcript and translation under a voice note,"AI-06 plus AI-01, T2 and T3. Test Urdu quality on real phones (unverified)",P17,,1638
+AI-35,OTP and secret guard,"Before sending text that looks like a one-time code, PIN, password or card number, a sheet asks ""Send this?""","Local rules, all tiers",P17,,1639
+AI-36,Calm send,"Optional pause with ""Read again?"" before sending sharp words. Off by default","Small local classifier, T2 and T3",P17,,1640

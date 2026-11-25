@@ -1,0 +1,184 @@
+id,screen,route,build_phase,refs
+SCR-001,Welcome (3 pages),/welcome,P06,Fig10 16.3
+SCR-002,Sign-up: phone or email,/signup,P06,ACC-01
+SCR-003,Verify code,/signup/verify,P06,ACC-01
+SCR-004,Choose username,/signup/username,P06,ACC-01
+SCR-005,Age gate (date of birth),/signup/age,P06,ACC-21
+SCR-006,Secure setup,/setup,P06,16.5
+SCR-007,App lock setup and gate,/lock,P06,PRV-14
+SCR-008,"Recovery key: show, print kit, quiz",/you/recovery,P06,ACC-13 BKP-18
+SCR-009,"Add a friend (QR, link, scan)",/add,P06,ACC-02 GRW-03
+SCR-010,Public profile preview /u/{username},/u/{username},P06,ACC-02
+SCR-011,Linked devices list,/you/devices,P06,ACC-03 ACC-04
+SCR-012,Link a new device (QR),/you/devices/link,P06,ACC-03
+SCR-013,New-device approval sheet,sheet,P06,ACC-12
+SCR-014,"Device detail, rename, sign out, remote wipe",/you/devices/{id},P06,ACC-04 ACC-16
+SCR-015,Profile and field visibility,/you/profile,P06,ACC-06
+SCR-016,Contact link and QR manager,/you/links,P06,ACC-14
+SCR-017,Registration lock PIN,/security/reglock,P06,ACC-09
+SCR-018,Passkeys and security keys,/security/passkeys,P06,ACC-07 ACC-20
+SCR-019,Multi-account switcher,sheet,P06,ACC-08
+SCR-020,Username change,/you/username,P06,ACC-10
+SCR-021,Inactive account manager,/security/inactive,P06,ACC-18
+SCR-022,Request my data,/you/data-request,P06,ACC-15
+SCR-023,Delete account,/you/delete,P06,ACC-05
+SCR-024,Chat list,/chats,P07A,Fig6
+SCR-025,Chat,/chats/{chatId},P07A,Fig4 6.11
+SCR-026,Message long-press menu,sheet,P07A,16.3
+SCR-027,Reaction picker,sheet,P07A,MSG-02
+SCR-028,Forward picker,sheet,P07A,MSG-04
+SCR-029,Search in chat,sheet,P07A,MSG-10
+SCR-030,Global search,overlay,P07A,MSG-10
+SCR-031,Chat info,/chats/{chatId}/info,P07A,6.12
+SCR-032,Chat media gallery,/chats/{chatId}/media,P07A,MED-06
+SCR-033,Message info,sheet,P07A,MSG-13
+SCR-034,Waiting-to-send queue,/chats/queue,P07A,NET-06
+SCR-035,Folders manager,/chats/folders,P07A,ORG-02
+SCR-036,Archived chats,/chats/archived,P07A,ORG-01
+SCR-037,Starred messages,/chats/starred,P07A,ORG-03
+SCR-038,Saved Messages,/chats/saved,P07A,ORG-04
+SCR-039,Personas manager,/you/personas,P07A,PER-01 PER-02
+SCR-040,Message rules sheet,/chats/{chatId}/rules,P07B,RSL-01 RSL-02
+SCR-041,What this does and does not stop,sheet,P07B,RSL-03
+SCR-042,Whisper Send gesture,gesture,P07B,MSG-17
+SCR-043,Scheduled and repeating messages,/chats/{chatId}/scheduled,P07B,MSG-11 MSG-27
+SCR-044,Thread view,/chats/{chatId}/thread/{msgId},P07B,MSG-25
+SCR-045,Saved collections,/chats/collections,P07B,MSG-26
+SCR-046,Advanced search filters,overlay,P07B,MSG-22
+SCR-047,Edit history sheet,sheet,P07B,MSG-24
+SCR-048,Keep this message consent,sheet,P07B,MSG-23
+SCR-049,Bulk select bar,bar,P07B,MSG-31
+SCR-050,Smart folders editor,/chats/folders/smart,P07B,ORG-10
+SCR-051,Needs-reply markers,chat-list,P07B,ORG-12
+SCR-052,Text sticker maker and custom reactions,sheet,P07B,MSG-28 MSG-29
+SCR-053,"Trust screen (safety number, QR)",/chats/{chatId}/trust,P07C,SAF-09 14.2
+SCR-054,Key-change banner and sheet,banner,P07C,ALR-02
+SCR-055,Requests inbox,/requests,P07C,SAF-03
+SCR-056,Disappearing timer sheet,sheet,P07C,PRV-01
+SCR-057,Privacy settings pages,/settings/privacy,P07C,PRV-02 PRV-03 PRV-09
+SCR-058,Report flow,sheet,P07C,SAF-01 SAF-02
+SCR-059,Block list,/settings/privacy/blocked,P07C,SAF-01
+SCR-060,Appeal flow,/appeal,P07C,SAF-06
+SCR-061,Child safety standards page,/help/csae,P07C,SAF-05
+SCR-062,Camera,/camera,P08,MED-01
+SCR-063,Media compose preview and quality,sheet,P08,MED-07 NET-12
+SCR-064,Photo editor,/edit,P08,MED-12
+SCR-065,Document scanner,/scan,P08,MED-15
+SCR-066,Video trim and compress,/video/trim,P08,MED-16
+SCR-067,Voice recorder and player,inline,P08,MED-03 MED-19
+SCR-068,Media viewer,/viewer,P08,MED-01 MED-04
+SCR-069,Shared albums,/chats/{chatId}/albums,P08,MED-17
+SCR-070,Location and arrival share,sheet,P08,MED-11 MED-22
+SCR-071,GIF and sticker picker,sheet,P08,MED-09 MED-10
+SCR-072,Video note recorder,inline,P08,MED-18
+SCR-073,Notification centre and alert history,/alerts,P09,NTF-08
+SCR-074,Alert sheet (Critical),sheet,P09,11.7
+SCR-075,Hush mode,/settings/notifications/hush,P09,NTF-04
+SCR-076,Priority contacts,/settings/notifications/priority,P09,NTF-11
+SCR-077,Notification health check,/settings/notifications/health,P09,NTF-07
+SCR-078,Focus profiles,/focus,P09,NTF-19 Fig12
+SCR-079,Prayer times settings,/settings/notifications/prayer,P09,NTF-14
+SCR-080,Driving mode,/driving,P09,NTF-17
+SCR-081,Vault lock,vault,P10,Fig7 8.8
+SCR-082,Vault setup,vault,P10,VLT-01
+SCR-083,Vault home,vault,P10,Fig7
+SCR-084,Vault gallery and albums,vault,P10,VLT-02 VLT-23
+SCR-085,Vault viewer,vault,P10,VLT-12
+SCR-086,Vault files and viewer,vault,P10,VLT-03
+SCR-087,Vault audio,vault,P10,VLT-04
+SCR-088,Vault camera and recorder,vault,P10,VLT-09
+SCR-089,Vault import and remove originals,vault,P10,VLT-10
+SCR-090,Vault export,vault,P10,VLT-11
+SCR-091,Vault chats,vault,P10,VLT-06
+SCR-092,Vault trash,vault,P10,VLT-19
+SCR-093,Vault notes and editor,vault,P11,VLT-05
+SCR-094,Vault contacts,vault,P11,VLT-07
+SCR-095,ID wallet,vault,P11,VLT-08
+SCR-096,Decoy and duress setup,vault,P11,VLT-15 VLT-16
+SCR-097,Disguise and hidden entry,/settings/vault/disguise,P11,VLT-17
+SCR-098,Intruder log,vault,P11,VLT-18
+SCR-099,Vault storage manager,vault,P11,VLT-25
+SCR-100,Vault checkup,vault,P11,VLT-26
+SCR-101,Footprint scan,vault,P11,VLT-27
+SCR-102,Backup dashboard,/backup,P13,Fig8 BKP-14
+SCR-103,Destinations setup,/backup/destinations,P13,BKP-01 BKP-02 BKP-03
+SCR-104,Versions list,/backup/versions,P13,BKP-05
+SCR-105,Scope and schedule,/backup/scope,P13,BKP-06 BKP-07
+SCR-106,Recovery key manager,/backup/key,P13,BKP-04 BKP-16
+SCR-107,Restore wizard and progress,/backup/restore,P13,BKP-10
+SCR-108,Restore drill result,/backup/drill,P13,BKP-09
+SCR-109,Export chats,/backup/export,P13,BKP-13
+SCR-110,Import from WhatsApp and Telegram,/backup/import,P13,GRW-01 GRW-02
+SCR-111,Phone-to-phone transfer,/backup/transfer,P13,BKP-11
+SCR-112,Storage forecast and smart storage,/backup/storage,P13,BKP-15 BKP-19
+SCR-113,Vault backup and restore,/backup/vault,P13,BKP-08
+SCR-114,Create group,/groups/new,P14A,GRP-01
+SCR-115,"Group info, members, roles",/chats/{chatId}/info,P14A,GRP-01 GRP-14
+SCR-116,Join links and approvals,sheet,P14A,GRP-04 GRP-08
+SCR-117,Admin log,/chats/{chatId}/admin-log,P14A,GRP-09
+SCR-118,Events and RSVP,/chats/{chatId}/events,P14A,GRP-10
+SCR-119,Polls,sheet,P14A,MSG-16
+SCR-120,"Slow mode, announcement-only, mentions",sheet,P14A,GRP-06 GRP-07 GRP-13
+SCR-121,Ban list and timed mute,sheet,P14A,GRP-19
+SCR-122,Community,/communities/{id},P14B,GRP-15 Fig12
+SCR-123,Broadcast channel,/chats/{chatId},P14B,GRP-05
+SCR-124,Captcha and welcome,sheet,P14B,GRP-16
+SCR-125,Auto-moderation rules,sheet,P14B,GRP-17
+SCR-126,Ownership succession,sheet,P14B,GRP-18
+SCR-127,Group templates,sheet,P14B,GRP-21
+SCR-128,Moments feed,/moments,P14B,MOM-01
+SCR-129,Moment viewer and creator,/moments/new,P14B,MOM-01 MOM-06
+SCR-130,Close friends and highlights,/moments/friends,P14B,MOM-04 MOM-07
+SCR-131,Call history,/calls,P15,CAL-04
+SCR-132,Call screen,/calls/{callId},P15,Fig8 CAL-01 CAL-02
+SCR-133,Incoming call (Telecom),native,P15,CAL-03
+SCR-134,Join by link and lobby,/j/{token},P15,CAL-09 CAL-15
+SCR-135,Scheduled calls,/calls/scheduled,P15,CAL-18
+SCR-136,Missed-call message,sheet,P15,CAL-17
+SCR-137,Audio routing sheet,sheet,P15,CAL-25
+SCR-138,In-call chat and reactions,sheet,P15,CAL-11 CAL-12
+SCR-139,Present sheet,overlay,P16,Fig8 9.3
+SCR-140,Presenter bar and floating control,overlay,P16,SHR-08
+SCR-141,Whiteboard,/calls/{callId}/whiteboard,P16,SHR-06
+SCR-142,Presenter notes and timer,overlay,P16,SHR-15
+SCR-143,Audience controls,sheet,P16,SHR-11
+SCR-144,AI sheet,sheet,P17,Fig9 10.4
+SCR-145,AI and models,/ai,P17,AI-24
+SCR-146,Catch me up,sheet,P17,AI-04
+SCR-147,Translate and rewrite sheets,sheet,P17,AI-01 AI-07
+SCR-148,Scam and OTP guard sheets,sheet,P17,AI-11 AI-35
+SCR-149,Redact assist,sheet,P17,AI-29
+SCR-150,Settings home,/settings,P18,Fig9 13.1
+SCR-151,Settings group pages (14),/settings/{group},P18,13.3
+SCR-152,Settings search and changed settings,overlay,P18,SET-01
+SCR-153,Preset diff and undo,sheet,P18,SET-02
+SCR-154,Overrides overview,/settings/overrides,P18,SET-03
+SCR-155,Security centre,/security,P18,SET-14
+SCR-156,Privacy checkup,/security/privacy-checkup,P18,PRV-10
+SCR-157,Lockdown mode,/security/lockdown,P18,PRV-17 Fig12
+SCR-158,Appearance studio,/settings/appearance,P18,SET-05
+SCR-159,"Gestures, navigation, theme packs",/settings/appearance/*,P18,SET-07 SET-08 SET-20
+SCR-160,Simple mode,/simple,P18,SET-17 Fig12
+SCR-161,Digital wellbeing,/settings/wellbeing,P18,SET-18
+SCR-162,Guided tour and demo mode,/tour,P18,SET-19
+SCR-163,Accessibility pages,/settings/accessibility,P18,SET-12 LOC-07
+SCR-164,Alternative icons and shortcuts,/settings/appearance/icons,P18,SET-06 SET-21
+SCR-165,Rules on my phone,/settings/automation,P18,BOT-04
+SCR-166,About and transparency,/settings/about,P18,SET-15
+SCR-167,Data usage,/data,P19,NET-11 Fig12
+SCR-168,Network diagnostics and outage mode,/settings/advanced/network,P19,NET-04 NET-10
+SCR-169,Proxy link opener,sheet,P19,NET-07 NET-09
+SCR-170,Update available,sheet,P19,ADM-08
+SCR-171,Help and safety centre,/help,P19,ADM-06
+SCR-172,Send feedback,/feedback,P19,ADM-10
+SCR-173,What is new cards,card,P19,ADM-11
+SCR-174,Storage manager,/settings/storage,P19,NET-05
+SCR-175,Switch kit and group move tracker,/switch,P19,GRW-04 GRW-08
+SCR-176,What Sargoshi knows about you,/settings/privacy/knows,P19,PRV-13
+SCR-177,SOS,/safety/sos,P20,SAF-14
+SCR-178,Check-in timer,/safety/checkin,P20,SAF-11
+SCR-179,Local help directory,/safety/help,P20,SAF-15
+SCR-180,QR scanner with safety check,/scan-qr,P20,SAF-17
+SCR-181,Restrict and keyword filters,sheet,P20,SAF-16
+SCR-182,Tablet and desktop three panes,adaptive,P22,Fig11 DSK-03
+SCR-183,Right-to-left variants of all screens,adaptive,P22,Fig13

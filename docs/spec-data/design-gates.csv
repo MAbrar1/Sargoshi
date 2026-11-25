@@ -1,0 +1,7 @@
+Gate,Check,Pass rule
+G1 (M0),Clickable prototype of Figures 6 to 13 in English and Urdu,7 of 10 target users complete the first-chat task unaided
+G2 (M2),"Golden tests at 360, 412, 600, 840 and 1280 dp in LTR and RTL",Zero unexplained diffs
+G3 (M2),"Contrast, target size and 200% text audit","All AA checks pass, zero targets under 48 dp"
+G4 (M2),"TalkBack walkthrough of sign-up, first chat, Vault",Task completable by a screen-reader user
+G5 (M3),"Brand check: logo clearance search, icon in Play listing and launcher, themed icon","Search clear, icon legible at 48 px"
+G6 (M4),Usability round on T1 and T2 phones,"SUS score at or above 80 as a target, set final value after the first round"

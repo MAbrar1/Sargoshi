@@ -1,0 +1,33 @@
+id,component,variants,size_and_shape,notes,build_phase
+CMP-01,Primary button,"Gradient (Ember to Rose), Vault (Indigo)","Height 48, radius 14, label Label 13 to 15",One per screen section. Verb first,P01
+CMP-02,Tonal button,"Default, Danger outline","Height 48, Dusk 2 fill",Secondary actions,P01
+CMP-03,Ghost button,Default,1.5 dp Line border,"Cancel, Learn more",P01
+CMP-04,Icon button,"Plain, Filled, Toggle","48 target, 24 icon",Fill weight when on,P01
+CMP-05,FAB,"Default, Vault, Extended","56 by 56, radius 18, one soft shadow","Compose, Add to Vault",P01
+CMP-06,Chip,"Filter, Assist, Input, Suggestion","Height 32, radius 999",Filter chips use Ember (Indigo in the Vault),P01
+CMP-07,Segmented control,2 to 4 options,"Height 36, radius 18","Quality mode, theme",P01
+CMP-08,Text field,"Filled, Search, PIN, Passphrase","Height 56 (search 44), radius 14","Helper text 12, error line in Coral with icon",P01
+CMP-09,Toggle,"Default, Vault","46 by 26, thumb 20",Always paired with a one-line explanation,P01
+CMP-10,Slider,"Continuous, Stepped","Track 4, thumb 20",Value shown,P01
+CMP-11,Checkbox and radio,Standard,24,Large target,P01
+CMP-12,Avatar,"Circle, Rounded square","24, 32, 38, 48, 64, 96",Initials fallback on a stable colour,P01
+CMP-13,Badge,"Count, Dot",22 high,"Counts chats, not messages (NTF-13)",P01
+CMP-14,List tile,"One, two, three line","56, 72, 88","Leading icon or avatar, trailing action",P01
+CMP-15,Card,"Surface, Outlined, Alert",Radius 16,"S1 fill, 5 dp severity edge for alerts",P01
+CMP-16,Chat bubble,"Incoming, Outgoing, Whisper, System","Radius 18, padding 14 by 10",Time inside bottom right,P01
+CMP-17,Rule badge,Per rule icon,15 dp icon plus pill,"Amber, visible to both sides",P01
+CMP-18,Reaction bar,"Quick, Full picker",Height 44,Double-tap uses the chosen emoji,P01
+CMP-19,Composer,"Text, Voice, Edit, Reply",Min 56,Quick-action bar is reorderable (SET-07),P01
+CMP-20,Top app bar,"Standard, Large, Vault, Search","64, Large 112",Collapses on scroll,P01
+CMP-21,Bottom navigation,4 destinations,80,Labels always shown,P01
+CMP-22,Navigation rail,4 to 6 destinations,72 wide,Labels shown when expanded,P01
+CMP-23,Bottom sheet,"Modal, Standard",Radius 28,Lifts above keyboard,P01
+CMP-24,Dialog,Confirm destructive only,"Radius 28, max width 360",Everything else uses sheets,P01
+CMP-25,Snackbar,With Undo,5 seconds,Undo over confirm (Section 6.7),P01
+CMP-26,Banner,"Info, Warning",Full width,Persistent until acted on,P01
+CMP-27,Alert card,"Info, Notice, Warning, Critical",84 or 118 high,Section 11.7,P01
+CMP-28,PIN pad,"3 by 4, scrambled option","Keys 52, gap 12","Custom in-app widget, no sounds that leak digits",P01
+CMP-29,Stat ring,"Storage, Readiness","80 to 92, stroke 9 to 10",Colour plus number plus word,P01
+CMP-30,Progress,"Linear, Ring, Segmented",4 to 10,Known durations only,P01
+CMP-31,Skeleton,"List row, Grid cell, Card",Matches final,Never a blocking spinner under 400 ms,P01
+CMP-32,Empty state,"Chat, Vault, Backup","Icon 64 to 96 duotone, one line, one action","Teaches, never blames",P01
