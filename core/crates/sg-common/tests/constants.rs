@@ -94,6 +94,23 @@ fn argon2_floor_is_not_below_the_documented_minimum() {
 }
 
 #[test]
+fn stream_label_is_distinct_from_every_blueprint_label() {
+    let blueprint_labels = [
+        LABEL_IK_DH_SIG,
+        LABEL_SPK_SIG,
+        LABEL_PQSPK_SIG,
+        INFO_PQXDH,
+        INFO_DR_ROOT,
+        INFO_DR_MESSAGE,
+        INFO_BACKUP,
+    ];
+    assert!(INFO_STREAM.starts_with(b"Sargoshi/"));
+    assert!(!blueprint_labels.contains(&INFO_STREAM));
+    assert_eq!(STREAM_HEADER_LEN, 17);
+    assert_eq!(HKDF_SHA256_MAX_OUTPUT, 8160);
+}
+
+#[test]
 fn only_version_one_is_accepted() {
     assert_eq!(PROTOCOL_VERSION, 1);
     for v in 0..=u8::MAX {
@@ -107,12 +124,15 @@ fn error_codes_are_unique_stable_and_round_trip() {
     for code in ErrorCode::ALL {
         assert!(seen.insert(code.as_u16()), "duplicate code");
         assert_eq!(ErrorCode::from_u16(code.as_u16()), Some(code));
-        assert!((1000..2000).contains(&code.as_u16()));
+        assert!((1000..3000).contains(&code.as_u16()));
     }
     assert_eq!(ErrorCode::from_u16(0), None);
     assert_eq!(ErrorCode::from_u16(999), None);
-    assert_eq!(ErrorCode::from_u16(2000), None);
+    assert_eq!(ErrorCode::from_u16(2008), None);
+    assert_eq!(ErrorCode::from_u16(3000), None);
     // Released codes never change: this pins the wire values.
     assert_eq!(ErrorCode::UnsupportedVersion.as_u16(), 1000);
     assert_eq!(ErrorCode::ReservedFieldSet.as_u16(), 1006);
+    assert_eq!(ErrorCode::RandomFailure.as_u16(), 2000);
+    assert_eq!(ErrorCode::StreamBadChunk.as_u16(), 2012);
 }

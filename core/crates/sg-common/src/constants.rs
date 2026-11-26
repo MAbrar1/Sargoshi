@@ -17,6 +17,10 @@ pub const INFO_DR_MESSAGE: &[u8] = b"Sargoshi/DR/v1/message";
 /// HKDF info string of the backup key derived from the recovery phrase.
 pub const INFO_BACKUP: &[u8] = b"Sargoshi/Backup/v1";
 
+/// HKDF info string used to derive a per-stream key in the streaming AEAD wrapper.
+/// This label is a Sargoshi addition and is not in Prompt B (DECISIONS D-20).
+pub const INFO_STREAM: &[u8] = b"Sargoshi/Stream/v1";
+
 /// Length of the HKDF salt used by the handshake (32 zero bytes).
 pub const PQXDH_SALT_LEN: usize = 32;
 /// Length of the 0xFF prefix of the handshake input key material.
@@ -82,3 +86,14 @@ pub const ARGON2_MIN_PARALLELISM: u32 = 1;
 /// Upper bound on the size of one serialized envelope. This limit is a Sargoshi decision (it is
 /// not in Prompt B) so that a hostile peer cannot make a receiver allocate without bound.
 pub const MAX_ENVELOPE_BYTES: usize = 128 * 1024;
+
+/// Length of the random stream identifier in a streaming AEAD header.
+pub const STREAM_ID_LEN: usize = 16;
+/// Length of a streaming AEAD header: version byte plus stream identifier.
+pub const STREAM_HEADER_LEN: usize = 1 + STREAM_ID_LEN;
+/// Largest chunk size the streaming AEAD wrapper accepts (16 MiB).
+pub const MAX_STREAM_CHUNK_BYTES: usize = 16 * 1024 * 1024;
+/// Largest number of chunks in one stream; keeps the 96-bit nonce counter far from wrapping.
+pub const MAX_STREAM_CHUNKS: u64 = 1 << 32;
+/// Largest output HKDF-SHA256 can produce: 255 blocks of 32 bytes (RFC 5869).
+pub const HKDF_SHA256_MAX_OUTPUT: usize = 255 * 32;

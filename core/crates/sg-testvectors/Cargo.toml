@@ -1,0 +1,17 @@
+[package]
+name = "sg-testvectors"
+description = "Known-answer test vectors (Wycheproof, NIST ACVP) and the tests that run them against sg-crypto"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[dependencies]
+
+[dev-dependencies]
+sg-common.workspace = true
+sg-crypto = { workspace = true, features = ["deterministic-kat"] }
+ml-kem.workspace = true
+
+[lints]
+workspace = true

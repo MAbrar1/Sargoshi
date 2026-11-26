@@ -63,11 +63,33 @@ pub enum ErrorCode {
     BadLength = 1005,
     /// See [`ProtoError::ReservedFieldSet`].
     ReservedFieldSet = 1006,
+    /// The operating system random number generator failed.
+    RandomFailure = 2000,
+    /// A key has the wrong length or is not a valid key.
+    InvalidKey = 2001,
+    /// A signature did not verify.
+    InvalidSignature = 2002,
+    /// A key agreement produced a non-contributory (all-zero) shared secret.
+    WeakSharedSecret = 2003,
+    /// Authenticated decryption failed. No further detail is ever given.
+    DecryptionFailed = 2004,
+    /// An input has an invalid length.
+    InvalidLength = 2005,
+    /// More key material was requested than the KDF can produce.
+    KdfOutputTooLong = 2006,
+    /// A KEM ciphertext is malformed.
+    InvalidCiphertext = 2007,
+    /// A stream ended without its final chunk.
+    StreamTruncated = 2010,
+    /// A stream chunk is out of order, repeated, or follows the final chunk.
+    StreamChunkOrder = 2011,
+    /// A stream chunk has an invalid size.
+    StreamBadChunk = 2012,
 }
 
 impl ErrorCode {
     /// Every code defined by this crate, for exhaustive tests.
-    pub const ALL: [Self; 7] = [
+    pub const ALL: [Self; 18] = [
         Self::UnsupportedVersion,
         Self::Truncated,
         Self::TooLarge,
@@ -75,6 +97,17 @@ impl ErrorCode {
         Self::NonCanonical,
         Self::BadLength,
         Self::ReservedFieldSet,
+        Self::RandomFailure,
+        Self::InvalidKey,
+        Self::InvalidSignature,
+        Self::WeakSharedSecret,
+        Self::DecryptionFailed,
+        Self::InvalidLength,
+        Self::KdfOutputTooLong,
+        Self::InvalidCiphertext,
+        Self::StreamTruncated,
+        Self::StreamChunkOrder,
+        Self::StreamBadChunk,
     ];
 
     /// The numeric value sent across the FFI boundary.
@@ -94,6 +127,17 @@ impl ErrorCode {
             1004 => Some(Self::NonCanonical),
             1005 => Some(Self::BadLength),
             1006 => Some(Self::ReservedFieldSet),
+            2000 => Some(Self::RandomFailure),
+            2001 => Some(Self::InvalidKey),
+            2002 => Some(Self::InvalidSignature),
+            2003 => Some(Self::WeakSharedSecret),
+            2004 => Some(Self::DecryptionFailed),
+            2005 => Some(Self::InvalidLength),
+            2006 => Some(Self::KdfOutputTooLong),
+            2007 => Some(Self::InvalidCiphertext),
+            2010 => Some(Self::StreamTruncated),
+            2011 => Some(Self::StreamChunkOrder),
+            2012 => Some(Self::StreamBadChunk),
             _ => None,
         }
     }

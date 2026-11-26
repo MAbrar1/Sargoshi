@@ -14,6 +14,18 @@ rust-version = "1.100"
 prost = { version = "=0.14.5", default-features = false, features = ["derive", "std"] }
 thiserror = "=2.0.21"
 proptest = "=1.12.0"
+x25519-dalek = "=3.0.0"
+ed25519-dalek = "=3.0.0"
+curve25519-dalek = "=5.0.0"
+chacha20poly1305 = { version = "=0.11.0", default-features = false, features = ["alloc"] }
+hkdf = "=0.13.0"
+sha2 = "=0.11.1"
+zeroize = "=1.9.1"
+subtle = "=2.6.1"
+getrandom = "=0.4.3"
+ml-kem = { version = "=0.3.4", features = ["zeroize"] }
+sg-common = { path = "core/crates/sg-common" }
+sg-crypto = { path = "core/crates/sg-crypto" }
 
 [workspace.lints.rust]
 missing_docs = "warn"

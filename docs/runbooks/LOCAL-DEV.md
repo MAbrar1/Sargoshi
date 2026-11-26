@@ -22,3 +22,8 @@ Run and paste the output: `flutter --version`, `flutter doctor -v`, `dart --vers
 `rustup target list --installed`, `java -version`, `adb version`, `docker --version`, `docker compose version`, `node --version`, `git --version`.
 Needed: Android SDK platform 36 + build-tools + NDK; Rust targets aarch64-linux-android, armv7-linux-androideabi, x86_64-linux-android;
 an emulator (`emulator -list-avds`) or a phone (`adb devices`).
+
+## Known-answer vectors
+- `node tools/gen-vectors.mjs` regenerates `core/crates/sg-testvectors/vectors/` from pinned upstream commits (needs network)
+- `node tools/gen-vectors.mjs --check` offline integrity check (the gate runs this); add `--online` to re-download upstream and compare
+- `node tools/check-dep-age.mjs` after every `cargo update` or new dependency

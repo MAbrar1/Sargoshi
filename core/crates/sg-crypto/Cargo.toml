@@ -1,0 +1,31 @@
+[package]
+name = "sg-crypto"
+description = "Sargoshi cryptographic primitive wrappers: X25519, Ed25519, HKDF-SHA256, ChaCha20-Poly1305, ML-KEM-768 and a streaming AEAD"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[features]
+# Exposes deterministic ML-KEM encapsulation so known-answer tests can run. Never enable in an app build.
+deterministic-kat = []
+
+[dependencies]
+sg-common.workspace = true
+x25519-dalek.workspace = true
+ed25519-dalek.workspace = true
+curve25519-dalek.workspace = true
+chacha20poly1305.workspace = true
+hkdf.workspace = true
+sha2.workspace = true
+zeroize.workspace = true
+subtle.workspace = true
+getrandom.workspace = true
+ml-kem.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
+
+[lints]
+workspace = true
