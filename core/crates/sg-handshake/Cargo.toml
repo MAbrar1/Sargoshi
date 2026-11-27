@@ -1,0 +1,25 @@
+[package]
+name = "sg-handshake"
+description = "Sargoshi account identity, prekeys, key bundles and the PQXDH-style post-quantum hybrid handshake"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[features]
+# Exposes the handshake with caller-supplied randomness so the specification can be checked
+# byte for byte. Never enable in an app build.
+deterministic-kat = ["sg-crypto/deterministic-kat"]
+
+[dependencies]
+sg-common.workspace = true
+sg-crypto.workspace = true
+prost.workspace = true
+zeroize.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
+
+[lints]
+workspace = true

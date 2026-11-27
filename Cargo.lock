@@ -686,12 +686,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "sg-handshake"
+version = "0.1.0"
+dependencies = [
+ "proptest",
+ "prost",
+ "sg-common",
+ "sg-crypto",
+ "thiserror",
+ "zeroize",
+]
+
+[[package]]
 name = "sg-testvectors"
 version = "0.1.0"
 dependencies = [
  "ml-kem",
  "sg-common",
  "sg-crypto",
+ "sg-handshake",
 ]
 
 [[package]]

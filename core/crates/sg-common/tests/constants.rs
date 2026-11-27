@@ -124,15 +124,18 @@ fn error_codes_are_unique_stable_and_round_trip() {
     for code in ErrorCode::ALL {
         assert!(seen.insert(code.as_u16()), "duplicate code");
         assert_eq!(ErrorCode::from_u16(code.as_u16()), Some(code));
-        assert!((1000..3000).contains(&code.as_u16()));
+        assert!((1000..4000).contains(&code.as_u16()));
     }
     assert_eq!(ErrorCode::from_u16(0), None);
     assert_eq!(ErrorCode::from_u16(999), None);
     assert_eq!(ErrorCode::from_u16(2008), None);
-    assert_eq!(ErrorCode::from_u16(3000), None);
+    assert_eq!(ErrorCode::from_u16(3011), None);
+    assert_eq!(ErrorCode::from_u16(4000), None);
     // Released codes never change: this pins the wire values.
     assert_eq!(ErrorCode::UnsupportedVersion.as_u16(), 1000);
     assert_eq!(ErrorCode::ReservedFieldSet.as_u16(), 1006);
     assert_eq!(ErrorCode::RandomFailure.as_u16(), 2000);
     assert_eq!(ErrorCode::StreamBadChunk.as_u16(), 2012);
+    assert_eq!(ErrorCode::InvalidIdentity.as_u16(), 3000);
+    assert_eq!(ErrorCode::DuplicateKeyId.as_u16(), 3010);
 }

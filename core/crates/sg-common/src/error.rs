@@ -85,11 +85,33 @@ pub enum ErrorCode {
     StreamChunkOrder = 2011,
     /// A stream chunk has an invalid size.
     StreamBadChunk = 2012,
+    /// An identity key is malformed or not an acceptable key.
+    InvalidIdentity = 3000,
+    /// The signature over the DH identity key does not verify.
+    InvalidIdentitySignature = 3001,
+    /// The signature over a signed prekey does not verify.
+    InvalidSignedPreKeySignature = 3002,
+    /// The signature over a post-quantum prekey does not verify.
+    InvalidPqPreKeySignature = 3003,
+    /// The initial message names a signed prekey this device does not hold.
+    UnknownSignedPreKey = 3004,
+    /// The initial message names a post-quantum prekey this device does not hold.
+    UnknownPqPreKey = 3005,
+    /// The initial message names a one-time prekey that is unknown or already used.
+    UnknownOneTimePreKey = 3006,
+    /// The initial message has already been accepted.
+    ReplayedInitialMessage = 3007,
+    /// A stored key blob is malformed.
+    MalformedBlob = 3008,
+    /// A key collection is at its size limit.
+    TooManyKeys = 3009,
+    /// A key identifier is already in use.
+    DuplicateKeyId = 3010,
 }
 
 impl ErrorCode {
     /// Every code defined by this crate, for exhaustive tests.
-    pub const ALL: [Self; 18] = [
+    pub const ALL: [Self; 29] = [
         Self::UnsupportedVersion,
         Self::Truncated,
         Self::TooLarge,
@@ -108,6 +130,17 @@ impl ErrorCode {
         Self::StreamTruncated,
         Self::StreamChunkOrder,
         Self::StreamBadChunk,
+        Self::InvalidIdentity,
+        Self::InvalidIdentitySignature,
+        Self::InvalidSignedPreKeySignature,
+        Self::InvalidPqPreKeySignature,
+        Self::UnknownSignedPreKey,
+        Self::UnknownPqPreKey,
+        Self::UnknownOneTimePreKey,
+        Self::ReplayedInitialMessage,
+        Self::MalformedBlob,
+        Self::TooManyKeys,
+        Self::DuplicateKeyId,
     ];
 
     /// The numeric value sent across the FFI boundary.
@@ -138,6 +171,17 @@ impl ErrorCode {
             2010 => Some(Self::StreamTruncated),
             2011 => Some(Self::StreamChunkOrder),
             2012 => Some(Self::StreamBadChunk),
+            3000 => Some(Self::InvalidIdentity),
+            3001 => Some(Self::InvalidIdentitySignature),
+            3002 => Some(Self::InvalidSignedPreKeySignature),
+            3003 => Some(Self::InvalidPqPreKeySignature),
+            3004 => Some(Self::UnknownSignedPreKey),
+            3005 => Some(Self::UnknownPqPreKey),
+            3006 => Some(Self::UnknownOneTimePreKey),
+            3007 => Some(Self::ReplayedInitialMessage),
+            3008 => Some(Self::MalformedBlob),
+            3009 => Some(Self::TooManyKeys),
+            3010 => Some(Self::DuplicateKeyId),
             _ => None,
         }
     }

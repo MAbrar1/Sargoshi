@@ -97,3 +97,15 @@ pub const MAX_STREAM_CHUNK_BYTES: usize = 16 * 1024 * 1024;
 pub const MAX_STREAM_CHUNKS: u64 = 1 << 32;
 /// Largest output HKDF-SHA256 can produce: 255 blocks of 32 bytes (RFC 5869).
 pub const HKDF_SHA256_MAX_OUTPUT: usize = 255 * 32;
+
+/// Most signed prekeys (and, separately, post-quantum prekeys) a device keeps for acceptance.
+pub const MAX_STORED_SIGNED_PREKEYS: usize = 16;
+/// Most one-time prekeys a device stores.
+pub const MAX_STORED_ONE_TIME_PREKEYS: usize = 1_024;
+/// Most one-time prekeys accepted in one upload.
+pub const MAX_ONE_TIME_PREKEYS_PER_UPLOAD: usize = 256;
+/// Number of accepted initial messages whose ephemeral key a responder remembers to reject replays.
+/// A Sargoshi decision (DECISIONS D-25); older replays are stopped by prekey rotation instead.
+pub const MAX_REMEMBERED_INITIAL_MESSAGES: usize = 4_096;
+/// Largest serialized bundle or initial header the parsers accept.
+pub const MAX_BUNDLE_BYTES: usize = 64 * 1024;

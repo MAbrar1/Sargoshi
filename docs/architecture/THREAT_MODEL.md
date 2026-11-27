@@ -1,6 +1,6 @@
 # THREAT MODEL
 
-Status: milestones B1 and B2. Covers what exists today and states what is out of scope. Updated by every later milestone. Not reviewed by a cryptographer.
+Status: milestones B1, B2 and B3. Covers what exists today and states what is out of scope. Updated by every later milestone. Not reviewed by a cryptographer.
 
 ## 1. Assets
 Message plaintext; long-term identity keys; per-device prekeys and ratchet state; recovery phrase and backup key; Vault key; the social graph and timing of conversations.
@@ -20,7 +20,18 @@ Message plaintext; long-term identity keys; per-device prekeys and ratchet state
 - Secret keys zeroize on drop, never print, and compare in constant time.
 - Large data is protected by a streaming AEAD that detects truncation, reordering, duplication and splicing.
 
+## 3b. What B3 adds
+- A hybrid handshake: the initial session key depends on X25519 and on ML-KEM-768, so recorded traffic stays protected unless both are broken.
+- Mutual authentication of the identity DH keys through DH1 and DH2, and ephemeral and one-time keys for forward secrecy of the initial key.
+- Every signature in a bundle is verified before any secret operation; a parsed bundle, upload or header is always a verified value.
+- Replays of an accepted initial message are rejected, a used one-time prekey is deleted, and a failed acceptance never changes stored state.
+
 ## 4. Known limits (stated now so nobody assumes otherwise)
+- The post-quantum prekey is reusable and rotated on a schedule; until it is rotated and pruned, an attacker who later steals its secret and has recorded the initial messages can recompute their post-quantum contribution.
+- The replay memory holds the 4,096 most recent ephemeral keys; replays older than that are stopped only by prekey rotation.
+- Trust in an identity is decided by the app (first contact and the safety number, milestone B5). A server that substitutes a complete bundle at first contact cannot be detected without that comparison.
+- The prekey, ratchet and one-time identifiers in the initial header are not authenticated by the handshake; tampering with them only causes the session to fail.
+- A server can withhold one-time prekeys; the handshake then runs without DH4 (still secure, with weaker replay properties, which the replay memory covers).
 - Zeroization is best effort: copies of a secret can remain in registers, stack frames or allocator memory, and the core does not lock memory pages. Callers that use `expose` accessors can copy secrets.
 - Constant-time behaviour is the dependencies' claim; it has not been independently measured here.
 - The gateway sees who talks to whom, when, and how big envelopes are. Sealed sender and message franking are not implemented; field 15 is reserved for them.

@@ -12,6 +12,7 @@ publish = false
 sg-common.workspace = true
 sg-crypto = { workspace = true, features = ["deterministic-kat"] }
 ml-kem.workspace = true
+sg-handshake = { workspace = true, features = ["deterministic-kat"] }
 
 [lints]
 workspace = true

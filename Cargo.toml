@@ -26,6 +26,7 @@ getrandom = "=0.4.3"
 ml-kem = { version = "=0.3.4", features = ["zeroize"] }
 sg-common = { path = "core/crates/sg-common" }
 sg-crypto = { path = "core/crates/sg-crypto" }
+sg-handshake = { path = "core/crates/sg-handshake" }
 
 [workspace.lints.rust]
 missing_docs = "warn"
@@ -41,3 +42,8 @@ unimplemented = "deny"
 dbg_macro = "deny"
 print_stdout = "deny"
 print_stderr = "deny"
+
+# Cryptographic dependencies are compiled with optimisation even in debug builds so that the
+# property and known-answer tests run in seconds instead of minutes.
+[profile.dev.package."*"]
+opt-level = 2
