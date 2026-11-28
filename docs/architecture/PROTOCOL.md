@@ -1,6 +1,6 @@
 # PROTOCOL
 
-Status: milestones B1, B2 and B3 of Prompt B (blueprint 19.2). This document describes only what is implemented and tested. Sections for later milestones are listed in section 7 and are added when their code exists. Every deviation from Prompt B is in section 6. This protocol has not been reviewed by a cryptographer (risk R-01) and must not be described as audited.
+Status: milestones B1, B2, B3 and B4 of Prompt B (blueprint 19.2). This document describes only what is implemented and tested. Sections for later milestones are listed in section 7 and are added when their code exists. Every deviation from Prompt B is in section 6. This protocol has not been reviewed by a cryptographer (risk R-01) and must not be described as audited.
 
 ## 1. Conventions
 - Integers on the wire are big-endian. Keys are X25519 and Ed25519 unless stated.
@@ -84,7 +84,37 @@ The caller, not this crate, must compare the identity in a bundle or header with
 ### 7.5 Test evidence
 43 behavioural tests in `sg-handshake` plus two conformance tests in `sg-testvectors` that rebuild the shared key, associated data and ciphertext from the formulas above using raw primitives and the literal label strings, with and without a one-time prekey, and check that both sides agree. Covered attack and failure cases: replay with and without a one-time prekey (also across a serialization round trip), one-time prekey reuse, unknown identifiers, low-order ephemeral keys, low-order keys in bundles, a low-order DH key inside a validly signed initiator identity, forged and substituted identities and prekeys, corrupted ciphertexts, dropped header fields, every truncation of every blob and message, single-byte changes of a bundle, signed-material changes, oversized counts, duplicate identifiers, and arbitrary junk input (never panics, only canonical input is accepted).
 
-## 8. Deviations from Prompt B
+## 8. Double Ratchet (B4)
+Crate `sg-ratchet`. A session is a value that serializes to a blob; nothing touches disk, network or a clock.
+
+### 8.1 Key derivations
+- `KDF_RK(root_key, dh_output)`: `HKDF-SHA256(salt = root_key, ikm = dh_output, info = "Sargoshi/DR/v1/root")` expanded to 64 bytes; the first 32 bytes are the new root key, the last 32 the chain key. (With a post-quantum hook, `ikm = dh_output || extra_secret`.)
+- `KDF_CK(chain_key)`: message key seed `HMAC-SHA256(chain_key, 0x01)`; next chain key `HMAC-SHA256(chain_key, 0x02)`.
+- Message key: `HKDF-SHA256(salt = empty, ikm = seed, info = "Sargoshi/DR/v1/message")` expanded to 44 bytes: a 32-byte ChaCha20-Poly1305 key followed by a 12-byte nonce. Every key is used for exactly one message.
+- Associated data of every message: `session_AD || header(41 bytes)`; the header is `version || ratchet_public(32) || previous_chain_length(u32) || message_number(u32)` (section 4.1).
+
+### 8.2 Start
+Initiator: generate a ratchet key pair `DHs`; `(root, sending_chain) = KDF_RK(SK, DH(DHs, SPK_B))`; the remote key is the responder's signed prekey. Responder: root key is `SK`, its ratchet key pair is the signed prekey, no chains. The responder cannot send until it has received a message.
+
+### 8.3 Receiving
+1. If the message's key was cached earlier (out of order), decrypt with it and remove it.
+2. Otherwise work on copies. If the header carries a new remote ratchet key: first cache the keys of the rest of the previous receiving chain up to `previous_chain_length`, then perform the Diffie-Hellman ratchet step (derive the receiving chain from `DH(DHs, new remote key)`, generate a fresh `DHs`, derive a new sending chain; `PN` becomes the old send counter). Then cache the keys up to `message_number`, derive the message key and authenticate.
+3. Only after authentication succeeds is anything committed. A forged, corrupted or replayed message therefore never advances a chain, caches a key or rotates a key pair.
+Impossible headers are rejected before any work (DECISIONS D-30): a previous-chain length below the messages already received, a previous chain claimed when none exists, a message for the initiator's own starting key before any receiving chain exists, and a message number below the received counter in the current chain (`DuplicateMessage`).
+
+### 8.4 Limits
+One received message may skip at most 1,000 message keys and at most 2,000 skipped keys are cached in total; anything beyond is rejected with `TooManySkippedKeys` before any key is derived (DECISIONS D-29). Counters never wrap: after 2^32 - 1 messages in a chain `encrypt` returns `CounterOverflow`. An envelope larger than 128 KiB is refused without advancing the session.
+
+### 8.5 State blob
+`version || ad_len(u16) || ad || root_key(32) || dh_self_secret(32) || has_remote(u8) [remote_public(32)] || has_send(u8) [send_chain(32)] || sent(u32) || has_recv(u8) [recv_chain(32)] || received(u32) || previous_chain_len(u32) || n_skipped(u16) || {ratchet_public(32) index(u32) seed(32)}*`. The blob is plaintext secret material for the app's encrypted database. The parser rejects truncation, trailing bytes, flags other than 0 or 1, oversized counts, duplicate skipped keys and combinations of fields the code can never produce; every accepted blob re-serializes to identical bytes.
+
+### 8.6 Post-quantum hook
+`PqRatchetHook::extra_root_secret(step)` may return a secret that is mixed into `KDF_RK` at a Diffie-Hellman ratchet step; the default returns nothing, so behaviour is exactly as specified. It is a pure function of the step (direction, local and remote ratchet public keys) because a failed decryption is rolled back. Carrying post-quantum material between the parties is not part of the hook; see PQ-RATCHET.md.
+
+### 8.7 Test evidence
+36 behavioural tests in `sg-ratchet`; one conformance test in `sg-testvectors` that runs a real conversation (two messages, the first reply, the next message after the ratchet turned) and rebuilds every root key, chain key, message key, nonce, header and ciphertext, including both ratchet steps and the previous-chain counter, from the formulas above with raw primitives and literal labels; HMAC-SHA256 known-answer vectors (87 from Wycheproof plus RFC 4231 case 1). Covered: long conversations, bursts, out-of-order and late delivery across chain switches, lost messages, the exact limits (1,000 and 2,000), an instant refusal of a message number of 2^32 - 1, replays in every position, every single-byte change of an envelope with proof that the state is untouched, tampered header fields, a session from another handshake, counter overflow, every truncation and structural attack on the state blob, 48 randomized network schedules with drops, reordering and replays, and the hook (including that both sides see consistently oriented context). Fuzzing: five libFuzzer targets in `core/fuzz` (envelope parser, bundle and header parsers, secret blob parsers, decrypt on raw bytes, decrypt on well-framed envelopes with fuzzed header fields) ran about 25 million executions in total with no crash; this was a smoke run on a stable toolchain without AddressSanitizer, not a long campaign.
+
+## 9. Deviations from Prompt B
 1. Crate names follow the repository layout (DECISIONS D-17): `sg-common` replaces `sg-proto`, `sg-testvectors` replaces `sg-testvec`, `sg-group` replaces `sg-mls`; handshake and ratchet are separate crates `sg-handshake` and `sg-ratchet`.
 2. The ratchet header is a fixed binary layout rather than a protobuf message (still contains exactly the fields Prompt B lists).
 3. Maximum envelope size 128 KiB is a Sargoshi decision (not in Prompt B).
@@ -94,6 +124,9 @@ The caller, not this crate, must compare the identity in a bundle or header with
 7. ML-KEM-768 secret keys are stored as seeds (DECISIONS D-21).
 8. The responder keeps a bounded memory of accepted ephemeral keys to reject replays, and the core's `accept` returns the updated prekey store, so the FFI `session_accept` returns the updated prekey blob in addition to the session blob and consumed one-time prekey identifiers (DECISIONS D-25).
 9. Prekey signatures are recomputed instead of stored; the post-quantum prekey is a single rotated key (DECISIONS D-26).
+10. Prompt B's "1,000 skipped keys per session" is read as per received message, with 2,000 cached (DECISIONS D-29).
+11. Impossible headers are rejected and decryption is transactional (DECISIONS D-30); the responder cannot send first and padding is applied by the caller (DECISIONS D-31).
+12. A `core/fuzz` directory and an `hmac` dependency were added (DECISIONS D-28, D-32).
 
-## 9. Sections added by later milestones
-B4 Double Ratchet, skipped-key limits, replay rejection, state serialization; B5 safety number, padding, recovery phrase, backup and vault key derivation; B6 FFI error mapping. Open items marked `VERIFY:` in the code are listed in AUDIT-PREP.md.
+## 10. Sections added by later milestones
+B5 safety number, padding, recovery phrase, backup and vault key derivation; B6 FFI error mapping. Open items marked `VERIFY:` in the code are listed in AUDIT-PREP.md.

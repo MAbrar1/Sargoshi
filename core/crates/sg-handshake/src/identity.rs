@@ -11,8 +11,8 @@ use sg_crypto::ed25519::{Signature, SigningKey, VerifyingKey};
 use sg_crypto::x25519::{X25519PublicKey, X25519SecretKey};
 use zeroize::Zeroizing;
 
-use crate::codec::{Reader, Writer};
 use crate::error::HandshakeError;
+use sg_crypto::codec::{Reader, Writer};
 
 /// Length of the serialized identity secret blob: `version || signing_seed || dh_secret`.
 pub const IDENTITY_SECRET_BLOB_LEN: usize = 1 + ED25519_PUBLIC_LEN + X25519_KEY_LEN;

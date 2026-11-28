@@ -62,6 +62,11 @@ let d = await wy('hkdf_sha256_test');
 write('hkdf_sha256.txt', 'tcId result ikm salt info size okm   (Wycheproof hkdf_sha256_test, size in bytes)',
   d.testGroups.flatMap((g) => g.tests.map((t) => [t.tcId, t.result, hex(t.ikm), hex(t.salt), hex(t.info), t.size, hex(t.okm)].join(' '))));
 
+d = await wy('hmac_sha256_test');
+write('hmac_sha256.txt', 'tcId result key msg tag flags   (Wycheproof hmac_sha256_test, full 256-bit tags only)',
+  d.testGroups.filter((g) => g.tagSize === 256)
+    .flatMap((g) => g.tests.map((t) => [t.tcId, t.result, hex(t.key), hex(t.msg), hex(t.tag), flags(t.flags)].join(' '))));
+
 d = await wy('x25519_test');
 write('x25519.txt', 'tcId result public private shared flags   (Wycheproof x25519_test)',
   d.testGroups.flatMap((g) => g.tests.map((t) => [t.tcId, t.result, hex(t.public), hex(t.private), hex(t.shared), flags(t.flags)].join(' '))));

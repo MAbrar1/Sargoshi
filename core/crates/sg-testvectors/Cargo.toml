@@ -13,6 +13,7 @@ sg-common.workspace = true
 sg-crypto = { workspace = true, features = ["deterministic-kat"] }
 ml-kem.workspace = true
 sg-handshake = { workspace = true, features = ["deterministic-kat"] }
+sg-ratchet.workspace = true
 
 [lints]
 workspace = true

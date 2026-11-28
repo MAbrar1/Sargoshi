@@ -2,6 +2,8 @@
 resolver = "3"
 # server/crates/* is added to this list by P03, which creates that directory.
 members = ["core/crates/*"]
+# The cargo-fuzz crate needs nightly Rust and has its own lockfile.
+exclude = ["core/fuzz"]
 
 [workspace.package]
 version = "0.1.0"
@@ -20,6 +22,7 @@ curve25519-dalek = "=5.0.0"
 chacha20poly1305 = { version = "=0.11.0", default-features = false, features = ["alloc"] }
 hkdf = "=0.13.0"
 sha2 = "=0.11.1"
+hmac = "=0.13.0"
 zeroize = "=1.9.1"
 subtle = "=2.6.1"
 getrandom = "=0.4.3"
@@ -27,6 +30,7 @@ ml-kem = { version = "=0.3.4", features = ["zeroize"] }
 sg-common = { path = "core/crates/sg-common" }
 sg-crypto = { path = "core/crates/sg-crypto" }
 sg-handshake = { path = "core/crates/sg-handshake" }
+sg-ratchet = { path = "core/crates/sg-ratchet" }
 
 [workspace.lints.rust]
 missing_docs = "warn"

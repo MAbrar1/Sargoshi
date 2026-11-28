@@ -107,11 +107,23 @@ pub enum ErrorCode {
     TooManyKeys = 3009,
     /// A key identifier is already in use.
     DuplicateKeyId = 3010,
+    /// This side has not received a message yet and cannot send.
+    NoSendChain = 4000,
+    /// The message was already received.
+    DuplicateMessage = 4001,
+    /// Accepting the message would skip too many message keys.
+    TooManySkippedKeys = 4002,
+    /// The message header is impossible for this session.
+    InvalidHeader = 4003,
+    /// A message counter would overflow.
+    CounterOverflow = 4004,
+    /// A stored session blob is malformed.
+    MalformedState = 4005,
 }
 
 impl ErrorCode {
     /// Every code defined by this crate, for exhaustive tests.
-    pub const ALL: [Self; 29] = [
+    pub const ALL: [Self; 35] = [
         Self::UnsupportedVersion,
         Self::Truncated,
         Self::TooLarge,
@@ -141,6 +153,12 @@ impl ErrorCode {
         Self::MalformedBlob,
         Self::TooManyKeys,
         Self::DuplicateKeyId,
+        Self::NoSendChain,
+        Self::DuplicateMessage,
+        Self::TooManySkippedKeys,
+        Self::InvalidHeader,
+        Self::CounterOverflow,
+        Self::MalformedState,
     ];
 
     /// The numeric value sent across the FFI boundary.
@@ -182,6 +200,12 @@ impl ErrorCode {
             3008 => Some(Self::MalformedBlob),
             3009 => Some(Self::TooManyKeys),
             3010 => Some(Self::DuplicateKeyId),
+            4000 => Some(Self::NoSendChain),
+            4001 => Some(Self::DuplicateMessage),
+            4002 => Some(Self::TooManySkippedKeys),
+            4003 => Some(Self::InvalidHeader),
+            4004 => Some(Self::CounterOverflow),
+            4005 => Some(Self::MalformedState),
             _ => None,
         }
     }

@@ -21,9 +21,9 @@ use sg_crypto::kem::{MLKEM768_SEED_LEN, MlKem768PublicKey, MlKem768SecretKey};
 use sg_crypto::x25519::{X25519PublicKey, X25519SecretKey};
 use zeroize::Zeroizing;
 
-use crate::codec::{Reader, Writer};
 use crate::error::HandshakeError;
 use crate::identity::{IdentityKeyPair, IdentityPublic};
+use sg_crypto::codec::{Reader, Writer};
 
 /// A signed prekey's public half.
 #[derive(Debug, Clone, PartialEq, Eq)]

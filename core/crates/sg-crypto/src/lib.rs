@@ -5,10 +5,12 @@
 #![forbid(unsafe_code)]
 
 pub mod aead;
+pub mod codec;
 pub mod ed25519;
 pub mod error;
 pub mod kdf;
 pub mod kem;
+pub mod mac;
 pub mod rng;
 pub mod secret;
 pub mod stream;

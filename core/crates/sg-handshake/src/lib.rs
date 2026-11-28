@@ -5,7 +5,6 @@
 //! consumes the handshake output lives in `sg-ratchet`.
 #![forbid(unsafe_code)]
 
-mod codec;
 pub mod error;
 pub mod handshake;
 pub mod identity;

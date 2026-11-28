@@ -7,11 +7,17 @@ import path from 'node:path';
 import { ROOT, arg } from './lib.mjs';
 
 const days = Number(arg('days') ?? 14);
-const lockPath = path.join(ROOT, 'Cargo.lock');
-if (!fs.existsSync(lockPath)) { console.log('check-dep-age: no Cargo.lock yet, nothing to check'); process.exit(0); }
-const lock = fs.readFileSync(lockPath, 'utf8');
-const pkgs = [...lock.matchAll(/\[\[package\]\]\nname = "([^"]+)"\nversion = "([^"]+)"\n(?:source = "([^"]+)")?/g)]
-  .filter((m) => m[3] && m[3].includes('crates.io')).map((m) => [m[1], m[2]]);
+// The root workspace lockfile and the separate lockfile of the cargo-fuzz crate.
+const lockPaths = ['Cargo.lock', 'core/fuzz/Cargo.lock'].map((p) => path.join(ROOT, p)).filter((p) => fs.existsSync(p));
+if (lockPaths.length === 0) { console.log('check-dep-age: no Cargo.lock yet, nothing to check'); process.exit(0); }
+const seen = new Set();
+const pkgs = [];
+for (const lockPath of lockPaths) {
+  const lock = fs.readFileSync(lockPath, 'utf8');
+  for (const m of lock.matchAll(/\[\[package\]\]\nname = "([^"]+)"\nversion = "([^"]+)"\n(?:source = "([^"]+)")?/g)) {
+    if (m[3] && m[3].includes('crates.io') && !seen.has(`${m[1]}@${m[2]}`)) { seen.add(`${m[1]}@${m[2]}`); pkgs.push([m[1], m[2]]); }
+  }
+}
 const now = Date.now();
 const bad = [];
 for (const [name, version] of pkgs) {

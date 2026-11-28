@@ -1,400 +1,401 @@
 {
- "required": [
-  {
-   "path": "AGENTS.md",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": "README.md",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": ".gitignore",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": ".gitattributes",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": ".editorconfig",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": ".codebuffignore",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": ".github/workflows/gate.yml",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": "tools",
-   "type": "dir",
-   "from": "P00"
-  },
-  {
-   "path": "docs",
-   "type": "dir",
-   "from": "P00"
-  },
-  {
-   "path": "docs/architecture",
-   "type": "dir",
-   "from": "P00"
-  },
-  {
-   "path": "docs/blueprint",
-   "type": "dir",
-   "from": "P00"
-  },
-  {
-   "path": "docs/compliance",
-   "type": "dir",
-   "from": "P00"
-  },
-  {
-   "path": "docs/ledger",
-   "type": "dir",
-   "from": "P00"
-  },
-  {
-   "path": "docs/prompts",
-   "type": "dir",
-   "from": "P00"
-  },
-  {
-   "path": "docs/quality",
-   "type": "dir",
-   "from": "P00"
-  },
-  {
-   "path": "docs/runbooks",
-   "type": "dir",
-   "from": "P00"
-  },
-  {
-   "path": "docs/spec-data",
-   "type": "dir",
-   "from": "P00"
-  },
-  {
-   "path": "docs/ledger/PROGRESS.md",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": "docs/ledger/ROADMAP.md",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": "docs/ledger/DECISIONS.md",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": "docs/ledger/PROJECT-TREE.md",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": "docs/ledger/REALITY.md",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": "docs/ledger/EXTERNAL.md",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": "docs/ledger/DEPENDENCIES.md",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": "docs/ledger/status.csv",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": "docs/quality/DEVICE-RUNS.md",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": "docs/runbooks/LOCAL-DEV.md",
-   "type": "file",
-   "from": "P00"
-  },
-  {
-   "path": "apps",
-   "type": "dir",
-   "from": "P00"
-  },
-  {
-   "path": "core",
-   "type": "dir",
-   "from": "P00"
-  },
-  {
-   "path": "server",
-   "type": "dir",
-   "from": "P00"
-  },
-  {
-   "path": "infra",
-   "type": "dir",
-   "from": "P00"
-  },
-  {
-   "path": "apps/mobile",
-   "type": "dir",
-   "from": "P01"
-  },
-  {
-   "path": "apps/mobile/pubspec.yaml",
-   "type": "file",
-   "from": "P01"
-  },
-  {
-   "path": "apps/mobile/lib",
-   "type": "dir",
-   "from": "P01"
-  },
-  {
-   "path": "apps/mobile/lib/main.dart",
-   "type": "file",
-   "from": "P01"
-  },
-  {
-   "path": "apps/mobile/lib/app",
-   "type": "dir",
-   "from": "P01"
-  },
-  {
-   "path": "apps/mobile/lib/core",
-   "type": "dir",
-   "from": "P01"
-  },
-  {
-   "path": "apps/mobile/lib/core/theme",
-   "type": "dir",
-   "from": "P01"
-  },
-  {
-   "path": "apps/mobile/lib/shared",
-   "type": "dir",
-   "from": "P01"
-  },
-  {
-   "path": "apps/mobile/lib/l10n",
-   "type": "dir",
-   "from": "P01"
-  },
-  {
-   "path": "apps/mobile/lib/features",
-   "type": "dir",
-   "from": "P06"
-  },
-  {
-   "path": "apps/mobile/lib/data",
-   "type": "dir",
-   "from": "P05"
-  },
-  {
-   "path": "apps/mobile/lib/platform",
-   "type": "dir",
-   "from": "P01"
-  },
-  {
-   "path": "apps/mobile/lib/debug",
-   "type": "dir",
-   "from": "P01"
-  },
-  {
-   "path": "apps/mobile/assets",
-   "type": "dir",
-   "from": "P01"
-  },
-  {
-   "path": "apps/mobile/android",
-   "type": "dir",
-   "from": "P01"
-  },
-  {
-   "path": "apps/mobile/test",
-   "type": "dir",
-   "from": "P01"
-  },
-  {
-   "path": "core/crates",
-   "type": "dir",
-   "from": "P02"
-  },
-  {
-   "path": "Cargo.toml",
-   "type": "file",
-   "from": "P02"
-  },
-  {
-   "path": "rust-toolchain.toml",
-   "type": "file",
-   "from": "P02"
-  },
-  {
-   "path": "server/crates",
-   "type": "dir",
-   "from": "P03"
-  },
-  {
-   "path": "server/migrations",
-   "type": "dir",
-   "from": "P03"
-  },
-  {
-   "path": "infra/compose",
-   "type": "dir",
-   "from": "P03"
-  }
- ],
- "allowedChildren": {
-  "docs": [
-   "architecture",
-   "blueprint",
-   "compliance",
-   "ledger",
-   "prompts",
-   "quality",
-   "runbooks",
-   "spec-data"
+  "required": [
+    {
+      "path": "AGENTS.md",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": "README.md",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": ".gitignore",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": ".gitattributes",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": ".editorconfig",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": ".codebuffignore",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": ".github/workflows/gate.yml",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": "tools",
+      "type": "dir",
+      "from": "P00"
+    },
+    {
+      "path": "docs",
+      "type": "dir",
+      "from": "P00"
+    },
+    {
+      "path": "docs/architecture",
+      "type": "dir",
+      "from": "P00"
+    },
+    {
+      "path": "docs/blueprint",
+      "type": "dir",
+      "from": "P00"
+    },
+    {
+      "path": "docs/compliance",
+      "type": "dir",
+      "from": "P00"
+    },
+    {
+      "path": "docs/ledger",
+      "type": "dir",
+      "from": "P00"
+    },
+    {
+      "path": "docs/prompts",
+      "type": "dir",
+      "from": "P00"
+    },
+    {
+      "path": "docs/quality",
+      "type": "dir",
+      "from": "P00"
+    },
+    {
+      "path": "docs/runbooks",
+      "type": "dir",
+      "from": "P00"
+    },
+    {
+      "path": "docs/spec-data",
+      "type": "dir",
+      "from": "P00"
+    },
+    {
+      "path": "docs/ledger/PROGRESS.md",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": "docs/ledger/ROADMAP.md",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": "docs/ledger/DECISIONS.md",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": "docs/ledger/PROJECT-TREE.md",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": "docs/ledger/REALITY.md",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": "docs/ledger/EXTERNAL.md",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": "docs/ledger/DEPENDENCIES.md",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": "docs/ledger/status.csv",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": "docs/quality/DEVICE-RUNS.md",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": "docs/runbooks/LOCAL-DEV.md",
+      "type": "file",
+      "from": "P00"
+    },
+    {
+      "path": "apps",
+      "type": "dir",
+      "from": "P00"
+    },
+    {
+      "path": "core",
+      "type": "dir",
+      "from": "P00"
+    },
+    {
+      "path": "server",
+      "type": "dir",
+      "from": "P00"
+    },
+    {
+      "path": "infra",
+      "type": "dir",
+      "from": "P00"
+    },
+    {
+      "path": "apps/mobile",
+      "type": "dir",
+      "from": "P01"
+    },
+    {
+      "path": "apps/mobile/pubspec.yaml",
+      "type": "file",
+      "from": "P01"
+    },
+    {
+      "path": "apps/mobile/lib",
+      "type": "dir",
+      "from": "P01"
+    },
+    {
+      "path": "apps/mobile/lib/main.dart",
+      "type": "file",
+      "from": "P01"
+    },
+    {
+      "path": "apps/mobile/lib/app",
+      "type": "dir",
+      "from": "P01"
+    },
+    {
+      "path": "apps/mobile/lib/core",
+      "type": "dir",
+      "from": "P01"
+    },
+    {
+      "path": "apps/mobile/lib/core/theme",
+      "type": "dir",
+      "from": "P01"
+    },
+    {
+      "path": "apps/mobile/lib/shared",
+      "type": "dir",
+      "from": "P01"
+    },
+    {
+      "path": "apps/mobile/lib/l10n",
+      "type": "dir",
+      "from": "P01"
+    },
+    {
+      "path": "apps/mobile/lib/features",
+      "type": "dir",
+      "from": "P06"
+    },
+    {
+      "path": "apps/mobile/lib/data",
+      "type": "dir",
+      "from": "P05"
+    },
+    {
+      "path": "apps/mobile/lib/platform",
+      "type": "dir",
+      "from": "P01"
+    },
+    {
+      "path": "apps/mobile/lib/debug",
+      "type": "dir",
+      "from": "P01"
+    },
+    {
+      "path": "apps/mobile/assets",
+      "type": "dir",
+      "from": "P01"
+    },
+    {
+      "path": "apps/mobile/android",
+      "type": "dir",
+      "from": "P01"
+    },
+    {
+      "path": "apps/mobile/test",
+      "type": "dir",
+      "from": "P01"
+    },
+    {
+      "path": "core/crates",
+      "type": "dir",
+      "from": "P02"
+    },
+    {
+      "path": "Cargo.toml",
+      "type": "file",
+      "from": "P02"
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "type": "file",
+      "from": "P02"
+    },
+    {
+      "path": "server/crates",
+      "type": "dir",
+      "from": "P03"
+    },
+    {
+      "path": "server/migrations",
+      "type": "dir",
+      "from": "P03"
+    },
+    {
+      "path": "infra/compose",
+      "type": "dir",
+      "from": "P03"
+    }
   ],
-  "docs/quality": [
-   "screens"
-  ],
-  "apps": [
-   "mobile",
-   "landing"
-  ],
-  "core": [
-   "crates"
-  ],
-  "server": [
-   "crates",
-   "migrations"
-  ],
-  "infra": [
-   "compose",
-   "docker",
-   "observability",
-   "scripts"
-  ],
-  "apps/mobile": [
-   "android",
-   "assets",
-   "lib",
-   "test",
-   "integration_test",
-   "tool",
-   ".dart_tool",
-   "build",
-   ".idea"
-  ],
-  "apps/mobile/android": [
-   "app",
-   "gradle",
-   "engine",
-   ".gradle",
-   "build",
-   ".idea"
-  ],
-  "apps/mobile/assets": [
-   "fonts",
-   "brand",
-   "models"
-  ],
-  "apps/mobile/lib": [
-   "app",
-   "core",
-   "data",
-   "features",
-   "l10n",
-   "platform",
-   "shared",
-   "debug"
-  ],
-  "apps/mobile/lib/core": [
-   "theme",
-   "adaptive",
-   "tiers",
-   "bidi",
-   "logging",
-   "errors",
-   "l10n",
-   "util",
-   "security"
-  ],
-  "core/crates": [
-   "sg-common",
-   "sg-crypto",
-   "sg-handshake",
-   "sg-ratchet",
-   "sg-group",
-   "sg-vault",
-   "sg-backup",
-   "sg-ffi",
-   "sg-testvectors"
-  ],
-  "server/crates": [
-   "sg-gateway",
-   "sg-common",
-   "sg-store",
-   "sg-auth",
-   "sg-relay",
-   "sg-push",
-   "sg-media",
-   "sg-calls",
-   "sg-jobs",
-   "sg-admin"
+  "allowedChildren": {
+    "docs": [
+      "architecture",
+      "blueprint",
+      "compliance",
+      "ledger",
+      "prompts",
+      "quality",
+      "runbooks",
+      "spec-data"
+    ],
+    "docs/quality": [
+      "screens"
+    ],
+    "apps": [
+      "mobile",
+      "landing"
+    ],
+    "core": [
+      "crates",
+      "fuzz"
+    ],
+    "server": [
+      "crates",
+      "migrations"
+    ],
+    "infra": [
+      "compose",
+      "docker",
+      "observability",
+      "scripts"
+    ],
+    "apps/mobile": [
+      "android",
+      "assets",
+      "lib",
+      "test",
+      "integration_test",
+      "tool",
+      ".dart_tool",
+      "build",
+      ".idea"
+    ],
+    "apps/mobile/android": [
+      "app",
+      "gradle",
+      "engine",
+      ".gradle",
+      "build",
+      ".idea"
+    ],
+    "apps/mobile/assets": [
+      "fonts",
+      "brand",
+      "models"
+    ],
+    "apps/mobile/lib": [
+      "app",
+      "core",
+      "data",
+      "features",
+      "l10n",
+      "platform",
+      "shared",
+      "debug"
+    ],
+    "apps/mobile/lib/core": [
+      "theme",
+      "adaptive",
+      "tiers",
+      "bidi",
+      "logging",
+      "errors",
+      "l10n",
+      "util",
+      "security"
+    ],
+    "core/crates": [
+      "sg-common",
+      "sg-crypto",
+      "sg-handshake",
+      "sg-ratchet",
+      "sg-group",
+      "sg-vault",
+      "sg-backup",
+      "sg-ffi",
+      "sg-testvectors"
+    ],
+    "server/crates": [
+      "sg-gateway",
+      "sg-common",
+      "sg-store",
+      "sg-auth",
+      "sg-relay",
+      "sg-push",
+      "sg-media",
+      "sg-calls",
+      "sg-jobs",
+      "sg-admin"
+    ]
+  },
+  "allowedRoot": [
+    "AGENTS.md",
+    "README.md",
+    "LICENSE",
+    "SECURITY.md",
+    "CHANGELOG.md",
+    ".gitignore",
+    ".gitattributes",
+    ".editorconfig",
+    ".codebuffignore",
+    ".codebuff",
+    ".agents",
+    ".claude",
+    ".github",
+    "tools",
+    "docs",
+    "apps",
+    "core",
+    "server",
+    "infra",
+    "Cargo.toml",
+    "Cargo.lock",
+    "rust-toolchain.toml",
+    "rustfmt.toml",
+    "deny.toml",
+    "clippy.toml",
+    "target",
+    ".git",
+    "node_modules",
+    ".gradle"
   ]
- },
- "allowedRoot": [
-  "AGENTS.md",
-  "README.md",
-  "LICENSE",
-  "SECURITY.md",
-  "CHANGELOG.md",
-  ".gitignore",
-  ".gitattributes",
-  ".editorconfig",
-  ".codebuffignore",
-  ".codebuff",
-  ".agents",
-  ".claude",
-  ".github",
-  "tools",
-  "docs",
-  "apps",
-  "core",
-  "server",
-  "infra",
-  "Cargo.toml",
-  "Cargo.lock",
-  "rust-toolchain.toml",
-  "rustfmt.toml",
-  "deny.toml",
-  "clippy.toml",
-  "target",
-  ".git",
-  "node_modules",
-  ".gradle"
- ]
 }

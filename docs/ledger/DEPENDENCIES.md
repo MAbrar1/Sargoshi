@@ -41,3 +41,9 @@ Toolchain versions are recorded by P00 from the real machine. Every library is a
 - `node tools/check-dep-age.mjs`: all 97 crates.io packages in Cargo.lock are at least 14 days old. `cargo deny check` passes (advisories, bans, licences, sources).
 - Versions were chosen as the newest stable release that is at least 14 days old, except sha2 and zeroize where the newest was too young (see rows above).
 - These crate generations are newer than the author's own background knowledge, so no API was taken from memory: each was read from its published source and is exercised by the known-answer tests.
+| crates.io | hmac | 0.13.0 | MIT OR Apache-2.0 | HMAC-SHA256 for the Double Ratchet chain key derivation (`KDF_CK`) | 25 Nov 2026 (published 29 Mar 2026). Audit status: unknown |
+| crates.io | libfuzzer-sys | 0.4.13 | (MIT OR Apache-2.0) AND NCSA | libFuzzer runtime for the cargo-fuzz crate in core/fuzz (not part of any app build) | 25 Nov 2026 (published 4 Jun 2026). Audit status: unknown. NCSA is a permissive licence and is allowed in deny.toml |
+
+### Lockfile supply-chain record (B4, 25 Nov 2026)
+- `node tools/check-dep-age.mjs` now checks both lockfiles (the root workspace and `core/fuzz/Cargo.lock`): 103 distinct crates, all at least 14 days old. `cargo deny check` passes for the workspace (the gate) and for the fuzz crate (`cargo deny --manifest-path core/fuzz/Cargo.toml check`).
+- The fuzz lockfile had resolved five crates that were too new and they were downgraded: anyhow 1.0.105 -> 1.0.104, bytes 1.12.2 -> 1.12.1, cc 1.12.0 -> 1.11.1, find-msvc-tools 0.1.16 -> 0.1.15, prost-derive 0.14.6 -> 0.14.5.

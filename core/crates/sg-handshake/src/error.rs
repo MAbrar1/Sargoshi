@@ -2,6 +2,7 @@
 
 use sg_common::{ErrorCode, ProtoError};
 use sg_crypto::CryptoError;
+use sg_crypto::codec::CodecError;
 use thiserror::Error;
 
 /// Errors raised by identity, prekey and handshake operations.
@@ -67,5 +68,11 @@ impl HandshakeError {
             Self::Crypto(e) => e.code(),
             Self::Proto(e) => e.code(),
         }
+    }
+}
+
+impl From<CodecError> for HandshakeError {
+    fn from(_: CodecError) -> Self {
+        Self::MalformedBlob
     }
 }

@@ -675,6 +675,7 @@ dependencies = [
  "ed25519-dalek",
  "getrandom",
  "hkdf",
+ "hmac",
  "ml-kem",
  "proptest",
  "sg-common",
@@ -698,6 +699,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "sg-ratchet"
+version = "0.1.0"
+dependencies = [
+ "proptest",
+ "sg-common",
+ "sg-crypto",
+ "sg-handshake",
+ "thiserror",
+ "zeroize",
+]
+
+[[package]]
 name = "sg-testvectors"
 version = "0.1.0"
 dependencies = [
@@ -705,6 +718,7 @@ dependencies = [
  "sg-common",
  "sg-crypto",
  "sg-handshake",
+ "sg-ratchet",
 ]
 
 [[package]]

@@ -63,6 +63,7 @@ Enforced by `node tools/check-tree.mjs` (reads `tools/tree-spec.json`). A path m
 | `apps/mobile/android` | dir | P01 | Android host app |
 | `apps/mobile/test` | dir | P01 | Unit, widget and golden tests mirroring lib/ |
 | `core/crates` | dir | P02 | Rust crates sg-* |
+| `core/fuzz` | dir | P02 | cargo-fuzz targets for the parsers and the ratchet (own workspace, excluded from the root workspace; needs nightly Rust) |
 | `Cargo.toml` | file | P02 | Workspace manifest for core/ and server/ |
 | `rust-toolchain.toml` | file | P02 | Pinned Rust toolchain |
 | `server/crates` | dir | P03 | Gateway crates |
@@ -74,7 +75,7 @@ Enforced by `node tools/check-tree.mjs` (reads `tools/tree-spec.json`). A path m
 - `docs/`: `architecture`, `blueprint`, `compliance`, `ledger`, `prompts`, `quality`, `runbooks`, `spec-data`
 - `docs/quality/`: `screens`
 - `apps/`: `mobile`, `landing`
-- `core/`: `crates`
+- `core/`: `crates`, `fuzz`
 - `server/`: `crates`, `migrations`
 - `infra/`: `compose`, `docker`, `observability`, `scripts`
 - `apps/mobile/`: `android`, `assets`, `lib`, `test`, `integration_test`, `tool`, `.dart_tool`, `build`, `.idea`
@@ -101,6 +102,7 @@ sargoshi/
 │  │  ├─ lib/ (app/ core/ data/ features/ l10n/ platform/ shared/ debug/)
 │  │  └─ test/ integration_test/
 │  └─ landing/  (static site, P19)
+├─ core/fuzz/        cargo-fuzz targets (excluded from the root workspace)
 ├─ core/crates/      sg-common sg-crypto sg-handshake sg-ratchet sg-group sg-vault sg-backup sg-ffi sg-testvectors
 ├─ server/crates/    sg-gateway sg-common sg-store sg-auth sg-relay sg-push sg-media sg-calls sg-jobs sg-admin
 ├─ server/migrations/

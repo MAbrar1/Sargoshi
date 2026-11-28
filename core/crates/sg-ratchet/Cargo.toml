@@ -1,0 +1,20 @@
+[package]
+name = "sg-ratchet"
+description = "Sargoshi Double Ratchet: per-message forward secrecy and post-compromise security on top of the handshake"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[dependencies]
+sg-common.workspace = true
+sg-crypto.workspace = true
+sg-handshake.workspace = true
+zeroize.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
+
+[lints]
+workspace = true

@@ -1,6 +1,6 @@
 # THREAT MODEL
 
-Status: milestones B1, B2 and B3. Covers what exists today and states what is out of scope. Updated by every later milestone. Not reviewed by a cryptographer.
+Status: milestones B1, B2, B3 and B4. Covers what exists today and states what is out of scope. Updated by every later milestone. Not reviewed by a cryptographer.
 
 ## 1. Assets
 Message plaintext; long-term identity keys; per-device prekeys and ratchet state; recovery phrase and backup key; Vault key; the social graph and timing of conversations.
@@ -26,7 +26,18 @@ Message plaintext; long-term identity keys; per-device prekeys and ratchet state
 - Every signature in a bundle is verified before any secret operation; a parsed bundle, upload or header is always a verified value.
 - Replays of an accepted initial message are rejected, a used one-time prekey is deleted, and a failed acceptance never changes stored state.
 
+## 3c. What B4 adds
+- Forward secrecy per message: a message key is derived once, used once and deleted; chain keys only move forward.
+- Post-compromise security: after a key compromise, the session heals once both sides have exchanged a message in each direction (a new Diffie-Hellman ratchet round), as long as the attacker does not keep stealing keys.
+- Forged, corrupted, replayed or reordered messages cannot corrupt a session or advance its state, and a hostile header costs a bounded amount of work (limits are checked before any key is derived).
+- Session state blobs are parsed strictly; the parsers and the decrypt path were fuzzed (about 25 million executions, no crash).
+
 ## 4. Known limits (stated now so nobody assumes otherwise)
+- Message keys that were skipped (out-of-order or lost messages) stay cached, up to 2,000, until the late message arrives or the app discards them; for those messages forward secrecy lasts only until then. The app should discard old skipped keys by age.
+- Ratchet headers are not encrypted: the gateway sees each message's ratchet public key and counters, and so the rhythm of a conversation.
+- Post-compromise security is classical only: without the post-quantum ratchet (see PQ-RATCHET.md), a future quantum attacker who recorded traffic and later obtains one chain key can follow the conversation until the next Diffie-Hellman step that it cannot compute.
+- The responder cannot send before receiving, so a first message from the responder's side must wait.
+- Message length is visible unless the caller pads (padding to 160-byte blocks arrives in B5).
 - The post-quantum prekey is reusable and rotated on a schedule; until it is rotated and pruned, an attacker who later steals its secret and has recorded the initial messages can recompute their post-quantum contribution.
 - The replay memory holds the 4,096 most recent ephemeral keys; replays older than that are stopped only by prekey rotation.
 - Trust in an identity is decided by the app (first contact and the safety number, milestone B5). A server that substitutes a complete bundle at first contact cannot be detected without that comparison.

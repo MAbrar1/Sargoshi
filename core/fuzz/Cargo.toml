@@ -1,0 +1,53 @@
+[package]
+name = "sg-fuzz"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "=0.4.13"
+sg-common = { path = "../crates/sg-common" }
+sg-crypto = { path = "../crates/sg-crypto" }
+sg-handshake = { path = "../crates/sg-handshake" }
+sg-ratchet = { path = "../crates/sg-ratchet" }
+
+# Own workspace: this crate is built only by cargo-fuzz on a nightly toolchain.
+[workspace]
+
+[[bin]]
+name = "envelope_decode"
+path = "fuzz_targets/envelope_decode.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "handshake_decode"
+path = "fuzz_targets/handshake_decode.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "blob_decode"
+path = "fuzz_targets/blob_decode.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "session_decrypt_raw"
+path = "fuzz_targets/session_decrypt_raw.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "session_decrypt_framed"
+path = "fuzz_targets/session_decrypt_framed.rs"
+test = false
+doc = false
+bench = false
